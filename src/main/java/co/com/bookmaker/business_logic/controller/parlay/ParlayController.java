@@ -89,7 +89,7 @@ public class ParlayController extends GenericController {
         allowDO(BUY, Role.CLIENT);
         allowDO(GET_PROFIT, Role.CLIENT);
         allowDO(GET_RISK, Role.CLIENT);
-        allowDO(SEARCH, Role.CLIENT|Role.SELLER|Role.MANAGER);
+        allowDO(SEARCH, Role.SELLER|Role.MANAGER);
         allowDO(ACCEPT, Role.SELLER);
         allowDO(CANCEL, Role.SELLER);
     }
@@ -471,7 +471,7 @@ public class ParlayController extends GenericController {
         try {
             roleRequester = Long.parseLong(strRoleRequester);
         } catch (Exception ex) {}
-        if (roleRequester == null || !sessionUser.inRole(roleRequester)) {
+        if (roleRequester == null) {
             request.setAttribute(Information.ERROR, "Restricted operation");
             forward(HomeController.getJSP(HomeController.URL));
             return;
