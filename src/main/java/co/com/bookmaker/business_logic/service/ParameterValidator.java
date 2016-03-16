@@ -28,7 +28,7 @@ public class ParameterValidator {
     
     static {
         usernamePattern = Pattern.compile("[\\w\\.]{3,20}");
-        passwordPattern = Pattern.compile(".{4}");
+        passwordPattern = Pattern.compile(".{4,}");
         firstNamePattern = Pattern.compile("[\\w\\s]{2,30}");
         lastNamePattern = Pattern.compile("[\\w\\s]{2,30}");
         agencyNamePattern = Pattern.compile(".{4,}");

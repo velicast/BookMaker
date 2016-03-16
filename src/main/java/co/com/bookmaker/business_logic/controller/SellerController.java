@@ -89,9 +89,7 @@ public class SellerController extends GenericController {
         FinalUser seller = auth.sessionUser(request);
         List<Parlay> parlaysInQueue;
         parlaysInQueue = parlayService.getParlaysInQueue(seller);
-        for (Parlay p : parlaysInQueue) {
-            parlayService.update(p);
-        }
+
         request.setAttribute(Attribute.PARLAYS, parlaysInQueue);
         request.setAttribute(Attribute.ROLE, Role.SELLER);
         forward(getJSP(SELLING_QUEUE));

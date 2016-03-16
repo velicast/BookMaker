@@ -83,6 +83,7 @@ public class ManagerController extends GenericController {
     @Override
     public void init() {
         
+        allowTO(INDEX, Role.MANAGER);
         allowTO(AGENCY_SUMMARY, Role.MANAGER);
         allowTO(AGENCY_BALANCE, Role.MANAGER);
         allowTO(SEARCH_PARLAY, Role.MANAGER);
@@ -248,122 +249,28 @@ public class ManagerController extends GenericController {
             forward(getJSP(AGENCY_SUMMARY));
             return;
         }
-        FinalUser employee = finalUserService.getUser(username);
-        if (employee == null) {
+        FinalUser user = finalUserService.getUser(username);
+        if (user == null) {
             forward(getJSP(AGENCY_SUMMARY));
             return;
         }
         
-        String strFrom = request.getParameter(Parameter.TIME_FROM);
-        String strTo = request.getParameter(Parameter.TIME_TO);
+        Calendar from = Calendar.getInstance();
+        from.set(Calendar.HOUR_OF_DAY, 0);
+        from.set(Calendar.MINUTE, 0);
+        from.set(Calendar.SECOND, 0);
         
-        boolean validated = true;
-        Calendar from = null;
-        Calendar to = null;
+        Calendar to = Calendar.getInstance();
+        to.set(Calendar.HOUR_OF_DAY, 23);
+        to.set(Calendar.MINUTE, 59);
+        to.set(Calendar.SECOND, 59);
         
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         
-        if (strFrom == null && strTo == null) {
-            from = Calendar.getInstance();
-            from.set(Calendar.HOUR_OF_DAY, 0);
-            from.set(Calendar.MINUTE, 0);
-            from.set(Calendar.SECOND, 0);
-            to = Calendar.getInstance();
-            to.set(Calendar.HOUR_OF_DAY, 23);
-            to.set(Calendar.MINUTE, 59);
-            to.set(Calendar.SECOND, 59);
-            
-            strFrom = formatter.format(from.getTime());
-            strTo = formatter.format(to.getTime());
-        } else {
-            if (strFrom != null && strFrom.trim().length() > 0) {
-                from = Calendar.getInstance();
-                try {
-                    from.setTime(formatter.parse(strFrom));
-                    from.set(Calendar.HOUR_OF_DAY, 0);
-                    from.set(Calendar.MINUTE, 0);
-                    from.set(Calendar.SECOND, 0);
-                } catch (ParseException ex) {
-                    request.setAttribute(Information.STATUS, "Invalid value "+strFrom);
-                    validated = false;
-                }
-            }
-            if (strTo != null && strTo.trim().length() > 0) {
-                to = Calendar.getInstance();
-                try {
-                    to.setTime(formatter.parse(strTo));
-                    to.set(Calendar.HOUR_OF_DAY, 23);
-                    to.set(Calendar.MINUTE, 59);
-                    to.set(Calendar.SECOND, 59);
-                } catch (ParseException ex) {
-                    request.setAttribute(Information.STATUS, "Invalid value "+strTo);
-                    validated = false;
-                }
-            }
-
-            try {
-                validator.checkDateRange(from, to);
-            } catch (EJBException ex) {
-                validated = false;
-                request.setAttribute(Information.STATUS, ex.getCausedByException().getMessage());
-            }
-        }
+        String strFrom = formatter.format(from.getTime());
+        String strTo = formatter.format(to.getTime());
         
-        if (validated) {
-            Agency agency = employee.getAgency();
-            if (employee.inRole(Role.SELLER)) {
-                List<Parlay> parlays = parlayService.searchBy(agency.getId(), null, username, from, to, null);
-
-                Integer soldParlays = 0;
-                Double revenue = 0D;
-                Double cost = 0D;
-                for (Parlay p : parlays) {
-                    Integer st = p.getStatus();
-                    if (!st.equals(Status.CANCELLED)) {
-                        soldParlays++;
-                        revenue += p.getRisk();
-                        if (p.getStatus().equals(Status.WIN)) {
-                            cost += p.getProfit();
-                        }
-                    }
-                }
-                Double profit = revenue-cost;
-                request.setAttribute(Attribute.PARLAYS, soldParlays);
-                request.setAttribute(Attribute.REVENUE, revenue);
-                request.setAttribute(Attribute.COST, cost);
-                request.setAttribute(Attribute.PROFIT, profit);
-            }
-            if (employee.inRole(Role.ANALYST)) {
-                List<MatchEvent> matches = matchEventService.searchBy(agency.getId(), null, null, username, from, to, null);
-                Integer totalMatches = matches.size();
-                Integer activeMatches = 0;
-                Integer inactiveMatches = 0;
-                Integer cancelledMatches = 0;
-                Integer pendingMatches = 0;
-                Integer finishedMatches = 0;
-                for (MatchEvent m : matches) {
-                    switch (m.getStatus()) {
-                        case Status.ACTIVE:
-                            activeMatches++; break;
-                        case Status.INACTIVE:
-                            inactiveMatches++; break;
-                        case Status.CANCELLED: 
-                            cancelledMatches++; break;
-                        case Status.PENDING_RESULT:
-                            pendingMatches++; break;
-                        case Status.FINISHED: 
-                            finishedMatches++; break;
-                    }
-                }
-                request.setAttribute(Attribute.MATCHES, totalMatches);
-                request.setAttribute(Attribute.ACTIVE_MATCHES, activeMatches);
-                request.setAttribute(Attribute.INACTIVE_MATCHES, inactiveMatches);
-                request.setAttribute(Attribute.CANCELLED_MATCHES, cancelledMatches);
-                request.setAttribute(Attribute.PENDING_MATCHES, pendingMatches);
-                request.setAttribute(Attribute.FINISHED_MATCHES, finishedMatches);
-            }
-        }
-        request.setAttribute(Attribute.EMPLOYEE, employee);
+        request.setAttribute(Attribute.FINAL_USER, user);
         request.setAttribute(Attribute.TIME_FROM, strFrom);
         request.setAttribute(Attribute.TIME_TO, strTo);
         request.setAttribute(Attribute.ROLE, Role.MANAGER);

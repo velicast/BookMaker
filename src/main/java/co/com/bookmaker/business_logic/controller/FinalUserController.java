@@ -87,23 +87,17 @@ public class FinalUserController extends GenericController {
 
         switch (resource) {
             case NEW:
-                doNew();
-                break;
+                doNew(); break;
             case EDIT:
-                doEdit();
-                break;
+                doEdit(); break;
             case SEARCH:
-                doSearch();
-                break;
+                doSearch(); break;
             case SEARCH_EMPLOYEE:
-                doSearchEmployee();
-                break;
+                doSearchEmployee(); break;
             case CHANGE_PASSWORD:
-                doChangePassword(); 
-                break;
+                doChangePassword(); break;
             case BALANCE:
-                doBalance();
-                break;
+                doBalance(); break;
             default:
                 redirectError(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -531,9 +525,10 @@ public class FinalUserController extends GenericController {
         
         String oldPassword = request.getParameter(Parameter.PASSWORD);
         String newPassword = request.getParameter(Parameter.NEW_PASSWORD);
-        String confirmedPassword = request.getParameter(Parameter.CONFIRMED_PASSWORD);
+        String confirmedPassword = request.getParameter(Parameter.CONFIRMED_NEW_PASSWORD);
         
         boolean validated = true;
+        
         try {
             validator.checkPassword(oldPassword);
         } catch (EJBException ex) {
@@ -553,9 +548,16 @@ public class FinalUserController extends GenericController {
             request.setAttribute(Information.CONFIRMED_PASSWORD, ex.getCausedByException().getMessage());
         }
         
+        FinalUser sessionUser = auth.sessionUser(request);
+        
+        if (oldPassword != null && !oldPassword.equals(sessionUser.getPassword())) {
+            validated = false;
+            request.setAttribute(Information.PASSWORD, "Incorrect current password");
+        }
+        
         if (newPassword != null && !newPassword.equals(confirmedPassword)) {
             validated = false;
-            request.setAttribute(Information.CONFIRMED_PASSWORD, "The new and confirmed passwords mismatch.");
+            request.setAttribute(Information.CONFIRMED_PASSWORD, "The new and confirmed passwords mismatch");
         }
         
         if (!validated) {
@@ -563,7 +565,6 @@ public class FinalUserController extends GenericController {
             return;
         }
         
-        FinalUser sessionUser = auth.sessionUser(request);
         sessionUser.setPassword(newPassword);
         try {
             finalUserService.edit(sessionUser);
@@ -574,21 +575,20 @@ public class FinalUserController extends GenericController {
             return;
         }
         request.setAttribute(Information.INFO, "The password was changed. Don't forget the new one.");
-        forward(AccountController.getJSP(AccountController.INDEX));
+        request.setAttribute(Attribute.FINAL_USER, sessionUser);
+        request.setAttribute(Attribute.ROLE, Role.ALL);
+        forward(AccountController.getJSP(AccountController.SUMMARY));
     }
 
     private void doBalance() {
-        
-        FinalUser sessionUser = auth.sessionUser(request);
         
         String strRoleRequester = request.getParameter(Parameter.ROLE);
         Long roleRequester = null;
         try {
             roleRequester = Long.parseLong(strRoleRequester);
         } catch (Exception ex) {}
-        if (roleRequester == null || !sessionUser.inRole(roleRequester)) {
-            request.setAttribute(Information.ERROR, "Restricted operation");
-            forward(HomeController.getJSP(HomeController.URL));
+        if (roleRequester == null) {
+            redirect(HomeController.URL);
             return;
         }
         
@@ -601,8 +601,8 @@ public class FinalUserController extends GenericController {
             redirect(HomeController.URL);
             return;
         }
-        FinalUser employee = finalUserService.getUser(username);
-        if (employee == null) {
+        FinalUser user = finalUserService.getUser(username);
+        if (user == null) {
                 // falta redirigir a pagina correcta
             redirect(HomeController.URL);
             return;
@@ -647,9 +647,9 @@ public class FinalUserController extends GenericController {
         }
         
         if (validated) {
-            Agency agency = employee.getAgency();
-            if (employee.inRole(Role.SELLER) && agency != null) {
-                List<Parlay> parlays = parlayService.searchBy(agency.getId(), null, employee.getUsername(), from, to, null);
+            Agency agency = user.getAgency();
+            if (user.inRole(Role.SELLER) && agency != null) {
+                List<Parlay> parlays = parlayService.searchBy(agency.getId(), null, user.getUsername(), from, to, null);
 
                 Integer soldParlays = 0;
                 Double revenue = 0D;
@@ -670,12 +670,12 @@ public class FinalUserController extends GenericController {
                 request.setAttribute(Attribute.COST, cost);
                 request.setAttribute(Attribute.PROFIT, profit);
             }
-            if (employee.inRole(Role.ANALYST)) {
+            if (user.inRole(Role.ANALYST)) {
                 Long agencyId = null;
                 if (agency != null) {
                     agencyId = agency.getId();
                 }
-                List<MatchEvent> matches = matchEventService.searchBy(agencyId, null, null, sessionUser.getUsername(), from, to, null);
+                List<MatchEvent> matches = matchEventService.searchBy(agencyId, null, null, user.getUsername(), from, to, null);
                 Integer totalMatches = matches.size();
                 Integer activeMatches = 0;
                 Integer inactiveMatches = 0;
@@ -704,6 +704,7 @@ public class FinalUserController extends GenericController {
                 request.setAttribute(Attribute.FINISHED_MATCHES, finishedMatches);
             }
         }
+        request.setAttribute(Attribute.FINAL_USER, user);
         request.setAttribute(Attribute.TIME_FROM, strFrom);
         request.setAttribute(Attribute.TIME_TO, strTo);
         

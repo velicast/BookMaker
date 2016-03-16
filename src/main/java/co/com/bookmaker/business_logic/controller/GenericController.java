@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -26,6 +27,7 @@ public abstract class GenericController extends HttpServlet {
     
     protected HttpServletRequest request;
     protected HttpServletResponse response;
+    protected HttpSession session;
     protected TreeMap<String, Long> toResource = new TreeMap<>();
     protected TreeMap<String, Long> doResource = new TreeMap<>();
     
@@ -45,6 +47,10 @@ public abstract class GenericController extends HttpServlet {
 
     protected HttpServletResponse getResponse() {
         return response;
+    }
+    
+    protected HttpSession getSession() {
+        return session;
     }
     
     protected void forward(String url) {
@@ -118,6 +124,7 @@ public abstract class GenericController extends HttpServlet {
         
         this.request = request;
         this.response = response;
+        this.session = request.getSession();
       
         if (pTo == null && pDo == null && canTo(INDEX)) {
             processTO(INDEX);

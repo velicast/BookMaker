@@ -91,7 +91,7 @@ public class Parameter {
     public static final String SCORE = "p52";
     
     public static final String NEW_PASSWORD = "p53";
-    public static final String CONFIRMED_PASSWORD = "p54";
+    public static final String CONFIRMED_NEW_PASSWORD = "p54";
     
     public String getROLE_CLIENT() {
         return ROLE_CLIENT;
@@ -297,11 +297,11 @@ public class Parameter {
         return DRAW_LINE;
     }
 
-    public static String getNEW_PASSWORD() {
+    public String getNEW_PASSWORD() {
         return NEW_PASSWORD;
     }
 
-    public static String getCONFIRMED_PASSWORD() {
-        return CONFIRMED_PASSWORD;
+    public String getCONFIRMED_NEW_PASSWORD() {
+        return CONFIRMED_NEW_PASSWORD;
     }
 }

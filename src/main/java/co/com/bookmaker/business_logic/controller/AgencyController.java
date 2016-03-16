@@ -55,6 +55,7 @@ public class AgencyController extends GenericController {
         
         allowDO(NEW, Role.ADMIN);
         allowDO(EDIT, Role.ADMIN);
+        allowDO(SEARCH, Role.ADMIN);
         allowDO(ADD_EMPLOYEE, Role.ADMIN);
         allowDO(REM_EMPLOYEE, Role.ADMIN);
     }
