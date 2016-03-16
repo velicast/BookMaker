@@ -1,0 +1,110 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Dec 22, 2015, 11:48:38 PM
+    Author     : eduarc
+*/
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+    background-color: #d1e9f5;
+}
+
+.main_div {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-right: 50px;
+    margin-left: 50px;
+    padding: 3px 3px 3px 3px;
+}
+.league_div {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+.sport_btn {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    padding: 1px 1px 1px 1px;
+    color: #d1e9f5;
+    background-color: #275c7c;
+}
+.league_btn {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    padding: 1px 1px 1px 1px;
+    color: #275c7c;
+    background-color: #d1e9f5;
+}
+.th1 {
+    text-align: center;
+    width: 10%;
+}
+.th2 {
+    text-align: center;
+    width: 46%;
+}
+.th3 {
+    text-align: center;
+    width: 13%;
+}
+.th4 {
+    text-align: center;
+    width: 14%;
+}
+.th5 {
+    text-align: center;
+    width: 17%;
+}
+
+.mit {
+    margin-top: 2px;
+    margin-bottom: 5px;
+    margin-right: 2px;
+    margin-left: 2px;
+}
+.table .td_t {
+    padding-top : 0px;
+    padding-bottom : 0px;
+}
+.pcard {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-right: 2px;
+    margin-left: 2px;
+    padding: 3px 3px 3px 3px;
+}
+.bticket {
+    width: 31%;
+}
+.panel_padding {
+    padding: 3px 3px 3px 3px;
+}
+.panel_heading {
+    text-align: center;
+    padding: 2px 2px 2px 2px;
+}
+.jumbotron_padding {
+    padding: 5px 5px 5px 5px;
+}
+.oddvalue {
+    float : right;
+}
+.ticket_bet {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 1px;
+    margin-left: 1px;
+    padding: 5px 5px 5px 5px;
+}
+.ticket_body {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    margin-right: 1px;
+    margin-left: 1px;
+    padding: 5px 5px 5px 5px;
+}

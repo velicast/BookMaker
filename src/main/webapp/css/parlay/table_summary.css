@@ -1,0 +1,41 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 19, 2016, 5:25:48 PM
+    Author     : eduarc
+*/
+.status_label {
+    margin: 0px;
+    padding: 0px;
+}
+.parlay_th1 {
+    width: 15%;
+}
+.parlay_th2 {
+    width: 15%;
+}
+.parlay_th3 {
+    width: 26%;
+}
+.parlay_th4 {
+    width: 14%;
+}
+.parlay_th5 {
+    width: 14%;
+}
+.parlay_th6 {
+    width: 16%;
+}
+.table td {
+    text-align: center;
+}
+.table th {
+    text-align: center;
+}
+.table .td_t {
+    padding-top : 2px;
+    padding-bottom : 5px;
+}
