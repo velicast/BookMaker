@@ -204,7 +204,6 @@ public class AnalystController extends GenericController {
         request.setAttribute(Attribute.TIME_FROM, strFrom);
         request.setAttribute(Attribute.TIME_TO, strTo);
         request.setAttribute(Attribute.SPORTS, sports);
-        request.setAttribute(Attribute.ROLE, Role.ANALYST);
         forward(getJSP(SEARCH_MATCH));
     }
 
@@ -410,7 +409,7 @@ public class AnalystController extends GenericController {
         Long tournamentId;
         try {
             tournamentId = Long.parseLong(strTournamentId);
-        } catch(NumberFormatException ex) {
+        } catch(Exception ex) {
             forward(getJSP(SEARCH_TOURNAMENT));
             return null;
         }
@@ -467,7 +466,6 @@ public class AnalystController extends GenericController {
         }
         List<MatchEvent> matches = matchEventService.getMatches(auth.sessionUser(request), Status.PENDING_RESULT);
         request.setAttribute(Attribute.MATCH_EVENT, matches);
-        request.setAttribute(Attribute.ROLE, Role.ANALYST);
         forward(getJSP(PENDING_RESULT));
     }
 }

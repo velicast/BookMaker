@@ -14,7 +14,21 @@
     <!-- Main Menu -->
     <ul class="main_menu nav navbar-nav">
         <!-- Dropdown-->
-        <li id="dashboard"><a href="<%=AdminController.URL%>?to=<%=AdminController.DASHBOARD%>"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
+        <li class="panel panel-default" id="dropdown">
+            <a data-toggle="collapse" href="#menuBalance">
+                <span class="glyphicon glyphicon-stats"></span> Balance <span class="caret"></span>
+            </a>
+            <!-- Dropdown level 1 -->
+            <div id="menuBalance" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul class="nav navbar-nav">
+                        <li id="moneyBalance"><a href="<%=AdminController.URL%>?to=<%=AdminController.MONEY_BALANCE%>"><span class="glyphicon glyphicon-usd"></span> Money</a></li>
+                        <li id="matchesBalance"><a href="<%=AdminController.URL%>?to=<%=AdminController.MATCHES_BALANCE%>"><span class="glyphicon glyphicon-star"></span> Matches</a></li>
+                        <li id="accountsBalance"><a href="<%=AdminController.URL%>?to=<%=AdminController.ACCOUNTS_BALANCE%>"><span class="glyphicon glyphicon-user"></span> Accounts</a></li>
+                    </ul>
+                </div>
+            </div>
+        </li>
         <li class="panel panel-default" id="dropdown">
             <a data-toggle="collapse" href="#menuUser">
                 <span class="glyphicon glyphicon-user"></span> User <span class="caret"></span>

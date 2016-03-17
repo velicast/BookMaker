@@ -3,6 +3,9 @@
     Created on : Feb 25, 2016, 9:18:02 AM
     Author     : eduarc
 --%>
+<%@page import="co.com.bookmaker.business_logic.controller.AccountController"%>
+<%@page import="co.com.bookmaker.business_logic.controller.AdminController"%>
+<%@page import="co.com.bookmaker.business_logic.controller.ManagerController"%>
 <%@page import="co.com.bookmaker.business_logic.controller.event.MatchEventController"%>
 <%@page import="co.com.bookmaker.business_logic.controller.AnalystController"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -16,6 +19,7 @@
 <jsp:useBean id="Status" class="co.com.bookmaker.util.type.Status"></jsp:useBean>
 <jsp:useBean id="SportID" class="co.com.bookmaker.util.type.SportID"></jsp:useBean>
 <jsp:useBean id="Type" class="co.com.bookmaker.util.type.OddType"></jsp:useBean>
+<jsp:useBean id="Role" class="co.com.bookmaker.util.type.Role"></jsp:useBean>
 
 <style>
     .form-group {
@@ -88,7 +92,22 @@
     <div class="form-group">
         <label class="control-label col-md-2">Author: </label>
         <div class="col-md-4">
-            <p class="form-control-static">${match.author.username} - ${match.author.firstName} ${match.author.lastName}</p>
+            <c:set var="else" value="${true}"></c:set>
+            <c:if test="${ok && param.roleRequester == Role.MANAGER}">
+            <c:set var="else" value="${false}"></c:set>
+            <p class="form-control-static">
+                <a href="<%=ManagerController.URL%>?to=<%=ManagerController.EMPLOYEE_SUMMARY%>&${Param.USERNAME}=${match.author.username}">
+                    ${match.author.username}</a> - ${match.author.firstName} ${match.author.lastName}</p>
+            </c:if>
+            <c:if test="${else && param.roleRequester == Role.ANALYST && Role.inRole(sessionScope[Attr.SESSION_ROLE], Role.ADMIN)}">
+            <c:set var="else" value="${false}"></c:set>
+            <p class="form-control-static">
+                <a href="<%=AdminController.URL%>?to=<%=AdminController.USER_SUMMARY%>&${Param.USERNAME}=${match.author.username}">
+                    ${match.author.username}</a> - ${match.author.firstName} ${match.author.lastName}</p>
+            </c:if>
+            <c:if test="${else}">
+                <p class="form-control-static">${match.author.username} - ${match.author.firstName} ${match.author.lastName}</p>
+            </c:if>
         </div>
     </div>
     <div class="form-group">

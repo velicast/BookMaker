@@ -91,6 +91,12 @@ public class MatchEventService {
         return matches;
     }
     
+    public List<MatchEvent> searchAllBy(Integer sportId, Long tournamentId, String author, Calendar from, Calendar to, Integer status) {
+        
+        List<MatchEvent> pre = matchEventDAO.findAll();
+        return filterSearch(pre, sportId, tournamentId, author, from, to, status);
+    }
+    
     public List<MatchEvent> searchBy(Long agencyId, Integer sportId, Long tournamentId, String author, Calendar from, Calendar to, Integer status) {
         
         List<MatchEvent> pre;
@@ -103,6 +109,11 @@ public class MatchEventService {
             }
             pre = matchEventDAO.findOnlyByAgency(agency);
         }
+        return filterSearch(pre, sportId, tournamentId, author, from, to, status);
+    }
+
+    private List<MatchEvent> filterSearch(List<MatchEvent> pre, Integer sportId, Long tournamentId, String author, Calendar from, Calendar to, Integer status) {
+        
         List<MatchEvent> matches = new ArrayList();
         for (MatchEvent m : pre) {
             update(m);
@@ -144,7 +155,7 @@ public class MatchEventService {
         });
         return matches;
     }
-
+    
     public void update(MatchEvent match) {
         
         if (match == null) {
@@ -306,4 +317,5 @@ public class MatchEventService {
         m.setStatus(Status.FINISHED);
         matchEventDAO.edit(m);
     }
+
 }

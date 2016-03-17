@@ -1,6 +1,6 @@
 <%-- 
-    Document   : balance
-    Created on : Mar 13, 2016, 11:48:36 AM
+    Document   : money
+    Created on : Mar 17, 2016, 11:39:16 AM
     Author     : eduarc
 --%>
 
@@ -26,13 +26,11 @@
 <jsp:useBean id="Info" class="co.com.bookmaker.util.type.Information"></jsp:useBean>
 <jsp:useBean id="Role" class="co.com.bookmaker.util.type.Role"></jsp:useBean>
 
-<h2 class="main_content_title"> Agency Balance </h2>
+<h2 class="main_content_title"> Money Balance </h2>
 
 <div class="row">
-    <form id="balanceForm" role="form" class="form-inline" action="<%=AgencyController.URL%>" method="GET">    
-        <input type="hidden" name="do" value="<%=AgencyController.BALANCE%>">
-        <input type="hidden" name="${Param.AGENCY}" value="${requestScope[Attr.AGENCY].id}">
-        <input type="hidden" name="${Param.ROLE}" value="${param.roleRequester}">
+    <form id="balanceForm" role="form" class="form-inline" action="<%=AdminController.URL%>" method="GET">    
+        <input type="hidden" name="to" value="<%=AdminController.MONEY_BALANCE%>">
         <div class="form-group col-md-8">
             <label class="control-label">From: </label>
             <input type="text" class="form-control input-sm" name="${Param.TIME_FROM}" value="${requestScope[Attr.TIME_FROM]}" placeholder="dd/MM/yyyy">

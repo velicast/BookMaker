@@ -19,7 +19,7 @@
 
 <form id="searchAgencyForm" role="form" class="form-horizontal" action="<%=ParlayController.URL%>" method="GET">
     <input type="hidden" name="do" value="<%=ParlayController.SEARCH%>">
-    <input type="hidden" name="${Param.ROLE}" value="${requestScope[Attr.ROLE]}">
+    <input type="hidden" name="${Param.ROLE}" value="${param.roleRequester}">
     <div class="form-group">
         <label class="control-label col-md-2">Parlay: </label>
         <div class="col-md-4">

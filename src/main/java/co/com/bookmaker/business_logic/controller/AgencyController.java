@@ -8,9 +8,11 @@ package co.com.bookmaker.business_logic.controller;
 import co.com.bookmaker.business_logic.service.ParameterValidator;
 import co.com.bookmaker.business_logic.service.AgencyService;
 import co.com.bookmaker.business_logic.service.FinalUserService;
+import co.com.bookmaker.business_logic.service.parlay.ParlayService;
 import co.com.bookmaker.business_logic.service.security.AuthenticationService;
 import co.com.bookmaker.data_access.entity.Agency;
 import co.com.bookmaker.data_access.entity.FinalUser;
+import co.com.bookmaker.data_access.entity.parlay.Parlay;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -21,6 +23,10 @@ import co.com.bookmaker.util.type.Attribute;
 import co.com.bookmaker.util.type.Information;
 import co.com.bookmaker.util.type.Parameter;
 import co.com.bookmaker.util.type.Role;
+import co.com.bookmaker.util.type.Status;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  *
@@ -49,6 +55,8 @@ public class AgencyController extends GenericController {
     private AuthenticationService auth;
     @EJB
     private ParameterValidator validator;
+    @EJB
+    private ParlayService parlayService;
     
     @Override
     public void init() {
@@ -58,6 +66,7 @@ public class AgencyController extends GenericController {
         allowDO(SEARCH, Role.ADMIN);
         allowDO(ADD_EMPLOYEE, Role.ADMIN);
         allowDO(REM_EMPLOYEE, Role.ADMIN);
+        allowDO(BALANCE, Role.ADMIN|Role.MANAGER);
     }
 
     public static String getJSP(String resource) {
@@ -83,6 +92,8 @@ public class AgencyController extends GenericController {
                 doAddEmployee(); break;
             case REM_EMPLOYEE:
                 doRemEmployee(); break;
+            case BALANCE:
+                doBalance(); break;
             default:
                 redirectError(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -254,7 +265,6 @@ public class AgencyController extends GenericController {
         }
         request.setAttribute(Attribute.AGENCY, newAgency);
         request.setAttribute(Attribute.EMPLOYEES, agencyService.getEmployees(newAgency));
-        request.setAttribute(Attribute.ROLE, Role.ADMIN);
         forward(AdminController.getJSP(AdminController.AGENCY_SUMMARY));
     }
 
@@ -266,7 +276,7 @@ public class AgencyController extends GenericController {
         if (strAgencyId != null) {
             try {
                 agencyId = Long.parseLong(strAgencyId);
-            } catch(NumberFormatException ex) {
+            } catch(Exception ex) {
                 forward(AdminController.getJSP(AdminController.SEARCH_AGENCY));
                 return null;
             }
@@ -426,7 +436,6 @@ public class AgencyController extends GenericController {
         }
         request.setAttribute(Attribute.AGENCY, agency);
         request.setAttribute(Attribute.EMPLOYEES, employees);
-        request.setAttribute(Attribute.ROLE, Role.ADMIN);
         forward(AdminController.getJSP(AdminController.AGENCY_SUMMARY));
     }
 
@@ -467,7 +476,6 @@ public class AgencyController extends GenericController {
                 employee.setAgency(null);
                 request.setAttribute(Attribute.FINAL_USER, employee);
                 request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
-                request.setAttribute(Attribute.ROLE, Role.ADMIN);
                 forward(AdminController.getJSP(AdminController.USER_SUMMARY));
                 return;
             }
@@ -479,7 +487,6 @@ public class AgencyController extends GenericController {
             }
             request.setAttribute(Attribute.EMPLOYEES, agencyService.getEmployees(agency));
             request.setAttribute(Information.INFO, "User "+username+" successfully added");
-            request.setAttribute(Attribute.ROLE, Role.ADMIN);
             forward(AdminController.getJSP(AdminController.AGENCY_SUMMARY));
         }
     }
@@ -530,7 +537,6 @@ public class AgencyController extends GenericController {
             employee.setAgency(agency);
             request.setAttribute(Attribute.FINAL_USER, employee);
             request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
-            request.setAttribute(Attribute.ROLE, Role.ADMIN);
             forward(AdminController.getJSP(AdminController.USER_SUMMARY));
             return;
         }
@@ -543,7 +549,6 @@ public class AgencyController extends GenericController {
         }
         request.setAttribute(Attribute.EMPLOYEES, employees);
         request.setAttribute(Information.INFO, "User "+username+" successfully removed");
-        request.setAttribute(Attribute.ROLE, Role.ADMIN);
         forward(AdminController.getJSP(AdminController.AGENCY_SUMMARY));
     }
 
@@ -572,8 +577,103 @@ public class AgencyController extends GenericController {
             Agency agency = employee.getAgency();
             request.setAttribute(Attribute.EMPLOYEES, agencyService.getEmployees(agency));
             request.setAttribute(Attribute.AGENCY, agency);
-            request.setAttribute(Attribute.ROLE, Role.ADMIN);
             forward(AdminController.getJSP(AdminController.AGENCY_SUMMARY));
+        }
+    }
+
+    private void doBalance() {
+        
+        String strRoleRequester = request.getParameter(Parameter.ROLE);
+        Long roleRequester = null;
+        try {
+            roleRequester = Long.parseLong(strRoleRequester);
+        } catch (Exception ex) {}
+        if (roleRequester == null || !(new Role().someRole(auth.sessionRole(request), roleRequester))) {
+            redirect(HomeController.URL);
+            return;
+        }
+        
+        String strAgencyId = request.getParameter(Parameter.AGENCY);
+        Long agencyId = null;
+        try {
+            agencyId = Long.parseLong(strAgencyId);
+        } catch(Exception ex) {}
+        Agency agency = agencyService.getAgency(agencyId);
+        if (agency == null) {
+            redirect(HomeController.URL);
+            return;
+        }
+        
+        String strFrom = request.getParameter(Parameter.TIME_FROM);
+        String strTo = request.getParameter(Parameter.TIME_TO);
+        
+        boolean validated = true;
+        
+        Calendar from = null;
+        Calendar to = null;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        
+        if (strFrom != null && strFrom.trim().length() > 0) {
+            from = Calendar.getInstance();
+            try {
+                from.setTime(formatter.parse(strFrom));
+                from.set(Calendar.HOUR_OF_DAY, 0);
+                from.set(Calendar.MINUTE, 0);
+                from.set(Calendar.SECOND, 0);
+            } catch (ParseException ex) {
+                request.setAttribute(Information.STATUS, "Invalid value "+strFrom);
+                validated = false;
+            }
+        }
+        if (strTo != null && strTo.trim().length() > 0) {
+            to = Calendar.getInstance();
+            try {
+                to.setTime(formatter.parse(strTo));
+                to.set(Calendar.HOUR_OF_DAY, 23);
+                to.set(Calendar.MINUTE, 59);
+                to.set(Calendar.SECOND, 59);
+            } catch (ParseException ex) {
+                request.setAttribute(Information.STATUS, "Invalid value "+strTo);
+                validated = false;
+            }
+        }
+
+        try {
+            validator.checkDateRange(from, to);
+        } catch (EJBException ex) {
+            validated = false;
+            request.setAttribute(Information.STATUS, ex.getCausedByException().getMessage());
+        }
+        if (validated) {
+            List<Parlay> parlays = parlayService.searchBy(agency.getId(), null, null, from, to, null);
+            
+            Integer soldParlays = 0;
+            Double revenue = 0D;
+            Double cost = 0D;
+            for (Parlay p : parlays) {
+                Integer st = p.getStatus();
+                if (!st.equals(Status.CANCELLED)) {
+                    soldParlays++;
+                    revenue += p.getRisk();
+                    if (p.getStatus().equals(Status.WIN)) {
+                        cost += p.getProfit();
+                    }
+                }
+            }
+            Double profit = revenue-cost;
+            request.setAttribute(Attribute.PARLAYS, soldParlays);
+            request.setAttribute(Attribute.REVENUE, revenue);
+            request.setAttribute(Attribute.COST, cost);
+            request.setAttribute(Attribute.PROFIT, profit);
+        }
+        request.setAttribute(Attribute.TIME_FROM, strFrom);
+        request.setAttribute(Attribute.TIME_TO, strTo);
+        request.setAttribute(Attribute.AGENCY, agency);
+        if (roleRequester == Role.ADMIN) {
+            forward(AdminController.getJSP(AdminController.AGENCY_BALANCE));
+        }
+        else if (roleRequester == Role.MANAGER) {
+            forward(ManagerController.getJSP(ManagerController.AGENCY_BALANCE));
         }
     }
 }

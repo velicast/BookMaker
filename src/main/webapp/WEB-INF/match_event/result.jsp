@@ -33,7 +33,7 @@
 
 <h2 class="main_content_title">Match Result</h2>
 
-<form id="matchResultForm" role="form" class="form-horizontal" action="<%=MatchEventController.URL%>">
+<form id="matchResultForm" role="form" class="form-horizontal" action="<%=MatchEventController.URL%>" method="POST">
     <input type="hidden" name="do" value="<%=MatchEventController.RESULT%>">
     <input type="hidden" name="${Param.SPORT}" value="${result.sportId}">
     <input type="hidden" name="${Param.MATCH_EVENT}" value="${result.matchId}">

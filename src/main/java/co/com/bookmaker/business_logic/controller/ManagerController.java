@@ -12,6 +12,7 @@ import co.com.bookmaker.business_logic.service.event.MatchEventPeriodService;
 import co.com.bookmaker.business_logic.service.event.MatchEventService;
 import co.com.bookmaker.business_logic.service.event.SportService;
 import co.com.bookmaker.business_logic.service.event.TeamService;
+import co.com.bookmaker.business_logic.service.event.TournamentService;
 import co.com.bookmaker.business_logic.service.parlay.ParlayOddService;
 import co.com.bookmaker.business_logic.service.parlay.ParlayService;
 import co.com.bookmaker.business_logic.service.security.AuthenticationService;
@@ -19,6 +20,7 @@ import co.com.bookmaker.data_access.entity.Agency;
 import co.com.bookmaker.data_access.entity.FinalUser;
 import co.com.bookmaker.data_access.entity.event.MatchEvent;
 import co.com.bookmaker.data_access.entity.event.Sport;
+import co.com.bookmaker.data_access.entity.event.Tournament;
 import co.com.bookmaker.data_access.entity.parlay.Parlay;
 import co.com.bookmaker.util.form.bean.SearchParlayBean;
 import co.com.bookmaker.util.type.Attribute;
@@ -26,12 +28,10 @@ import co.com.bookmaker.util.type.Information;
 import co.com.bookmaker.util.type.Parameter;
 import co.com.bookmaker.util.type.Role;
 import co.com.bookmaker.util.type.Status;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 
@@ -58,6 +58,7 @@ public class ManagerController extends GenericController {
     
     public static final String PARLAY_SUMMARY = "parlay_summary";
     public static final String MATCH_SUMMARY = "match_summary";
+    public static final String TOURNAMENT_SUMMARY = "tournament_summary";
     
     @EJB
     private AuthenticationService auth;
@@ -79,6 +80,8 @@ public class ManagerController extends GenericController {
     private ParlayOddService parlayOddService;
     @EJB
     private MatchEventPeriodService matchPeriodService;
+    @EJB
+    private TournamentService tournamentService;
     
     @Override
     public void init() {
@@ -118,6 +121,8 @@ public class ManagerController extends GenericController {
                 toParlaySummary(); break;
             case MATCH_SUMMARY:
                 toMatchSummary(); break;
+            case TOURNAMENT_SUMMARY:
+                toTournamentSummary(); break;
             default:
                 redirectError(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -133,93 +138,31 @@ public class ManagerController extends GenericController {
         Agency agency = auth.sessionUser(request).getAgency();
         request.setAttribute(Attribute.AGENCY, agency);
         request.setAttribute(Attribute.EMPLOYEES, agencyService.getEmployees(agency));
-        request.setAttribute(Attribute.ROLE, Role.MANAGER);
         forward(getJSP(AGENCY_SUMMARY));
     }
 
     private void toAgencyBalance() {
         
-        String strFrom = request.getParameter(Parameter.TIME_FROM);
-        String strTo = request.getParameter(Parameter.TIME_TO);
+        Agency agency = auth.sessionUser(request).getAgency();
         
-        boolean validated = true;
-        Calendar from = null;
-        Calendar to = null;
+        Calendar from = Calendar.getInstance();
+        from.set(Calendar.HOUR_OF_DAY, 0);
+        from.set(Calendar.MINUTE, 0);
+        from.set(Calendar.SECOND, 0);
+        
+        Calendar to = Calendar.getInstance();
+        to.set(Calendar.HOUR_OF_DAY, 23);
+        to.set(Calendar.MINUTE, 59);
+        to.set(Calendar.SECOND, 59);
         
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         
-        if (strFrom == null && strTo == null) {
-            from = Calendar.getInstance();
-            from.set(Calendar.HOUR_OF_DAY, 0);
-            from.set(Calendar.MINUTE, 0);
-            from.set(Calendar.SECOND, 0);
-            to = Calendar.getInstance();
-            to.set(Calendar.HOUR_OF_DAY, 23);
-            to.set(Calendar.MINUTE, 59);
-            to.set(Calendar.SECOND, 59);
-            
-            strFrom = formatter.format(from.getTime());
-            strTo = formatter.format(to.getTime());
-        } else {
-            if (strFrom != null && strFrom.trim().length() > 0) {
-                from = Calendar.getInstance();
-                try {
-                    from.setTime(formatter.parse(strFrom));
-                    from.set(Calendar.HOUR_OF_DAY, 0);
-                    from.set(Calendar.MINUTE, 0);
-                    from.set(Calendar.SECOND, 0);
-                } catch (ParseException ex) {
-                    request.setAttribute(Information.STATUS, "Invalid value "+strFrom);
-                    validated = false;
-                }
-            }
-            if (strTo != null && strTo.trim().length() > 0) {
-                to = Calendar.getInstance();
-                try {
-                    to.setTime(formatter.parse(strTo));
-                    to.set(Calendar.HOUR_OF_DAY, 23);
-                    to.set(Calendar.MINUTE, 59);
-                    to.set(Calendar.SECOND, 59);
-                } catch (ParseException ex) {
-                    request.setAttribute(Information.STATUS, "Invalid value "+strTo);
-                    validated = false;
-                }
-            }
-
-            try {
-                validator.checkDateRange(from, to);
-            } catch (EJBException ex) {
-                validated = false;
-                request.setAttribute(Information.STATUS, ex.getCausedByException().getMessage());
-            }
-        }
+        String strFrom = formatter.format(from.getTime());
+        String strTo = formatter.format(to.getTime());
         
-        if (validated) {
-            Agency agency = auth.sessionUser(request).getAgency();
-            List<Parlay> parlays = parlayService.searchBy(agency.getId(), null, null, from, to, null);
-            
-            Integer soldParlays = 0;
-            Double revenue = 0D;
-            Double cost = 0D;
-            for (Parlay p : parlays) {
-                Integer st = p.getStatus();
-                if (!st.equals(Status.CANCELLED)) {
-                    soldParlays++;
-                    revenue += p.getRisk();
-                    if (p.getStatus().equals(Status.WIN)) {
-                        cost += p.getProfit();
-                    }
-                }
-            }
-            Double profit = revenue-cost;
-            request.setAttribute(Attribute.PARLAYS, soldParlays);
-            request.setAttribute(Attribute.REVENUE, revenue);
-            request.setAttribute(Attribute.COST, cost);
-            request.setAttribute(Attribute.PROFIT, profit);
-        }
         request.setAttribute(Attribute.TIME_FROM, strFrom);
         request.setAttribute(Attribute.TIME_TO, strTo);
-        request.setAttribute(Attribute.ROLE, Role.MANAGER);
+        request.setAttribute(Attribute.AGENCY, agency);
         forward(getJSP(AGENCY_BALANCE));
     }
 
@@ -234,7 +177,6 @@ public class ManagerController extends GenericController {
         FinalUser result = finalUserService.getUser(username);
         if (result != null) {
             request.setAttribute(Attribute.FINAL_USER, result);
-            request.setAttribute(Attribute.ROLE, Role.MANAGER);
             forward(getJSP(EMPLOYEE_SUMMARY));
         } else {
             forward(getJSP(AGENCY_SUMMARY));
@@ -273,7 +215,6 @@ public class ManagerController extends GenericController {
         request.setAttribute(Attribute.FINAL_USER, user);
         request.setAttribute(Attribute.TIME_FROM, strFrom);
         request.setAttribute(Attribute.TIME_TO, strTo);
-        request.setAttribute(Attribute.ROLE, Role.MANAGER);
         forward(getJSP(EMPLOYEE_BALANCE));
     }
     
@@ -299,7 +240,6 @@ public class ManagerController extends GenericController {
         sp.setTo(strTo);
         
         request.setAttribute(Attribute.PARLAY, sp);
-        request.setAttribute(Attribute.ROLE, Role.MANAGER);
         forward(getJSP(SEARCH_PARLAY));
     }
 
@@ -325,7 +265,6 @@ public class ManagerController extends GenericController {
         request.setAttribute(Attribute.TIME_FROM, strFrom);
         request.setAttribute(Attribute.TIME_TO, strTo);
         request.setAttribute(Attribute.SPORTS, sports);
-        request.setAttribute(Attribute.ROLE, Role.MANAGER);
         forward(getJSP(SEARCH_MATCH));
     }
 
@@ -337,7 +276,6 @@ public class ManagerController extends GenericController {
         try {
             parlayId = Long.parseLong(strParlayId);
         } catch(NumberFormatException ex) {
-            request.setAttribute(Attribute.ROLE, Role.MANAGER);
             forward(getJSP(SEARCH_PARLAY));
             return;
         }
@@ -372,5 +310,32 @@ public class ManagerController extends GenericController {
         request.setAttribute(Attribute.PARLAYODD_SERVICE, parlayOddService);
         request.setAttribute(Attribute.MATCH_PERIOD_SERVICE, matchPeriodService);
         forward(getJSP(MATCH_SUMMARY));
+    }
+
+    private void toTournamentSummary() {
+        
+        String strTournamentId = request.getParameter(Parameter.TOURNAMENT);
+        Long tournamentId;
+        try {
+            tournamentId = Long.parseLong(strTournamentId);
+        } catch(Exception ex) {
+            forward(getJSP(SEARCH_MATCH));
+            return;
+        }
+        Tournament tournament = tournamentService.getTournament(tournamentId);
+        if (tournament == null) {
+            forward(getJSP(SEARCH_MATCH));
+            return;
+        }
+        Agency agency = tournament.getAuthor().getAgency();
+        Agency sAgency = auth.sessionUser(request).getAgency();
+        if ((sAgency != null && agency != null && !sAgency.equals(agency))
+            || (agency == null && sAgency != null && !sAgency.getAcceptGlobalOdds())) {
+            request.setAttribute(Information.ERROR, "Restricted operation");
+            forward(getJSP(SEARCH_MATCH));
+            return;
+        }
+        request.setAttribute(Attribute.TOURNAMENT, tournament);
+        forward(getJSP(TOURNAMENT_SUMMARY));
     }
 }

@@ -59,13 +59,18 @@
     <c:forEach var="match" items="${matches}">
         <jsp:useBean id="match" class="co.com.bookmaker.data_access.entity.event.MatchEvent"></jsp:useBean>
         <tr>
-            <c:if test="${requestScope[Attr.ROLE] == Role.ANALYST}">
+            <c:if test="${param.roleRequester == Role.ANALYST}">
             <td><a href="<%=AnalystController.URL%>?to=<%=AnalystController.MATCH_SUMMARY%>&${Param.MATCH_EVENT}=${match.id}">${match.name}</a></td>
             </c:if>
-            <c:if test="${requestScope[Attr.ROLE] == Role.MANAGER}">
+            <c:if test="${param.roleRequester == Role.MANAGER}">
             <td><a href="<%=ManagerController.URL%>?to=<%=ManagerController.MATCH_SUMMARY%>&${Param.MATCH_EVENT}=${match.id}">${match.name}</a></td>
             </c:if>
+            <c:if test="${param.roleRequester == Role.ANALYST}">
             <td><a href="<%=AnalystController.URL%>?to=<%=AnalystController.TOURNAMENT_SUMMARY%>&${Param.TOURNAMENT}=${match.tournament.id}">${match.tournament.name}</a></td>
+            </c:if>
+            <c:if test="${param.roleRequester == Role.MANAGER}">
+            <td><a href="<%=ManagerController.URL%>?to=<%=ManagerController.TOURNAMENT_SUMMARY%>&${Param.TOURNAMENT}=${match.tournament.id}">${match.tournament.name}</a></td>
+            </c:if>
             <td>${match.tournament.sport.name}</td>
             <fmt:formatDate type="date" pattern="dd/MM/yyyy" value="${match.startDate.getTime()}" var="sDate"></fmt:formatDate>
             <fmt:formatDate type="time" pattern="HH:mm" value="${match.startDate.getTime()}" var="sTime"></fmt:formatDate>

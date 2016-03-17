@@ -8,6 +8,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<jsp:useBean id="Role" class="co.com.bookmaker.util.type.Role"></jsp:useBean>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,7 +30,9 @@
                 <!-- Main Content -->
                 <div id="mainContent" class="col-md-9 side-body">
                 <h2 class="main_content_title"> Pending Result </h2>
-                <jsp:include page="<%=MatchEventController.getJSP(MatchEventController.SEARCH_RESULT) %>"></jsp:include>
+                <jsp:include page="<%=MatchEventController.getJSP(MatchEventController.SEARCH_RESULT) %>">
+                    <jsp:param name="roleRequester" value="${Role.ANALYST}"></jsp:param>
+                </jsp:include>
                 </div>
             </div>
         </div>

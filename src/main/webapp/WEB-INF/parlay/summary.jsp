@@ -6,6 +6,7 @@
 <%@page import="co.com.bookmaker.business_logic.controller.parlay.ParlayOddController"%>
 <%@page import="co.com.bookmaker.business_logic.controller.parlay.ParlayController"%>
 <%@page import="co.com.bookmaker.business_logic.controller.SellerController"%>
+<%@page import="co.com.bookmaker.business_logic.controller.ManagerController"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -66,16 +67,17 @@
     </div>
     <c:if test="${requestScope[Attr.TRACK_PARLAY] == null}">
     <c:if test="${parlay.status != Status.IN_QUEUE}">
-    <!--<div class="form-group">
-        <label class="col-md-2 control-label">Seller's username:</label>
-        <div class="col-md-4">
-            <p class="form-control-static">${parlay.seller.username}</p>
-        </div>
-    </div>-->
     <div class="form-group">
         <label class="col-md-2 control-label">Seller:</label>
         <div class="col-md-4">
+            <c:if test="${param.roleRequester == Role.MANAGER}">
+            <p class="form-control-static">
+                <a href="<%=ManagerController.URL%>?to=<%=ManagerController.EMPLOYEE_SUMMARY%>&${Param.USERNAME}=${parlay.seller.username}">
+                    ${parlay.seller.username}</a> - ${parlay.seller.firstName} ${parlay.seller.lastName}</p>
+            </c:if>
+            <c:if test="${param.roleRequester != Role.MANAGER}">
             <p class="form-control-static">${parlay.seller.username} - ${parlay.seller.firstName} ${parlay.seller.lastName} </p>
+            </c:if>
         </div>
     </div>
     </c:if>
@@ -90,13 +92,13 @@
     <div class="form-group">
         <label class="col-md-2 control-label">Risk</label>
         <div class="col-md-4">
-            <p class="form-control-static">$<fmt:formatNumber value="${parlay.risk}" maxFractionDigits="0"/></p>
+            <p class="form-control-static">$ <fmt:formatNumber value="${parlay.risk}" maxFractionDigits="0"/></p>
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Profit:</label>
         <div class="col-md-4">
-            <p class="form-control-static">$<fmt:formatNumber value="${parlay.profit}" maxFractionDigits="0"/></p>
+            <p class="form-control-static">$ <fmt:formatNumber value="${parlay.profit}" maxFractionDigits="0"/></p>
         </div>
     </div>
     <div class="form-group">

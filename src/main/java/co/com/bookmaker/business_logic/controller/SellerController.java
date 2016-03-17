@@ -91,7 +91,6 @@ public class SellerController extends GenericController {
         parlaysInQueue = parlayService.getParlaysInQueue(seller);
 
         request.setAttribute(Attribute.PARLAYS, parlaysInQueue);
-        request.setAttribute(Attribute.ROLE, Role.SELLER);
         forward(getJSP(SELLING_QUEUE));
     }
 
@@ -117,7 +116,6 @@ public class SellerController extends GenericController {
         sp.setTo(strTo);
         
         request.setAttribute(Attribute.PARLAY, sp);
-        request.setAttribute(Attribute.ROLE, Role.SELLER);
         forward(getJSP(SEARCH_PARLAY));
     }
 
@@ -129,7 +127,6 @@ public class SellerController extends GenericController {
         try {
             parlayId = Long.parseLong(strParlayId);
         } catch(NumberFormatException ex) {
-            request.setAttribute(Attribute.ROLE, Role.SELLER);
             forward(getJSP(SEARCH_PARLAY));
             return;
         }

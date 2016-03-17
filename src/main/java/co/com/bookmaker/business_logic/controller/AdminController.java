@@ -5,13 +5,14 @@
  */
 package co.com.bookmaker.business_logic.controller;
 
-import co.com.bookmaker.business_logic.service.ParameterValidator;
 import co.com.bookmaker.business_logic.service.AgencyService;
 import co.com.bookmaker.business_logic.service.FinalUserService;
+import co.com.bookmaker.business_logic.service.ParameterValidator;
 import co.com.bookmaker.business_logic.service.event.MatchEventService;
 import co.com.bookmaker.business_logic.service.parlay.ParlayService;
 import co.com.bookmaker.data_access.entity.Agency;
 import co.com.bookmaker.data_access.entity.FinalUser;
+import co.com.bookmaker.data_access.entity.event.MatchEvent;
 import co.com.bookmaker.data_access.entity.parlay.Parlay;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -42,7 +43,6 @@ public class AdminController extends GenericController {
     public static final String USER_SUMMARY = "user_summary";
     public static final String NEW_USER = "new_user";
     public static final String EDIT_USER = "edit_user";
-    public static final String DASHBOARD = "dashboard";
     public static final String NEW_AGENCY = "new_agency";
     public static final String EDIT_AGENCY = "edit_agency";
     public static final String SEARCH_AGENCY = "search_agency";
@@ -52,8 +52,17 @@ public class AdminController extends GenericController {
     public static final String SEARCH_AGENCY_EMPLOYEE = "search_agency_employee";
     public static final String AGENCY_BALANCE = "agency_balance";
     public static final String EMPLOYEE_BALANCE = "employee_balance";
+    public static final String MONEY_BALANCE = "money_balance";
+    public static final String MATCHES_BALANCE = "matches_balance";
+    public static final String ACCOUNTS_BALANCE = "accounts_balance";
+    
     
     public static final String SIDEBAR = "sidebar";
+    
+        // jsp's in ./balance folder
+    public static final String ACCOUNTS = "accounts";
+    public static final String MONEY = "money";
+    public static final String MATCHES = "matches";
     
     @EJB
     private FinalUserService finalUserService;
@@ -74,7 +83,6 @@ public class AdminController extends GenericController {
         allowTO(NEW_USER, Role.ADMIN);
         allowTO(EDIT_USER, Role.ADMIN);
         allowTO(USER_SUMMARY, Role.ADMIN);
-        allowTO(DASHBOARD, Role.ADMIN);
         allowTO(NEW_AGENCY, Role.ADMIN);
         allowTO(SEARCH_AGENCY, Role.ADMIN);
         allowTO(EDIT_AGENCY, Role.ADMIN);
@@ -83,6 +91,9 @@ public class AdminController extends GenericController {
         allowTO(AGENCY_SUMMARY, Role.ADMIN);
         allowTO(AGENCY_BALANCE, Role.ADMIN);
         allowTO(EMPLOYEE_BALANCE, Role.ADMIN);
+        allowTO(MONEY_BALANCE, Role.ADMIN);
+        allowTO(MATCHES_BALANCE, Role.ADMIN);
+        allowTO(ACCOUNTS_BALANCE, Role.ADMIN);
         
         allowDO(SEARCH_USER, Role.ADMIN);
         allowDO(SEARCH_AGENCY, Role.ADMIN);
@@ -96,9 +107,6 @@ public class AdminController extends GenericController {
     protected void processTO(String resource) {
         
         switch (resource) {
-            case INDEX:
-            case DASHBOARD:
-                toDashboard(); break;
             case NEW_USER:
                 toNewUser(); break;
             case SEARCH_USER:
@@ -123,6 +131,13 @@ public class AdminController extends GenericController {
                 toAgencyBalance(); break;
             case EMPLOYEE_BALANCE:
                 toEmployeeBalance(); break;
+            case INDEX:
+            case MONEY_BALANCE:
+                toMoneyBalance(); break;
+            case MATCHES_BALANCE:
+                toMatchesBalance(); break;
+            case ACCOUNTS_BALANCE:
+                toAccountsBalance(); break;
             default:
                 redirectError(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -131,10 +146,6 @@ public class AdminController extends GenericController {
     @Override
     protected void processDO(String resource) {
         redirectError(HttpServletResponse.SC_NOT_FOUND);
-    }
-
-    private void toDashboard() {
-        forward(getJSP(INDEX));
     }
     
     private void toSearchUser() {
@@ -194,7 +205,6 @@ public class AdminController extends GenericController {
         FinalUser result = finalUserService.getUser(username);
         if (result != null) {
             request.setAttribute(Attribute.FINAL_USER, result);
-            request.setAttribute(Attribute.ROLE, Role.ADMIN);
             forward(getJSP(USER_SUMMARY));
         } else {
             forward(getJSP(SEARCH_USER));
@@ -218,7 +228,7 @@ public class AdminController extends GenericController {
         if (strAgencyId != null) {
             try {
                 agencyId = Long.parseLong(strAgencyId);
-            } catch(NumberFormatException ex) {
+            } catch(Exception ex) {
                 forward(getJSP(SEARCH_AGENCY));
                 return null;
             }
@@ -237,7 +247,6 @@ public class AdminController extends GenericController {
         if (agency != null) {
             request.setAttribute(Attribute.AGENCY, agency);
             request.setAttribute(Attribute.EMPLOYEES, agencyService.getEmployees(agency));
-            request.setAttribute(Attribute.ROLE, Role.ADMIN);
             forward(getJSP(AGENCY_SUMMARY));
         }
     }
@@ -284,7 +293,7 @@ public class AdminController extends GenericController {
     
     private void toListAgencies() {
         
-        List<Agency> list = agencyService.getAllAgencies();
+        List<Agency> list = agencyService.findAll();
         request.setAttribute(Attribute.LIST_AGENCIES, list);
         forward(getJSP(LIST_AGENCIES));
     }
@@ -295,86 +304,23 @@ public class AdminController extends GenericController {
         if (agency == null) {
             return;
         }
+        Calendar from = Calendar.getInstance();
+        from.set(Calendar.HOUR_OF_DAY, 0);
+        from.set(Calendar.MINUTE, 0);
+        from.set(Calendar.SECOND, 0);
         
-        String strFrom = request.getParameter(Parameter.TIME_FROM);
-        String strTo = request.getParameter(Parameter.TIME_TO);
-        
-        boolean validated = true;
-        Calendar from = null;
-        Calendar to = null;
+        Calendar to = Calendar.getInstance();
+        to.set(Calendar.HOUR_OF_DAY, 23);
+        to.set(Calendar.MINUTE, 59);
+        to.set(Calendar.SECOND, 59);
         
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         
-        if (strFrom == null && strTo == null) {
-            from = Calendar.getInstance();
-            from.set(Calendar.HOUR_OF_DAY, 0);
-            from.set(Calendar.MINUTE, 0);
-            from.set(Calendar.SECOND, 0);
-            to = Calendar.getInstance();
-            to.set(Calendar.HOUR_OF_DAY, 23);
-            to.set(Calendar.MINUTE, 59);
-            to.set(Calendar.SECOND, 59);
-            
-            strFrom = formatter.format(from.getTime());
-            strTo = formatter.format(to.getTime());
-        } else {
-            if (strFrom != null && strFrom.trim().length() > 0) {
-                from = Calendar.getInstance();
-                try {
-                    from.setTime(formatter.parse(strFrom));
-                    from.set(Calendar.HOUR_OF_DAY, 0);
-                    from.set(Calendar.MINUTE, 0);
-                    from.set(Calendar.SECOND, 0);
-                } catch (ParseException ex) {
-                    request.setAttribute(Information.STATUS, "Invalid value "+strFrom);
-                    validated = false;
-                }
-            }
-            if (strTo != null && strTo.trim().length() > 0) {
-                to = Calendar.getInstance();
-                try {
-                    to.setTime(formatter.parse(strTo));
-                    to.set(Calendar.HOUR_OF_DAY, 23);
-                    to.set(Calendar.MINUTE, 59);
-                    to.set(Calendar.SECOND, 59);
-                } catch (ParseException ex) {
-                    request.setAttribute(Information.STATUS, "Invalid value "+strTo);
-                    validated = false;
-                }
-            }
-
-            try {
-                validator.checkDateRange(from, to);
-            } catch (EJBException ex) {
-                validated = false;
-                request.setAttribute(Information.STATUS, ex.getCausedByException().getMessage());
-            }
-        }
-        if (validated) {
-            List<Parlay> parlays = parlayService.searchBy(agency.getId(), null, null, from, to, null);
-            
-            Integer soldParlays = 0;
-            Double revenue = 0D;
-            Double cost = 0D;
-            for (Parlay p : parlays) {
-                Integer st = p.getStatus();
-                if (!st.equals(Status.CANCELLED)) {
-                    soldParlays++;
-                    revenue += p.getRisk();
-                    if (p.getStatus().equals(Status.WIN)) {
-                        cost += p.getProfit();
-                    }
-                }
-            }
-            Double profit = revenue-cost;
-            request.setAttribute(Attribute.PARLAYS, soldParlays);
-            request.setAttribute(Attribute.REVENUE, revenue);
-            request.setAttribute(Attribute.COST, cost);
-            request.setAttribute(Attribute.PROFIT, profit);
-        }
+        String strFrom = formatter.format(from.getTime());
+        String strTo = formatter.format(to.getTime());
+        
         request.setAttribute(Attribute.TIME_FROM, strFrom);
         request.setAttribute(Attribute.TIME_TO, strTo);
-        request.setAttribute(Attribute.ROLE, Role.ADMIN);
         request.setAttribute(Attribute.AGENCY, agency);
         forward(getJSP(AGENCY_BALANCE));
     }
@@ -411,7 +357,219 @@ public class AdminController extends GenericController {
         request.setAttribute(Attribute.FINAL_USER, user);
         request.setAttribute(Attribute.TIME_FROM, strFrom);
         request.setAttribute(Attribute.TIME_TO, strTo);
-        request.setAttribute(Attribute.ROLE, Role.ADMIN);
         forward(getJSP(EMPLOYEE_BALANCE));
+    }
+
+    private void toMoneyBalance() {
+        
+        String strFrom = request.getParameter(Parameter.TIME_FROM);
+        String strTo = request.getParameter(Parameter.TIME_TO);
+        
+        boolean validated = true;
+        
+        Calendar from = null;
+        Calendar to = null;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        
+        if (strFrom == null && strTo == null) {
+            from = Calendar.getInstance();
+            from.set(Calendar.HOUR_OF_DAY, 0);
+            from.set(Calendar.MINUTE, 0);
+            from.set(Calendar.SECOND, 0);
+
+            to = Calendar.getInstance();
+            to.set(Calendar.HOUR_OF_DAY, 23);
+            to.set(Calendar.MINUTE, 59);
+            to.set(Calendar.SECOND, 59);
+            
+            strFrom = formatter.format(from.getTime());
+            strTo = formatter.format(to.getTime());
+        } else {
+            if (strFrom != null && strFrom.trim().length() > 0) {
+                from = Calendar.getInstance();
+                try {
+                    from.setTime(formatter.parse(strFrom));
+                    from.set(Calendar.HOUR_OF_DAY, 0);
+                    from.set(Calendar.MINUTE, 0);
+                    from.set(Calendar.SECOND, 0);
+                } catch (ParseException ex) {
+                    request.setAttribute(Information.STATUS, "Invalid value "+strFrom);
+                    validated = false;
+                }
+            }
+            if (strTo != null && strTo.trim().length() > 0) {
+                to = Calendar.getInstance();
+                try {
+                    to.setTime(formatter.parse(strTo));
+                    to.set(Calendar.HOUR_OF_DAY, 23);
+                    to.set(Calendar.MINUTE, 59);
+                    to.set(Calendar.SECOND, 59);
+                } catch (ParseException ex) {
+                    request.setAttribute(Information.STATUS, "Invalid value "+strTo);
+                    validated = false;
+                }
+            }
+        }
+
+        try {
+            validator.checkDateRange(from, to);
+        } catch (EJBException ex) {
+            validated = false;
+            request.setAttribute(Information.STATUS, ex.getCausedByException().getMessage());
+        }
+        if (validated) {
+            List<Parlay> parlays = parlayService.searchBy(null, null, null, from, to, null);
+            
+            Integer soldParlays = 0;
+            Double revenue = 0D;
+            Double cost = 0D;
+            for (Parlay p : parlays) {
+                Integer st = p.getStatus();
+                if (!st.equals(Status.CANCELLED)) {
+                    soldParlays++;
+                    revenue += p.getRisk();
+                    if (p.getStatus().equals(Status.WIN)) {
+                        cost += p.getProfit();
+                    }
+                }
+            }
+            Double profit = revenue-cost;
+            request.setAttribute(Attribute.PARLAYS, soldParlays);
+            request.setAttribute(Attribute.REVENUE, revenue);
+            request.setAttribute(Attribute.COST, cost);
+            request.setAttribute(Attribute.PROFIT, profit);
+        }
+        request.setAttribute(Attribute.TIME_FROM, strFrom);
+        request.setAttribute(Attribute.TIME_TO, strTo);
+        forward(getJSP(MONEY_BALANCE));
+    }
+
+    private void toAccountsBalance() {
+        
+        List<Agency> agencies = agencyService.findAll();
+        Integer totalAgencies = agencies.size();
+        Integer activeAgencies = 0;
+        Integer inactiveAgencies = 0;
+        for (Agency agency : agencies) {
+            if (agency.getStatus().equals(Status.ACTIVE)) {
+                activeAgencies++;
+            }
+            else if (agency.getStatus().equals(Status.INACTIVE)) {
+                inactiveAgencies++;
+            }
+        }
+        
+        List<FinalUser> users = finalUserService.findAll();
+        Integer totalUsers = users.size();
+        Integer activeUsers = 0;
+        Integer inactiveUsers = 0;
+        for (FinalUser user : users) {
+            if (user.getStatus().equals(Status.ACTIVE)) {
+                activeUsers++;
+            }
+            else if (user.getStatus().equals(Status.INACTIVE)) {
+                inactiveUsers++;
+            }
+        }
+        
+        request.setAttribute(Attribute.AGENCIES, totalAgencies);
+        request.setAttribute(Attribute.ACTIVE_AGENCIES, activeAgencies);
+        request.setAttribute(Attribute.INACTIVE_AGENCIES, inactiveAgencies);
+        request.setAttribute(Attribute.USERS, totalUsers);
+        request.setAttribute(Attribute.ACTIVE_USERS, activeUsers);
+        request.setAttribute(Attribute.INACTIVE_USERS, inactiveUsers);
+        forward(getJSP(ACCOUNTS_BALANCE));
+    }
+
+    private void toMatchesBalance() {
+        
+        String strFrom = request.getParameter(Parameter.TIME_FROM);
+        String strTo = request.getParameter(Parameter.TIME_TO);
+        
+        boolean validated = true;
+        
+        Calendar from = null;
+        Calendar to = null;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        
+        if (strFrom == null && strTo == null) {
+            from = Calendar.getInstance();
+            from.set(Calendar.HOUR_OF_DAY, 0);
+            from.set(Calendar.MINUTE, 0);
+            from.set(Calendar.SECOND, 0);
+
+            to = Calendar.getInstance();
+            to.set(Calendar.HOUR_OF_DAY, 23);
+            to.set(Calendar.MINUTE, 59);
+            to.set(Calendar.SECOND, 59);
+            
+            strFrom = formatter.format(from.getTime());
+            strTo = formatter.format(to.getTime());
+        } else {
+            if (strFrom != null && strFrom.trim().length() > 0) {
+                from = Calendar.getInstance();
+                try {
+                    from.setTime(formatter.parse(strFrom));
+                    from.set(Calendar.HOUR_OF_DAY, 0);
+                    from.set(Calendar.MINUTE, 0);
+                    from.set(Calendar.SECOND, 0);
+                } catch (ParseException ex) {
+                    request.setAttribute(Information.STATUS, "Invalid value "+strFrom);
+                    validated = false;
+                }
+            }
+            if (strTo != null && strTo.trim().length() > 0) {
+                to = Calendar.getInstance();
+                try {
+                    to.setTime(formatter.parse(strTo));
+                    to.set(Calendar.HOUR_OF_DAY, 23);
+                    to.set(Calendar.MINUTE, 59);
+                    to.set(Calendar.SECOND, 59);
+                } catch (ParseException ex) {
+                    request.setAttribute(Information.STATUS, "Invalid value "+strTo);
+                    validated = false;
+                }
+            }
+        }
+
+        try {
+            validator.checkDateRange(from, to);
+        } catch (EJBException ex) {
+            validated = false;
+            request.setAttribute(Information.STATUS, ex.getCausedByException().getMessage());
+        }
+        
+        if (validated) {
+            List<MatchEvent> matches = matchEventService.searchAllBy(null, null, null, from, to, null);
+            Integer totalMatches = matches.size();
+            Integer activeMatches = 0;
+            Integer inactiveMatches = 0;
+            Integer cancelledMatches = 0;
+            Integer pendingMatches = 0;
+            Integer finishedMatches = 0;
+            for (MatchEvent m : matches) {
+                switch (m.getStatus()) {
+                    case Status.ACTIVE:
+                        activeMatches++; break;
+                    case Status.INACTIVE:
+                        inactiveMatches++; break;
+                    case Status.CANCELLED: 
+                        cancelledMatches++; break;
+                    case Status.PENDING_RESULT:
+                        pendingMatches++; break;
+                    case Status.FINISHED: 
+                        finishedMatches++; break;
+                }
+            }
+            request.setAttribute(Attribute.MATCHES, totalMatches);
+            request.setAttribute(Attribute.ACTIVE_MATCHES, activeMatches);
+            request.setAttribute(Attribute.INACTIVE_MATCHES, inactiveMatches);
+            request.setAttribute(Attribute.CANCELLED_MATCHES, cancelledMatches);
+            request.setAttribute(Attribute.PENDING_MATCHES, pendingMatches);
+            request.setAttribute(Attribute.FINISHED_MATCHES, finishedMatches);
+        }
+        request.setAttribute(Attribute.TIME_FROM, strFrom);
+        request.setAttribute(Attribute.TIME_TO, strTo);
+        forward(getJSP(MATCHES_BALANCE));
     }
 }

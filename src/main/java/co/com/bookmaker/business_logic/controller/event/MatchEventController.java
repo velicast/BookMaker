@@ -617,7 +617,6 @@ public class MatchEventController extends GenericController {
         
         if (match == null) {
             request.setAttribute(Information.SEARCH_RESULT, "Match "+strMatchId+" not found");
-            request.setAttribute(Attribute.ROLE, Role.ANALYST);
             forward(AnalystController.getJSP(AnalystController.SEARCH_MATCH));
             return;
         }
@@ -981,9 +980,8 @@ public class MatchEventController extends GenericController {
         try {
             roleRequester = Long.parseLong(strRoleRequester);
         } catch (Exception ex) {}
-        if (roleRequester == null || !sessionUser.inRole(roleRequester)) {
-            request.setAttribute(Information.ERROR, "Restricted operation");
-            forward(HomeController.getJSP(HomeController.URL));
+        if (roleRequester == null || !(new Role().someRole(auth.sessionRole(request), roleRequester))) {
+            redirect(HomeController.URL);
             return;
         }
         
@@ -1065,8 +1063,12 @@ public class MatchEventController extends GenericController {
         if (!validated) {
             request.setAttribute(Attribute.TIME_FROM, strFrom);
             request.setAttribute(Attribute.TIME_TO, strTo);
-            request.setAttribute(Attribute.ROLE, roleRequester);
-            forward(AnalystController.getJSP(AnalystController.SEARCH_MATCH));
+            if (roleRequester == Role.ANALYST) {
+                forward(AnalystController.getJSP(AnalystController.SEARCH_MATCH));
+            }
+            else if (roleRequester == Role.MANAGER) {
+                forward(ManagerController.getJSP(ManagerController.SEARCH_MATCH));
+            }
             return;
         }
         
@@ -1079,11 +1081,9 @@ public class MatchEventController extends GenericController {
         request.setAttribute(Attribute.MATCH_EVENT, result);
         
         if (roleRequester == Role.ANALYST) {
-            request.setAttribute(Attribute.ROLE, Role.ANALYST);
             forward(AnalystController.getJSP(AnalystController.MATCH_SEARCH_RESULT));
         }
         else if (roleRequester == Role.MANAGER) {
-            request.setAttribute(Attribute.ROLE, Role.MANAGER);
             forward(ManagerController.getJSP(ManagerController.MATCH_SEARCH_RESULT));
         }
     }
@@ -1097,7 +1097,6 @@ public class MatchEventController extends GenericController {
             matchId = Long.parseLong(strMatchId);
         } catch(Exception ex) {
             request.setAttribute(Information.SEARCH_RESULT, "Match "+strMatchId+" not found");
-            request.setAttribute(Attribute.ROLE, Role.ANALYST);
             forward(AnalystController.getJSP(AnalystController.SEARCH_MATCH));
             return;
         }
@@ -1107,7 +1106,6 @@ public class MatchEventController extends GenericController {
         
         if (match == null) {
             request.setAttribute(Information.SEARCH_RESULT, "Match "+strMatchId+" not found");
-            request.setAttribute(Attribute.ROLE, Role.ANALYST);
             forward(AnalystController.getJSP(AnalystController.SEARCH_MATCH));
             return;
         }
@@ -1148,7 +1146,6 @@ public class MatchEventController extends GenericController {
             matchId = Long.parseLong(strMatchId);
         } catch(Exception ex) {
             request.setAttribute(Information.SEARCH_RESULT, "Match "+strMatchId+" not found");
-            request.setAttribute(Attribute.ROLE, Role.ANALYST);
             forward(AnalystController.getJSP(AnalystController.SEARCH_MATCH));
             return;
         }
@@ -1158,7 +1155,6 @@ public class MatchEventController extends GenericController {
         
         if (match == null) {
             request.setAttribute(Information.SEARCH_RESULT, "Match "+strMatchId+" not found");
-            request.setAttribute(Attribute.ROLE, Role.ANALYST);
             forward(AnalystController.getJSP(AnalystController.SEARCH_MATCH));
             return;
         }

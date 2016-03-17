@@ -18,9 +18,9 @@
 
 <h2 class="main_content_title"> Search Match </h2>
 
-<form id="searchAgencyForm" role="form" class="form-horizontal" action="<%=MatchEventController.URL%>">
+<form id="searchAgencyForm" role="form" class="form-horizontal" action="<%=MatchEventController.URL%>" method="GET">
     <input type="hidden" name="do" value="<%=MatchEventController.SEARCH%>">
-    <input type="hidden" name="${Param.ROLE}" value="${requestScope[Attr.ROLE]}">
+    <input type="hidden" name="${Param.ROLE}" value="${param.roleRequester}">
     <div class="form-group">
         <label class="control-label col-md-2">Sport: </label>
         <div class="col-md-4">

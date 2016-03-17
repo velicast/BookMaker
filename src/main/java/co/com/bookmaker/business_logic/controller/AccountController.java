@@ -70,7 +70,6 @@ public class AccountController extends GenericController {
     private void toAccountSummary() {
         
         request.setAttribute(Attribute.FINAL_USER, auth.sessionUser(request));
-        request.setAttribute(Attribute.ROLE, Role.ALL);
         forward(getJSP(SUMMARY));
     }
     
@@ -100,7 +99,6 @@ public class AccountController extends GenericController {
         request.setAttribute(Attribute.FINAL_USER, user);
         request.setAttribute(Attribute.TIME_FROM, strFrom);
         request.setAttribute(Attribute.TIME_TO, strTo);
-        request.setAttribute(Attribute.ROLE, Role.ALL);
         forward(getJSP(BALANCE));
     }
 

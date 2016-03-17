@@ -9,9 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:useBean id="Param" class="co.com.bookmaker.util.type.Parameter"></jsp:useBean>
-<jsp:useBean id="Info" class="co.com.bookmaker.util.type.Information"></jsp:useBean>
-<jsp:useBean id="Attr" class="co.com.bookmaker.util.type.Attribute"></jsp:useBean>
+<jsp:useBean id="Role" class="co.com.bookmaker.util.type.Role"></jsp:useBean>
 
 <!DOCTYPE html>
 <html>
@@ -32,7 +30,9 @@
                 </div>
                 <!-- Main Content -->
                 <div id="mainContent" class="col-md-9 side-body">
-                <jsp:include page="<%=TournamentController.getJSP(TournamentController.NEW) %>"></jsp:include>
+                <jsp:include page="<%=TournamentController.getJSP(TournamentController.NEW) %>">
+                    <jsp:param name="roleRequester" value="${Role.ANALYST}"></jsp:param>
+                </jsp:include>
                 </div>
             </div>
         </div>

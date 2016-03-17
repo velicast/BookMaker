@@ -38,7 +38,7 @@
 <form role="form" class="form-horizontal">      
     <div class="form-group">
         <div class="col-md-12">
-        <c:if test="${requestScope[Attr.ROLE] == Role.ADMIN}">
+        <c:if test="${param.roleRequester == Role.ADMIN}">
         <c:if test="${add != null}">
             <a id="btnAddEmployee" class="btn btn-default" 
                href="<%=AgencyController.URL%>?do=<%=AgencyController.ADD_EMPLOYEE%>&${Param.EMPLOYEE}=${user.username}&${Param.AGENCY}=${requestScope[Attr.AGENCY].id}">
@@ -58,12 +58,12 @@
                href="<%=AdminController.URL%>?to=<%=AdminController.EMPLOYEE_BALANCE%>&${Param.USERNAME}=${user.username}">
                 <span class="glyphicon glyphicon-stats"></span> Balance</a>
         </c:if>
-        <c:if test="${requestScope[Attr.ROLE] == Role.MANAGER}">
+        <c:if test="${param.roleRequester == Role.MANAGER}">
             <a id="btnEmployeeBalance" class="btn btn-default" 
                href="<%=ManagerController.URL%>?to=<%=ManagerController.EMPLOYEE_BALANCE%>&${Param.USERNAME}=${user.username}">
                 <span class="glyphicon glyphicon-stats"></span> Balance</a>
         </c:if>
-        <c:if test="${requestScope[Attr.ROLE] == Role.ALL}">
+        <c:if test="${param.roleRequester == Role.ALL}">
             <a id="btnEmployeeBalance" class="btn btn-default" 
                href="<%=AccountController.URL%>?to=<%=AccountController.BALANCE%>">
                 <span class="glyphicon glyphicon-stats"></span> Balance</a>
@@ -74,13 +74,13 @@
     <div class="form-group">
         <label class="col-md-2 control-label">Agency:</label>
         <div class="col-md-4">
-            <c:if test="${requestScope[Attr.ROLE] == Role.ADMIN}">
+            <c:if test="${param.roleRequester == Role.ADMIN}">
             <p class="form-control-static"><a href="<%=AdminController.URL%>?to=<%=AdminController.AGENCY_SUMMARY%>&${Param.AGENCY}=${user.agency.id}">${user.agency.name}</a></p>
             </c:if>
-            <c:if test="${requestScope[Attr.ROLE] == Role.MANAGER}">
+            <c:if test="${param.roleRequester == Role.MANAGER}">
             <p class="form-control-static"><a href="<%=ManagerController.URL%>?to=<%=ManagerController.AGENCY_SUMMARY%>">${user.agency.name}</a></p>
             </c:if>
-            <c:if test="${requestScope[Attr.ROLE] == Role.ALL}">
+            <c:if test="${param.roleRequester == Role.ALL}">
             <p class="form-control-static">${user.agency.name}</p>
             </c:if>
         </div>
@@ -154,7 +154,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-12">
-        <c:if test="${requestScope[Attr.ROLE] == Role.ADMIN}">
+        <c:if test="${param.roleRequester == Role.ADMIN}">
         <c:if test="${add != null}">
             <a id="btnAddEmployee" class="btn btn-default" 
                href="<%=AgencyController.URL%>?do=<%=AgencyController.ADD_EMPLOYEE%>&${Param.EMPLOYEE}=${user.username}&${Param.AGENCY}=${requestScope[Attr.AGENCY].id}">
@@ -174,12 +174,12 @@
                href="<%=AdminController.URL%>?to=<%=AdminController.EMPLOYEE_BALANCE%>&${Param.USERNAME}=${user.username}">
                 <span class="glyphicon glyphicon-stats"></span> Balance</a>
         </c:if>
-        <c:if test="${requestScope[Attr.ROLE] == Role.MANAGER}">
+        <c:if test="${param.roleRequester == Role.MANAGER}">
             <a id="btnEmployeeBalance" class="btn btn-default" 
                href="<%=ManagerController.URL%>?to=<%=ManagerController.EMPLOYEE_BALANCE%>&${Param.USERNAME}=${user.username}">
                 <span class="glyphicon glyphicon-stats"></span> Balance</a>
         </c:if>
-        <c:if test="${requestScope[Attr.ROLE] == Role.ALL}">
+        <c:if test="${param.roleRequester == Role.ALL}">
             <a id="btnEmployeeBalance" class="btn btn-default" 
                href="<%=AccountController.URL%>?to=<%=AccountController.BALANCE%>">
                 <span class="glyphicon glyphicon-stats"></span> Balance</a>

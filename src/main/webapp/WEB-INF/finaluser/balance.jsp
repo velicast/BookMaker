@@ -34,7 +34,7 @@
 <div class="row">
     <form id="balanceForm" role="form" class="form-inline" action="<%=FinalUserController.URL%>" method="GET">
         <input type="hidden" name="do" value="<%=FinalUserController.BALANCE%>">
-        <input type="hidden" name="${Param.ROLE}" value="${requestScope[Attr.ROLE]}">
+        <input type="hidden" name="${Param.ROLE}" value="${param.roleRequester}">
         <input type="hidden" name="${Param.USERNAME}" value="${user.username}">
         <div class="form-group col-md-8">
             <label class="control-label">From: </label>
@@ -50,17 +50,17 @@
     <div class="form-group">
         <label class="col-md-2 control-label">User: </label>
         <div class="col-md-4">
-            <c:if test="${requestScope[Attr.ROLE] == Role.MANAGER}">
+            <c:if test="${param.roleRequester == Role.MANAGER}">
             <p class="form-control-static">
                 <a href="<%=ManagerController.URL%>?to=<%=ManagerController.EMPLOYEE_SUMMARY%>&${Param.USERNAME}=${user.username}">
                     ${user.username}</a> - ${user.firstName} ${user.lastName}</p>
             </c:if>
-            <c:if test="${requestScope[Attr.ROLE] == Role.ADMIN}">
+            <c:if test="${param.roleRequester == Role.ADMIN}">
             <p class="form-control-static">
                 <a href="<%=AdminController.URL%>?to=<%=AdminController.USER_SUMMARY%>&${Param.USERNAME}=${user.username}">
                     ${user.username}</a> - ${user.firstName} ${user.lastName}</p>
             </c:if>
-            <c:if test="${requestScope[Attr.ROLE] == Role.ALL}">
+            <c:if test="${param.roleRequester == Role.ALL}">
             <p class="form-control-static">
                 <a href="<%=AccountController.URL%>?to=<%=AccountController.SUMMARY%>">
                     ${user.username}</a> - ${user.firstName} ${user.lastName}</p>
@@ -68,8 +68,11 @@
         </div>
     </div>
     <c:if test="${user.inRole(Role.SELLER)}">
+    <div class="form-group" style="text-align: center">
+        <h4 class="col-md-6">Parlay</h4>
+    </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Sold Parlays: </label>
+        <label class="col-md-2 control-label">Sold: </label>
         <div class="col-md-4">
             <p class="form-control-static">${requestScope[Attr.PARLAYS]}</p>
         </div>
@@ -99,38 +102,41 @@
     </div>
     </c:if>
     <c:if test="${user.inRole(Role.ANALYST)}">
+    <div class="form-group" style="text-align: center">
+        <h4 class="col-md-6">Match</h4>
+    </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Matches: </label>
+        <label class="col-md-2 control-label">Total: </label>
         <div class="col-md-4">
             <p class="form-control-static">${requestScope[Attr.MATCHES]}</p>
         </div>
     </div>
         <div class="form-group">
-        <label class="col-md-2 control-label">Active Matches: </label>
+        <label class="col-md-2 control-label">Active: </label>
         <div class="col-md-4">
             <p class="form-control-static">${requestScope[Attr.ACTIVE_MATCHES]}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Inactive Matches: </label>
+        <label class="col-md-2 control-label">Inactive: </label>
         <div class="col-md-4">
             <p class="form-control-static">${requestScope[Attr.INACTIVE_MATCHES]}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Cancelled Matches: </label>
+        <label class="col-md-2 control-label">Cancelled: </label>
         <div class="col-md-4">
             <p class="form-control-static">${requestScope[Attr.CANCELLED_MATCHES]}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Pending Matches: </label>
+        <label class="col-md-2 control-label">Pending Result: </label>
         <div class="col-md-4">
             <p class="form-control-static">${requestScope[Attr.PENDING_MATCHES]}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Finished Matches: </label>
+        <label class="col-md-2 control-label">Finished: </label>
         <div class="col-md-4">
             <p class="form-control-static">${requestScope[Attr.FINISHED_MATCHES]}</p>
         </div>

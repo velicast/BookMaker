@@ -109,7 +109,14 @@ public class Attribute {
     public static final String PENDING_MATCHES = "a75";
     public static final String FINISHED_MATCHES = "a76";
     
-    public static final String ROLE = "a77";
+    public static final String AGENCIES = "a77";
+    public static final String ACTIVE_AGENCIES = "a78";
+    public static final String INACTIVE_AGENCIES = "a79";
+    
+    public static final String ROLE = "a80";
+    
+    public static final String ACTIVE_USERS = "a81";
+    public static final String INACTIVE_USERS = "a82";
     
     public String getSESSION_USER() {
         return SESSION_USER;
@@ -429,5 +436,25 @@ public class Attribute {
 
     public String getROLE() {
         return ROLE;
+    }
+
+    public String getAGENCIES() {
+        return AGENCIES;
+    }
+
+    public String getACTIVE_AGENCIES() {
+        return ACTIVE_AGENCIES;
+    }
+
+    public String getINACTIVE_AGENCIES() {
+        return INACTIVE_AGENCIES;
+    }
+
+    public String getACTIVE_USERS() {
+        return ACTIVE_USERS;
+    }
+
+    public String getINACTIVE_USERS() {
+        return INACTIVE_USERS;
     }
 }

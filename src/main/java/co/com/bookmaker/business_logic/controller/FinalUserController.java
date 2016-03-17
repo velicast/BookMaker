@@ -247,7 +247,6 @@ public class FinalUserController extends GenericController {
             return;
         }
         request.setAttribute(Attribute.FINAL_USER, newUser);
-        request.setAttribute(Attribute.ROLE, Role.ADMIN);
         forward(AdminController.getJSP(AdminController.USER_SUMMARY));
     }
 
@@ -415,7 +414,6 @@ public class FinalUserController extends GenericController {
             return;
         }
         request.setAttribute(Attribute.FINAL_USER, oldUser);
-        request.setAttribute(Attribute.ROLE, Role.ADMIN);
         forward(AdminController.getJSP(AdminController.USER_SUMMARY));
     }
 
@@ -517,7 +515,6 @@ public class FinalUserController extends GenericController {
             return;
         }
         request.setAttribute(Attribute.FINAL_USER, user);
-        request.setAttribute(Attribute.ROLE, Role.ADMIN);
         forward(AdminController.getJSP(AdminController.USER_SUMMARY));
     }
 
@@ -576,7 +573,6 @@ public class FinalUserController extends GenericController {
         }
         request.setAttribute(Information.INFO, "The password was changed. Don't forget the new one.");
         request.setAttribute(Attribute.FINAL_USER, sessionUser);
-        request.setAttribute(Attribute.ROLE, Role.ALL);
         forward(AccountController.getJSP(AccountController.SUMMARY));
     }
 
@@ -587,7 +583,7 @@ public class FinalUserController extends GenericController {
         try {
             roleRequester = Long.parseLong(strRoleRequester);
         } catch (Exception ex) {}
-        if (roleRequester == null) {
+        if (roleRequester == null || !(new Role().someRole(auth.sessionRole(request), roleRequester))) {
             redirect(HomeController.URL);
             return;
         }
@@ -597,13 +593,11 @@ public class FinalUserController extends GenericController {
         String strTo = request.getParameter(Parameter.TIME_TO);
         
         if (username == null) {
-                // falta redirigir a pagina correcta
             redirect(HomeController.URL);
             return;
         }
         FinalUser user = finalUserService.getUser(username);
         if (user == null) {
-                // falta redirigir a pagina correcta
             redirect(HomeController.URL);
             return;
         }
@@ -709,15 +703,12 @@ public class FinalUserController extends GenericController {
         request.setAttribute(Attribute.TIME_TO, strTo);
         
         if (roleRequester == Role.ALL) {
-            request.setAttribute(Attribute.ROLE, Role.ALL);
             forward(AccountController.getJSP(AccountController.BALANCE));
         }
         else if (roleRequester == Role.ADMIN) {
-            request.setAttribute(Attribute.ROLE, Role.ADMIN);
             forward(AdminController.getJSP(AdminController.EMPLOYEE_BALANCE));
         }
         else if (roleRequester == Role.MANAGER) {
-            request.setAttribute(Attribute.ROLE, Role.MANAGER);
             forward(ManagerController.getJSP(ManagerController.EMPLOYEE_BALANCE));
         }
     }

@@ -137,29 +137,30 @@ public class ParlayService {
     
     public List<Parlay> searchBy(Long agencyId, Long id, String username, Calendar from, Calendar to, Integer status) {
         
+        List<Parlay> pre;
         if (agencyId == null) {
-            return null;
+            pre = parlayDAO.findAll();
+        } else {
+            List<String> attributes = new ArrayList();
+            List values = new ArrayList();
+
+            attributes.add("seller.agency.id");
+            values.add(agencyId);
+
+            if (id != null) {
+                attributes.add("id");
+                values.add(id);
+            }
+            if (username != null && username.length() > 0) {
+                attributes.add("seller.username");
+                values.add(username);
+            }
+            if (status != null) {
+                attributes.add("status");
+                values.add(status);
+            }
+            pre = parlayDAO.findAll(attributes.toArray(new String[]{}), values.toArray());
         }
-        
-        List<String> attributes = new ArrayList();
-        List values = new ArrayList();
-        
-        attributes.add("seller.agency.id");
-        values.add(agencyId);
-        
-        if (id != null) {
-            attributes.add("id");
-            values.add(id);
-        }
-        if (username != null && username.length() > 0) {
-            attributes.add("seller.username");
-            values.add(username);
-        }
-        if (status != null) {
-            attributes.add("status");
-            values.add(status);
-        }
-        List<Parlay> pre = parlayDAO.findAll(attributes.toArray(new String[]{}), values.toArray());
         List<Parlay> result = new ArrayList();
         for (Parlay p : pre) {
             boolean add = true;

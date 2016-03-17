@@ -21,7 +21,7 @@
 <h2 class="main_content_title"> Search Employee to Remove </h2>
 </c:if>
 
-<form id="searchEmployee" role="form" class="form-horizontal" action="<%=FinalUserController.URL%>">
+<form id="searchEmployee" role="form" class="form-horizontal" action="<%=FinalUserController.URL%>" method="GET">
     <input type="hidden" name="do" value="<%=FinalUserController.SEARCH_EMPLOYEE%>">
     <input type="hidden" name="${Param.AGENCY}" value="${agency.id}">
     <c:if test="${requestScope[Attr.ADD_EMPLOYEE] != null}">

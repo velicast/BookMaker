@@ -56,7 +56,7 @@
 <form role="form" class="form-horizontal">
     <div class="form-group">
         <div class="col-md-8">
-        <c:if test="${requestScope[Attr.ROLE] == Role.ADMIN}">
+        <c:if test="${param.roleRequester == Role.ADMIN}">
             <a id="btnEditAgency" class="btn btn-default" 
                href="<%=AdminController.URL%>?to=<%=AdminController.EDIT_AGENCY%>&${Param.AGENCY}=${agency.id}">
                 <span class="glyphicon glyphicon-edit"></span> Edit</a>
@@ -70,7 +70,7 @@
                href="<%=AdminController.URL%>?to=<%=AdminController.AGENCY_BALANCE%>&${Param.AGENCY}=${agency.id}">
             <span class="glyphicon glyphicon-stats"></span> Balance</a>
         </c:if>
-        <c:if test="${requestScope[Attr.ROLE] == Role.MANAGER}">
+        <c:if test="${param.roleRequester == Role.MANAGER}">
             <a id="btnAgencyBalance" class="btn btn-default" 
                 href="<%=ManagerController.URL%>?to=<%=ManagerController.AGENCY_BALANCE%>">
                 <span class="glyphicon glyphicon-stats"></span> Balance</a>
@@ -123,7 +123,7 @@
     <div class="form-group">
         <label class="col-md-2 control-label">Max. profit per Parlay: </label>
         <div class="col-md-4">
-            <p class="form-control-static"><fmt:formatNumber value="${agency.maxProfit}"/></p>
+            <p class="form-control-static">$ <fmt:formatNumber value="${agency.maxProfit}"/></p>
         </div>
     </div>
     <div class="form-group">
@@ -154,10 +154,10 @@
                     <c:forEach var="employee" items="${requestScope[Attr.EMPLOYEES]}">
                     <jsp:useBean id="employee" class="co.com.bookmaker.data_access.entity.FinalUser"></jsp:useBean>
                      <tr>
-                        <c:if test="${requestScope[Attr.ROLE] == Role.ADMIN}">
+                        <c:if test="${param.roleRequester == Role.ADMIN}">
                         <td><a href="<%=AdminController.URL%>?to=<%=AdminController.USER_SUMMARY%>&${Param.USERNAME}=${employee.username}">${employee.username}</a></td>
                         </c:if>
-                        <c:if test="${requestScope[Attr.ROLE] == Role.MANAGER}">
+                        <c:if test="${param.roleRequester == Role.MANAGER}">
                         <td><a href="<%=ManagerController.URL%>?to=<%=ManagerController.EMPLOYEE_SUMMARY%>&${Param.USERNAME}=${employee.username}">${employee.username}</a></td>
                         </c:if>
                         <td>${employee.firstName} ${employee.lastName}</td>
@@ -177,7 +177,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-8">
-        <c:if test="${requestScope[Attr.ROLE] == Role.ADMIN}">
+        <c:if test="${param.roleRequester == Role.ADMIN}">
             <a id="btnEditAgency" class="btn btn-default" 
                href="<%=AdminController.URL%>?to=<%=AdminController.EDIT_AGENCY%>&${Param.AGENCY}=${agency.id}">
                 <span class="glyphicon glyphicon-edit"></span> Edit</a>
@@ -191,7 +191,7 @@
                href="<%=AdminController.URL%>?to=<%=AdminController.AGENCY_BALANCE%>&${Param.AGENCY}=${agency.id}">
             <span class="glyphicon glyphicon-stats"></span> Balance</a>
         </c:if>
-        <c:if test="${requestScope[Attr.ROLE] == Role.MANAGER}">
+        <c:if test="${param.roleRequester == Role.MANAGER}">
             <a id="btnAgencyBalance" class="btn btn-default" 
                 href="<%=ManagerController.URL%>?to=<%=ManagerController.AGENCY_BALANCE%>">
                 <span class="glyphicon glyphicon-stats"></span> Balance</a>

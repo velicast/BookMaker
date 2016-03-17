@@ -25,6 +25,10 @@ public class FinalUserService {
     @EJB
     private FinalUserDAO finalUserDAO;
     
+    public List<FinalUser> findAll() {
+        return finalUserDAO.findAll();
+    }
+    
     public List<FinalUser> searchBy(String username, Long role, Integer status) {
         
         List<String> attributes = new ArrayList();

@@ -26,6 +26,9 @@ public class AgencyService {
     private FinalUserDAO finalUserDAO;
     
     public Agency getAgency(Long id) {
+        if (id == null) {
+            return null;
+        }
         return agencyDAO.find(id);
     }
     
@@ -62,7 +65,7 @@ public class AgencyService {
                                     new Object[] {agency.getId()});
     }
     
-    public List<Agency> getAllAgencies() {
+    public List<Agency> findAll() {
         return agencyDAO.findAll();
     }
 }

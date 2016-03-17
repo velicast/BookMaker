@@ -13,7 +13,7 @@
 <jsp:useBean id="Status" class="co.com.bookmaker.util.type.Status"></jsp:useBean>
 
 <h2 class="main_content_title"> Search User </h2>
-<form id="searchUserForm" role="form" class="form-horizontal" action="<%=FinalUserController.URL%>" method="POST">
+<form id="searchUserForm" role="form" class="form-horizontal" action="<%=FinalUserController.URL%>" method="GET">
     <input type="hidden" name="do" value="<%=FinalUserController.SEARCH%>">
     <div class="form-group">
         <label class="control-label col-md-2">Username:</label>

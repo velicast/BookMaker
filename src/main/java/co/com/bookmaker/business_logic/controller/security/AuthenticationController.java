@@ -15,6 +15,7 @@ import co.com.bookmaker.business_logic.controller.AnalystController;
 import co.com.bookmaker.business_logic.service.ParameterValidator;
 import co.com.bookmaker.business_logic.service.FinalUserService;
 import co.com.bookmaker.business_logic.service.security.AuthenticationService;
+import co.com.bookmaker.data_access.entity.Agency;
 import co.com.bookmaker.data_access.entity.FinalUser;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -80,20 +81,22 @@ public class AuthenticationController extends GenericController {
     protected void toIndex() {
         
         Long sessionRoles = auth.sessionRole(request);
+        Agency agency = auth.sessionUser(request).getAgency();
+        
         Role rRole = new Role();
         if (rRole.inRole(sessionRoles, Role.ADMIN)) {
             redirect(AdminController.URL);
         }
-        else if (rRole.inRole(sessionRoles, Role.MANAGER)) {
+        else if (agency != null && rRole.inRole(sessionRoles, Role.MANAGER)) {
             redirect(ManagerController.URL);
         }
         else if (rRole.inRole(sessionRoles, Role.ANALYST)) {
             redirect(AnalystController.URL);
         }
-        else if (rRole.inRole(sessionRoles, Role.SELLER)) {
+        else if (agency != null && rRole.inRole(sessionRoles, Role.SELLER)) {
             redirect(SellerController.URL);
         }
-        else if (rRole.inRole(sessionRoles, Role.CLIENT)) {
+        else if (agency != null && rRole.inRole(sessionRoles, Role.CLIENT)) {
             redirect(ClientController.URL);
         }
         else {

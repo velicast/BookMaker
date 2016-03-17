@@ -11,6 +11,7 @@
 <jsp:useBean id="Param" class="co.com.bookmaker.util.type.Parameter"></jsp:useBean>
 <jsp:useBean id="Info" class="co.com.bookmaker.util.type.Information"></jsp:useBean>
 <jsp:useBean id="Attr" class="co.com.bookmaker.util.type.Attribute"></jsp:useBean>
+<jsp:useBean id="Role" class="co.com.bookmaker.util.type.Role"></jsp:useBean>
 
 <!DOCTYPE html>
 <html>

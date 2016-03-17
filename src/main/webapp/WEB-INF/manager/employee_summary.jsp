@@ -8,6 +8,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<jsp:useBean id="Role" class="co.com.bookmaker.util.type.Role"></jsp:useBean>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,7 +29,9 @@
                 </div>
                 <!-- Main Content -->
                 <div id="mainContent" class="col-md-9 side-body">
-                    <jsp:include page="<%=FinalUserController.getJSP(FinalUserController.SUMMARY)%>"></jsp:include>
+                    <jsp:include page="<%=FinalUserController.getJSP(FinalUserController.SUMMARY)%>">
+                        <jsp:param name="roleRequester" value="${Role.MANAGER}"></jsp:param>
+                    </jsp:include>
                 </div>
             </div>
         </div>

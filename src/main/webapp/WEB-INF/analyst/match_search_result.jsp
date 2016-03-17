@@ -9,9 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:useBean id="Param" class="co.com.bookmaker.util.type.Parameter"></jsp:useBean>
-<jsp:useBean id="Info" class="co.com.bookmaker.util.type.Information"></jsp:useBean>
-<jsp:useBean id="Attr" class="co.com.bookmaker.util.type.Attribute"></jsp:useBean>
+<jsp:useBean id="Role" class="co.com.bookmaker.util.type.Role"></jsp:useBean>
 
 <!DOCTYPE html>
 <html>
@@ -33,7 +31,9 @@
                 <!-- Main Content -->
                 <div id="mainContent" class="col-md-9 side-body">
                 <h2 class="main_content_title"> Search Match </h2>
-                <jsp:include page="<%=MatchEventController.getJSP(MatchEventController.SEARCH_RESULT) %>"></jsp:include>
+                <jsp:include page="<%=MatchEventController.getJSP(MatchEventController.SEARCH_RESULT)%>">
+                    <jsp:param name="roleRequester" value="${Role.ANALYST}"></jsp:param>
+                </jsp:include>
                 </div>
             </div>
         </div>

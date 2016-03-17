@@ -22,6 +22,10 @@ public class Role {
     public boolean inRole(Long role, Long r) {
         return role != null && r != null && (role & r) == r;
     }
+    
+    public boolean someRole(Long role, Long r) {
+        return role != null && r != null && (role & r) != NONE;
+    }
 
     public Long getCLIENT() {
         return CLIENT;

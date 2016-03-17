@@ -11,7 +11,7 @@
 
 <h2 class="main_content_title"> Search Agency </h2>
 
-<form id="searchAgencyForm" role="form" class="form-horizontal" action="<%=AgencyController.URL%>">
+<form id="searchAgencyForm" role="form" class="form-horizontal" action="<%=AgencyController.URL%>" method="GET">
     <div class="form-group">
         <input type="hidden" name="do" value="<%=AgencyController.SEARCH%>">
         <label class="control-label col-md-2">Employee: </label>

@@ -1,11 +1,14 @@
 <%-- 
-    Document   : index.jsp
-    Created on : Feb 16, 2016, 9:45:12 PM
+    Document   : tournament_summary
+    Created on : Mar 16, 2016, 9:49:43 PM
     Author     : eduarc
 --%>
-<%@page import="co.com.bookmaker.business_logic.controller.AdminController"%>
+<%@page import="co.com.bookmaker.business_logic.controller.event.TournamentController"%>
+<%@page import="co.com.bookmaker.business_logic.controller.ManagerController"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<jsp:useBean id="Role" class="co.com.bookmaker.util.type.Role"></jsp:useBean>
 
 <!DOCTYPE html>
 <html>
@@ -13,35 +16,33 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/BookMaker/css/admin/admin.css">
+        <link rel="stylesheet" href="/BookMaker/css/analyst/analyst.css">
         
-        <title>BookMaker - Dashboard</title>
-
-        <style></style>
+        <title>BookMaker - New Match</title>
     </head>
     <body>
         <jsp:include page="/WEB-INF/navbar.jsp"></jsp:include>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3 sidebar">
-                    <jsp:include page="<%=AdminController.getJSP(AdminController.SIDEBAR)%>"></jsp:include>
+                    <jsp:include page="<%=ManagerController.getJSP(ManagerController.SIDEBAR)%>"></jsp:include>
                 </div>
                 <!-- Main Content -->
                 <div id="mainContent" class="col-md-9 side-body">
-                    <jsp:include page="<%=AdminController.getJSP(AdminController.DASHBOARD)%>"></jsp:include>
+                <jsp:include page="<%=TournamentController.getJSP(TournamentController.SUMMARY)%>">
+                    <jsp:param name="roleRequester" value="${Role.MANAGER}"></jsp:param>
+                </jsp:include>
                 </div>
             </div>
         </div>
-        <%@include file="/WEB-INF/footer.jsp" %>
+        <%@include file="/WEB-INF/footer.jsp"%>
                 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <!--<script src="/BookMaker/js/admin/chart.min.js"></script>
-        <script src="/BookMaker/js/admin/chart-data.js"></script>-->
         <script>
             $(document).ready(function() {
-                $('#dashboard').addClass("active");
-                $('#pAdmin').addClass("active");
+                $('#searchMatch').addClass("active");
+                $('#pManager').addClass("active");
             });
         </script>
     </body>
@@ -49,3 +50,8 @@
     <jsp:include page="/WEB-INF/warning_modal.jsp"></jsp:include>
     <jsp:include page="/WEB-INF/error_modal.jsp"></jsp:include>
 </html>
+
+
+
+
+

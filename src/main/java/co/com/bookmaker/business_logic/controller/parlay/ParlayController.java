@@ -167,7 +167,7 @@ public class ParlayController extends GenericController {
             matchEventService.update(m);
             
             Agency a = m.getAuthor().getAgency();
-            if (m.getStatus() != Status.ACTIVE || (a == null && !agency.getAcceptGlobalOdds()) || !agency.equals(a)) {
+            if (m.getStatus() != Status.ACTIVE || (a == null && !agency.getAcceptGlobalOdds()) || (a != null && !agency.equals(a))) {
                 return;
             }
             odds.add(odd);
@@ -224,7 +224,7 @@ public class ParlayController extends GenericController {
             matchEventService.update(m);
             
             Agency a = m.getAuthor().getAgency();
-            if (m.getStatus() != Status.ACTIVE || (a == null && !agency.getAcceptGlobalOdds()) || !agency.equals(a)) {
+            if (m.getStatus() != Status.ACTIVE || (a == null && !agency.getAcceptGlobalOdds()) || (a != null && !agency.equals(a))) {
                 return;
             }
             odds.add(odd);
@@ -282,7 +282,7 @@ public class ParlayController extends GenericController {
             matchEventService.update(m);
             
             Agency a = m.getAuthor().getAgency();
-            if (m.getStatus() != Status.ACTIVE || (a == null && !agency.getAcceptGlobalOdds()) || !agency.equals(a)) {
+            if (m.getStatus() != Status.ACTIVE || (a == null && !agency.getAcceptGlobalOdds()) || (a != null && !agency.equals(a))) {
                 info += "* You have requested for an invalid odd "+oddId+"<br/>";
                 break;
             }
@@ -345,8 +345,6 @@ public class ParlayController extends GenericController {
         Agency agency = source.getAgency();
         
         String strParlayId = request.getParameter(Parameter.PARLAY);
-        
-        request.setAttribute(Attribute.ROLE, Role.SELLER);
         
             // INICIO VALIDACION
         Long parlayId;
@@ -414,8 +412,6 @@ public class ParlayController extends GenericController {
 
         String strParlayId = request.getParameter(Parameter.PARLAY);
         
-        request.setAttribute(Attribute.ROLE, Role.SELLER);
-        
             // INICIO VALIDACION
         Long parlayId;
         try {
@@ -471,9 +467,8 @@ public class ParlayController extends GenericController {
         try {
             roleRequester = Long.parseLong(strRoleRequester);
         } catch (Exception ex) {}
-        if (roleRequester == null) {
-            request.setAttribute(Information.ERROR, "Restricted operation");
-            forward(HomeController.getJSP(HomeController.URL));
+        if (roleRequester == null || !(new Role().someRole(auth.sessionRole(request), roleRequester))) {
+            redirect(HomeController.URL);
             return;
         }
         
@@ -561,7 +556,6 @@ public class ParlayController extends GenericController {
             sp.setTo(strTo);
             sp.setStatus(status);
             request.setAttribute(Attribute.PARLAY, sp);
-            request.setAttribute(Attribute.ROLE, roleRequester);
             if (roleRequester == Role.SELLER) {
                 forward(SellerController.getJSP(SellerController.SEARCH_PARLAY));
             }
@@ -574,11 +568,9 @@ public class ParlayController extends GenericController {
         request.setAttribute(Attribute.PARLAYS, result);
         
         if (roleRequester == Role.SELLER) {
-            request.setAttribute(Attribute.ROLE, Role.SELLER);
             forward(SellerController.getJSP(SellerController.PARLAY_SEARCH_RESULT));
         }
         else if (roleRequester == Role.MANAGER) {
-            request.setAttribute(Attribute.ROLE, Role.MANAGER);
             forward(ManagerController.getJSP(ManagerController.PARLAY_SEARCH_RESULT));
         }
     }

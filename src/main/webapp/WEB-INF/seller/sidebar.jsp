@@ -16,19 +16,7 @@
         <!-- Dropdown-->
         <!--<li id="dashboard"><a href="<%=SellerController.URL%>?to=<%=SellerController.DASHBOARD%>"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>-->
         <li id="selling_queue"><a href="<%=SellerController.URL%>?to=<%=SellerController.SELLING_QUEUE%>"><span class="glyphicon glyphicon-list"></span> My Selling Queue</a></li>
-        <li class="panel panel-default" id="dropdown">
-            <a data-toggle="collapse" href="#menuParlay">
-                <span class="glyphicon glyphicon-list-alt"></span> Parlay <span class="caret"></span>
-            </a>
-            <!-- Dropdown level 1 -->
-            <div id="menuParlay" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <ul class="nav navbar-nav">
-                        <li id="searchParlay"><a href="<%=SellerController.URL%>?to=<%=SellerController.SEARCH_PARLAY%>"><span class="glyphicon glyphicon-search"></span> Search</a></li>
-                    </ul>
-                </div>
-            </div>
-        </li>
+        <li id="searchParlay"><a href="<%=SellerController.URL%>?to=<%=SellerController.SEARCH_PARLAY%>"><span class="glyphicon glyphicon-search"></span> Parlay</a></li>
     </ul>
 </nav>
 

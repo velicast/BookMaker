@@ -37,10 +37,10 @@
    <c:forEach var="parlay" items="${parlays}">
        <jsp:useBean id="parlay" class="co.com.bookmaker.data_access.entity.parlay.Parlay"></jsp:useBean>
         <tr>
-            <c:if test="${requestScope[Attr.ROLE] == Role.SELLER}">
+            <c:if test="${param.roleRequester == Role.SELLER}">
             <td class="td_t"><a href="<%=SellerController.URL%>?to=<%=SellerController.PARLAY_SUMMARY%>&${Param.PARLAY}=${parlay.id}">${parlay.id}</a></td>
             </c:if>
-            <c:if test="${requestScope[Attr.ROLE] == Role.MANAGER}">
+            <c:if test="${param.roleRequester == Role.MANAGER}">
             <td class="td_t"><a href="<%=ManagerController.URL%>?to=<%=ManagerController.PARLAY_SUMMARY%>&${Param.PARLAY}=${parlay.id}">${parlay.id}</a></td>
             </c:if>
             <td class="td_t"><fmt:formatDate type="time" pattern="dd/MM/yyyy" value="${parlay.purchaseDate.getTime()}"/>
