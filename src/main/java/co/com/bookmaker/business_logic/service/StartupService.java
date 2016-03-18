@@ -32,7 +32,7 @@ public class StartupService {
     
     @PostConstruct
     public void init() {
-        
+                
         Sport test = sportDAO.find(SportID.SOCCER);
         if (test != null) {
             return;

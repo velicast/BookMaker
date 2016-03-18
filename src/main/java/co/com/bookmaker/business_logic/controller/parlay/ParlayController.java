@@ -25,6 +25,7 @@ import co.com.bookmaker.data_access.entity.event.MatchEvent;
 import co.com.bookmaker.data_access.entity.event.Sport;
 import co.com.bookmaker.data_access.entity.parlay.Parlay;
 import co.com.bookmaker.data_access.entity.parlay.ParlayOdd;
+import co.com.bookmaker.util.form.bean.ParlayOddBean;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,9 +42,20 @@ import javax.servlet.http.HttpServletResponse;
 import co.com.bookmaker.util.form.bean.SearchParlayBean;
 import co.com.bookmaker.util.type.Attribute;
 import co.com.bookmaker.util.type.Information;
+import co.com.bookmaker.util.type.OddType;
 import co.com.bookmaker.util.type.Parameter;
 import co.com.bookmaker.util.type.Role;
 import co.com.bookmaker.util.type.Status;
+import java.text.NumberFormat;
+import java.util.Map;
+import java.util.TreeMap;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 /**
  *
@@ -92,6 +104,7 @@ public class ParlayController extends GenericController {
         allowDO(SEARCH, Role.SELLER|Role.MANAGER);
         allowDO(ACCEPT, Role.SELLER);
         allowDO(CANCEL, Role.SELLER);
+        allowDO(PRINT, Role.SELLER);
     }
 
     public static String getJSP(String resource) {
@@ -126,6 +139,8 @@ public class ParlayController extends GenericController {
                 doCancel(); break;
             case SEARCH:
                 doSearch(); break;       
+            case PRINT:
+                doPrint(); break;
             default:
                 redirectError(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -363,8 +378,8 @@ public class ParlayController extends GenericController {
             return;
         }
         
-        // VERIFICAR QUE EL VENDEDOR QUE ACEPTA PERTENECE A LA MISMA AGENCIA QUE
-        // EL VENDEDOR DEL PARLAY
+            // VERIFICAR QUE EL VENDEDOR QUE ACEPTA PERTENECE A LA MISMA AGENCIA QUE
+            // EL VENDEDOR DEL PARLAY
         FinalUser seller = parlay.getSeller();
         if (!agency.equals(seller.getAgency())) {
             request.setAttribute(Information.ERROR, "You are not allowed to execute this operation");
@@ -572,6 +587,92 @@ public class ParlayController extends GenericController {
         }
         else if (roleRequester == Role.MANAGER) {
             forward(ManagerController.getJSP(ManagerController.PARLAY_SEARCH_RESULT));
+        }
+    }
+
+    private String format(Double v) {
+        
+        String s = String.format("%d", v.intValue());
+        if (Math.abs(v-v.intValue()) > 0.0) {
+            s = String.format("%.1f", v);
+        }
+        if (v > 0.0) s = "+"+s;
+        return s;
+    }
+    
+    private void doPrint() {
+        
+        String strParlayId = request.getParameter(Parameter.PARLAY);
+        
+        Long parlayId;
+        try {
+            parlayId = Long.parseLong(strParlayId);
+        } catch (Exception ex) {
+            redirect(HomeController.URL);
+            return;
+        }
+        Parlay parlay = parlayService.getParlay(parlayId);
+        if (parlay == null || !parlay.getStatus().equals(Status.PENDING)) {
+            redirect(HomeController.URL);
+            return;
+        }
+        
+        NumberFormat moneyFormatter = NumberFormat.getNumberInstance();
+        moneyFormatter.setMaximumFractionDigits(0);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        
+        List<ParlayOddBean> odds = new ArrayList();
+        for (ParlayOdd odd : parlay.getOdds()) {
+            ParlayOddBean oddBean = new ParlayOddBean();
+            
+            MatchEvent match = odd.getPeriod().getMatch();
+            oddBean.setMatch(match.getName());
+            oddBean.setStartDate(dateFormatter.format(match.getStartDate().getTime()));
+            
+            switch (odd.getType()) {
+                case OddType.MONEY_LINE:
+                    oddBean.setTeam(odd.getTeam().getName());
+                    oddBean.setOdd(format(odd.getLine()));
+                    break;
+                case OddType.TOTAL_OVER:
+                    oddBean.setOdd("Over "+format(odd.getPoints())+" "+format(odd.getLine()));
+                    break;
+                case OddType.TOTAL_UNDER:
+                    oddBean.setOdd("Under "+format(odd.getPoints())+" "+format(odd.getLine()));
+                    break;
+                case OddType.SPREAD_TEAM0:
+                case OddType.SPREAD_TEAM1:
+                    oddBean.setTeam(odd.getTeam().getName());
+                    oddBean.setOdd(format(odd.getPoints())+" "+format(odd.getLine()));
+                    break;
+                case OddType.DRAW_LINE:
+                    oddBean.setOdd("Draw "+format(odd.getLine()));
+                    break;
+            }
+            odds.add(oddBean);
+        }
+
+        Map<String, String> parameters = new TreeMap();
+        parameters.put("agency", parlay.getSeller().getAgency().getName());
+        parameters.put("date", dateFormatter.format(parlay.getPurchaseDate().getTime()));
+        parameters.put("ticketID", parlay.getId()+"");
+        parameters.put("risk", "$ "+moneyFormatter.format(parlay.getRisk()));
+        parameters.put("profit", "$ "+moneyFormatter.format(parlay.getProfit()));
+        
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(odds);
+        
+        try {
+                // compiled at co.com.bookmaker.business_logic.service.security.ActiveSession.java
+            JasperReport report = (JasperReport) request.getServletContext().getAttribute(Attribute.COMPILED_TICKED_REPORT);
+            JasperPrint jPrint = JasperFillManager.fillReport(report, parameters, dataSource);
+            byte[] pdfData = JasperExportManager.exportReportToPdf(jPrint);
+            
+            response.setContentType("application/pdf");
+            response.addHeader("Content-Disposition", "attachment; filename=ticket"+parlay.getId()+".pdf");
+            response.setContentLength(pdfData.length);
+            response.getOutputStream().write(pdfData);
+        } catch (JRException | IOException ex) {
+            Logger.getLogger(ParlayController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

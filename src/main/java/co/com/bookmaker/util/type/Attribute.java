@@ -118,6 +118,8 @@ public class Attribute {
     public static final String ACTIVE_USERS = "a81";
     public static final String INACTIVE_USERS = "a82";
     
+    public static final String COMPILED_TICKED_REPORT = "a83";
+    
     public String getSESSION_USER() {
         return SESSION_USER;
     }
@@ -456,5 +458,9 @@ public class Attribute {
 
     public String getINACTIVE_USERS() {
         return INACTIVE_USERS;
+    }
+
+    public static String getCOMPILED_TICKED_REPORT() {
+        return COMPILED_TICKED_REPORT;
     }
 }

@@ -346,7 +346,7 @@ public class AnalystController extends GenericController {
             if (draw != null) {
                 Double line = draw.getLine();
                 String strLine = format(line);
-                formData.setDrawLine(p, (line > 0 ? "+" : "")+strLine);
+                formData.setDrawLine(p, strLine);
             }
             ParlayOdd over = parlayOddService.getOddByPeriod(periods.get(p), OddType.TOTAL_OVER, Status.SELLING);
             if (over != null) {
@@ -354,15 +354,15 @@ public class AnalystController extends GenericController {
                 
                 Double points = over.getPoints();
                 String strPoints = format(points);
-                formData.setTotalPoints(p, (points > 0 ? "+" : "")+strPoints);
+                formData.setTotalPoints(p, strPoints);
                 
                 Double lOver = over.getLine();
                 String strLineOver = format(lOver);
-                formData.setLineOver(p, (lOver > 0 ? "+" : "")+strLineOver);
+                formData.setLineOver(p, strLineOver);
                 
                 Double lUnder = under.getLine();
                 String strLineUnder = format(lUnder);
-                formData.setLineUnder(p, (lUnder > 0 ? "+" : "")+strLineUnder);
+                formData.setLineUnder(p, strLineUnder);
             }
             ParlayOdd spread0 = parlayOddService.getOddByPeriod(periods.get(p), OddType.SPREAD_TEAM0, Status.SELLING);
             if (spread0 != null) {
@@ -370,22 +370,22 @@ public class AnalystController extends GenericController {
                 
                 Double points = spread0.getPoints();
                 String strPoints = format(points);
-                formData.setSpreadPoints(p, (points > 0 ? "+" : "")+strPoints);
+                formData.setSpreadPoints(p, strPoints);
                 
                 Double line0 = spread0.getLine();
                 String strLine0 = format(line0);
-                formData.setLineTeam0(p, (line0 > 0 ? "+" : "")+strLine0);
+                formData.setLineTeam0(p, strLine0);
                 
                 Double line1 = spread1.getLine();
                 String strLine1 = format(line1);
-                formData.setLineTeam1(p, (line1 > 0 ? "+" : "")+strLine1);
+                formData.setLineTeam1(p, strLine1);
             }
             for (int t = 0; t < nTeams; t++) {
                 ParlayOdd ml = parlayOddService.getOdd(teams.get(t), periods.get(p), OddType.MONEY_LINE, Status.SELLING);
                 if (ml != null) {
                     Double line = ml.getLine();
                     String strLine = format(line);
-                    formData.setMoneyLine(p, t, (line > 0 ? "+" : "")+strLine);
+                    formData.setMoneyLine(p, t, strLine);
                 }
             }
         }
@@ -400,6 +400,7 @@ public class AnalystController extends GenericController {
         if (Math.abs(v-v.intValue()) > 0.0) {
             s = String.format("%.1f", v);
         }
+        if (v > 0.0) s = "+"+s;
         return s;
     }
     

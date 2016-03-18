@@ -16,6 +16,7 @@ public class ParlayOddBean {
     String odd;
     String team;
     String match;
+    String startDate;
 
     public String getOdd() {
         return odd;
@@ -40,5 +41,12 @@ public class ParlayOddBean {
     public void setMatch(String match) {
         this.match = match;
     }
-    
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }   
 }
