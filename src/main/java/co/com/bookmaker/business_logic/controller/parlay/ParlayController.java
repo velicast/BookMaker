@@ -50,7 +50,6 @@ import java.text.NumberFormat;
 import java.util.Map;
 import java.util.TreeMap;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -616,6 +615,24 @@ public class ParlayController extends GenericController {
             redirect(HomeController.URL);
             return;
         }
+        try {
+            for (ParlayOdd odd : parlay.getOdds()) {
+                Integer matchStatus = odd.getPeriod().getMatch().getStatus();
+                if (matchStatus.equals(Status.PENDING_RESULT) || matchStatus.equals(Status.FINISHED)) {
+                    request.setAttribute(Information.ERROR, "The Parlay was cancelled due to time expired.");
+                    parlay.setStatus(Status.CANCELLED);
+                    parlayService.edit(parlay);
+                    forward(SellerController.getJSP(SellerController.PARLAY_SUMMARY));
+                    return;
+                }
+            }
+        } catch (EJBException ex) {
+            parlay.setStatus(Status.PENDING);
+            request.setAttribute(Information.ERROR, "Opss! something went wrong. Please try again.");
+            request.setAttribute(Attribute.PARLAY, parlay);
+            forward(SellerController.getJSP(SellerController.PARLAY_SUMMARY));
+            return;
+        }
         
         NumberFormat moneyFormatter = NumberFormat.getNumberInstance();
         moneyFormatter.setMaximumFractionDigits(0);
@@ -662,7 +679,7 @@ public class ParlayController extends GenericController {
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(odds);
         
         try {
-                // compiled at co.com.bookmaker.business_logic.service.security.ActiveSession.java
+                // compiled at co.com.bookmaker.business_logic.service.security.ActiveSessions.java
             JasperReport report = (JasperReport) request.getServletContext().getAttribute(Attribute.COMPILED_TICKED_REPORT);
             JasperPrint jPrint = JasperFillManager.fillReport(report, parameters, dataSource);
             byte[] pdfData = JasperExportManager.exportReportToPdf(jPrint);

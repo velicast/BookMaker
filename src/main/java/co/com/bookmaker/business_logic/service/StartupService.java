@@ -32,9 +32,11 @@ public class StartupService {
     
     @PostConstruct
     public void init() {
-                
+        
+        System.out.println("Startup Service");
         Sport test = sportDAO.find(SportID.SOCCER);
         if (test != null) {
+            System.out.println("Data Exists");
             return;
         }
         for (int i = 1; i < SportID.N_SPORTS; i++) {

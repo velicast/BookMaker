@@ -32,7 +32,7 @@
                 </div>
                 <!-- Main Content -->
                 <div id="mainContent" class="col-md-9 side-body">
-                    <jsp:include page="<%=AnalystController.getJSP(AnalystController.DASHBOARD)%>"></jsp:include>
+                    
                 </div>
             </div>
         </div>

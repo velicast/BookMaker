@@ -75,7 +75,6 @@ public class AuthenticationController extends GenericController {
             default:
                 redirectError(HttpServletResponse.SC_NOT_FOUND);
         }
-        
     }
     
     protected void toIndex() {

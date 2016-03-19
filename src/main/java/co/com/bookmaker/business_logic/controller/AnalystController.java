@@ -48,8 +48,6 @@ public class AnalystController extends GenericController {
     
     public static final String SIDEBAR = "sidebar";
     
-    public static final String DASHBOARD = "dashboard";
-    
     public static final String NEW_MATCH_SPORT_SELECTION = "new_match_sport_selection";
     public static final String NEW_MATCH = "new_match";
     public static final String MATCH_SUMMARY = "match_summary";
@@ -277,7 +275,7 @@ public class AnalystController extends GenericController {
             matchResult.setTeamName(i, teams.get(i).getName());
         }
         for (Score s : scoreService.getScores(match)) {
-            matchResult.setScore(s.getPeriod().getNumber(), s.getTeam().getNumber(), format(s.getVal()));
+            matchResult.setScore(s.getPeriod().getNumber(), s.getTeam().getNumber(), formatResult(s.getVal()));
         }
         request.setAttribute(Attribute.MATCH_RESULT, matchResult);
         forward(getJSP(MATCH_RESULT));
@@ -392,6 +390,15 @@ public class AnalystController extends GenericController {
         request.setAttribute(Attribute.MATCH_EVENT, formData);
         request.setAttribute(Attribute.TOURNAMENT_SERVICE, tournamentService);
         forward(getJSP(EDIT_MATCH));
+    }
+    
+    private String formatResult(Double v) {
+        
+        String s = String.format("%d", v.intValue());
+        if (Math.abs(v-v.intValue()) > 0.0) {
+            s = String.format("%.1f", v);
+        }
+        return s;
     }
     
     private String format(Double v) {

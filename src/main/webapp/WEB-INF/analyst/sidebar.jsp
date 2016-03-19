@@ -15,7 +15,6 @@
     <!-- Main Menu -->
     <ul class="main_menu nav navbar-nav">
         <!-- Dropdown-->
-        <!--<li id="dashboard"><a href="<%=AnalystController.URL%>?to=<%=AnalystController.DASHBOARD%>"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>-->
         <li class="panel panel-default" id="dropdown">
             <a data-toggle="collapse" href="#menuMatch">
                 <span class="glyphicon glyphicon-star"></span> Match <span class="caret"></span>
