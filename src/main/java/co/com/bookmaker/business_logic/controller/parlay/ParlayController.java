@@ -679,7 +679,7 @@ public class ParlayController extends GenericController {
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(odds);
         
         try {
-                // compiled at co.com.bookmaker.business_logic.service.security.ActiveSessions.java
+                // compiled at co.com.bookmaker.business_logic.service.StartupService.java
             JasperReport report = (JasperReport) request.getServletContext().getAttribute(Attribute.COMPILED_TICKED_REPORT);
             JasperPrint jPrint = JasperFillManager.fillReport(report, parameters, dataSource);
             byte[] pdfData = JasperExportManager.exportReportToPdf(jPrint);

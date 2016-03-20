@@ -13,7 +13,7 @@
 <%@page import="co.com.bookmaker.business_logic.controller.HomeController"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<link rel="stylesheet" href="/BookMaker/css/navbar.css">
+<link rel="stylesheet" href="/css/navbar.css">
 
 <jsp:useBean id="Param" class="co.com.bookmaker.util.type.Parameter"></jsp:useBean>
 <jsp:useBean id="Info" class="co.com.bookmaker.util.type.Information"></jsp:useBean>

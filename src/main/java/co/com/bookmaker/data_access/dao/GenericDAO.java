@@ -36,6 +36,7 @@ public class GenericDAO<T> {
         
         try {
             em.persist(entity);
+            em.flush();
         } catch (Exception ex) {
             em.getTransaction().rollback();
             throw ex;
@@ -46,6 +47,7 @@ public class GenericDAO<T> {
         
         try {
             em.merge(entity);
+            em.flush();
         } catch (Exception ex) {
             em.getTransaction().rollback();
             throw ex;
@@ -56,6 +58,7 @@ public class GenericDAO<T> {
         
         try {
             em.remove(em.merge(entity));
+            em.flush();
         } catch (Exception ex) {
             em.getTransaction().rollback();
             throw ex;

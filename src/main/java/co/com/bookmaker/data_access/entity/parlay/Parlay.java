@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 
 /**
@@ -24,9 +25,10 @@ import javax.persistence.Temporal;
  * @author eduarc
  */
 @Entity
+@SequenceGenerator(name="parlaySeq", initialValue=100000, allocationSize=50)
 public class Parlay implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="parlaySeq")
     private Long id;
     
     private Double risk;

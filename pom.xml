@@ -52,7 +52,7 @@
                     <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
                     </compilerArguments>
-                    <debug>true</debug>
+                    <debug>false</debug>
                 </configuration>
             </plugin>
             <plugin>

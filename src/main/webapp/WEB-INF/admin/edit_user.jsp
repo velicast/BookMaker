@@ -18,7 +18,7 @@
         <title>BookMaker - Edit User</title>
 
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/BookMaker/css/admin/admin.css">
+        <link rel="stylesheet" href="/css/admin/admin.css">
     </head>
     <body>
         <jsp:include page="/WEB-INF/navbar.jsp"></jsp:include>

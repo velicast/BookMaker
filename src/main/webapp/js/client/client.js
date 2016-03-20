@@ -37,7 +37,7 @@ $(document).ready(function () {
             $("#profit").prop("value", "");
             return;
         }
-        $.post("/BookMaker/parlay",
+        $.post("/parlay",
                 {do: "getprofit",
                     p25: vOddselection,
                     p26: risk},
@@ -65,7 +65,7 @@ $(document).ready(function () {
             profit = maxProfit;
             $("#profit").prop("value", profit);
         }
-        $.get("/BookMaker/parlay",
+        $.get("/parlay",
                 {do: "getrisk",
                     p25: vOddselection,
                     p27: profit},
@@ -119,7 +119,7 @@ $(document).ready(function () {
             return true;
         }
         $('#st'+id).text("1");
-        $.post("/BookMaker/client",
+        $.post("/client",
                 {to: "matches",
                  p38: id},
         function (data) {

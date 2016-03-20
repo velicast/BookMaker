@@ -17,7 +17,7 @@ $(":checkbox").on('change', function () {
         nOdds = nOdds + 1;
         $("#nOdds").text(nOdds);
 
-        $.post("/BookMaker/odds",
+        $.post("/odds",
                 {to: "ticket",
                  p18: oddId},
         function (data) {
