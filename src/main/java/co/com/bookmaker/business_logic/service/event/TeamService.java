@@ -10,17 +10,19 @@ import co.com.bookmaker.data_access.entity.event.MatchEvent;
 import co.com.bookmaker.data_access.entity.event.Team;
 import java.util.Comparator;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
 
 /**
  *
  * @author eduarc
  */
-@Stateless
 public class TeamService {
     
-    @EJB TeamDAO teamDAO;
+    private final TeamDAO teamDAO;
+    
+    public TeamService() {
+        
+        teamDAO = new TeamDAO();
+    }
     
     public Team getTeam(MatchEvent m, Integer number) {
     

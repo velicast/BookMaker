@@ -20,8 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import co.com.bookmaker.util.form.bean.FinalUserBean;
@@ -49,22 +47,23 @@ public class FinalUserController extends GenericController {
     public static final String SEARCH_RESULT = "search_result";
     public static final String SEARCH_EMPLOYEE = "search_employee";
 
-    @EJB
     private FinalUserService finalUserService;
-    @EJB
     private AuthenticationService auth;
-    @EJB
     private AgencyService agencyService;
-    @EJB
     private ParameterValidator validator;
-    @EJB
     private MatchEventService matchEventService;
-    @EJB
     private ParlayService parlayService;
     
     @Override
     public void init() {
 
+        finalUserService = new FinalUserService();
+        auth = new AuthenticationService();
+        agencyService = new AgencyService();
+        validator = new ParameterValidator();
+        parlayService = new ParlayService();
+        matchEventService = new MatchEventService();
+        
         allowDO(NEW, Role.ADMIN);
         allowDO(EDIT, Role.ADMIN);
         allowDO(SEARCH, Role.ADMIN);
@@ -129,51 +128,51 @@ public class FinalUserController extends GenericController {
 
         try {
             validator.checkUsername(username);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.USERNAME, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.USERNAME, ex.getMessage());
         }
         
         try {
             validator.checkPassword(password);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.PASSWORD, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.PASSWORD, ex.getMessage());
         }
         
         try {
             validator.checkFirstName(firstName);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.FIRST_NAME, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.FIRST_NAME, ex.getMessage());
         }
         
         try {
             validator.checkLastName(lastName);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.LAST_NAME, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.LAST_NAME, ex.getMessage());
         }
         
         try {
             validator.checkCity(city);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.CITY, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.CITY, ex.getMessage());
         }
         
         try {
             validator.checkAddress(address);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.ADDRESS, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.ADDRESS, ex.getMessage());
         }
         
         try {
             validator.checkTelephone(telephone);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.TELEPHONE, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.TELEPHONE, ex.getMessage());
         }
         
         Integer status = null;
@@ -197,8 +196,8 @@ public class FinalUserController extends GenericController {
             birthDate.setTime(bDate);
             try {
                 validator.checkBirthDate(birthDate);
-            } catch (EJBException ex) {
-                String reason = ex.getCausedByException().getMessage();
+            } catch (Exception ex) {
+                String reason = ex.getMessage();
                 request.setAttribute(Information.BIRTH_DATE, reason);
             }
         }
@@ -235,10 +234,9 @@ public class FinalUserController extends GenericController {
                 roleSeller != null, roleClient != null);
         try {
             finalUserService.create(newUser);
-        } catch (EJBException ex) {
-            Exception reason = ex.getCausedByException();
-            if (reason instanceof IllegalArgumentException) {
-                request.setAttribute(Information.USERNAME, reason.getMessage());
+        } catch (Exception ex) {
+            if (ex instanceof IllegalArgumentException) {
+                request.setAttribute(Information.USERNAME, ex.getMessage());
             } else {
                 request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
             }
@@ -277,53 +275,53 @@ public class FinalUserController extends GenericController {
 
         try {
             validator.checkUsername(username);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.USERNAME, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.USERNAME, ex.getMessage());
         }
         
         if (password != null && password.length() > 0) {
             try {
                 validator.checkPassword(password);
-            } catch (EJBException ex) {
+            } catch (Exception ex) {
                 validated = false;
-                request.setAttribute(Information.PASSWORD, ex.getCausedByException().getMessage());
+                request.setAttribute(Information.PASSWORD, ex.getMessage());
             }
         }
         
         try {
             validator.checkFirstName(firstName);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.FIRST_NAME, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.FIRST_NAME, ex.getMessage());
         }
         
         try {
             validator.checkLastName(lastName);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.LAST_NAME, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.LAST_NAME, ex.getMessage());
         }
         
         try {
             validator.checkCity(city);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.CITY, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.CITY, ex.getMessage());
         }
         
         try {
             validator.checkAddress(address);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.ADDRESS, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.ADDRESS, ex.getMessage());
         }
         
         try {
             validator.checkTelephone(telephone);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.TELEPHONE, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.TELEPHONE, ex.getMessage());
         }
         
         Integer status = null;
@@ -347,8 +345,8 @@ public class FinalUserController extends GenericController {
             birthDate.setTime(bDate);
             try {
                 validator.checkBirthDate(birthDate);
-            } catch (EJBException ex) {
-                String reason = ex.getCausedByException().getMessage();
+            } catch (Exception ex) {
+                String reason = ex.getMessage();
                 request.setAttribute(Information.BIRTH_DATE, reason);
             }
         }
@@ -395,11 +393,10 @@ public class FinalUserController extends GenericController {
                 roleSeller != null, roleClient != null);
         try {
             finalUserService.update(oldUser, targetUsername);
-        } catch (EJBException ex) {
-            Exception reason = ex.getCausedByException();
-            if (reason instanceof IllegalArgumentException) {
+        } catch (Exception ex) {
+            if (ex instanceof IllegalArgumentException) {
                 oldUser.setUsername(targetUsername);
-                request.setAttribute(Information.ERROR, reason.getMessage());
+                request.setAttribute(Information.ERROR, ex.getMessage());
             } else {
                 request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
             }
@@ -430,8 +427,8 @@ public class FinalUserController extends GenericController {
         if (username != null && username.trim().length() > 0) {
             try {
                 validator.checkUsername(username);
-            } catch (EJBException ex) {
-                request.setAttribute(Information.SEARCH_RESULT, ex.getCausedByException().getMessage());
+            } catch (Exception ex) {
+                request.setAttribute(Information.SEARCH_RESULT, ex.getMessage());
                 forward(AdminController.getJSP(AdminController.SEARCH_USER));
                 return;
             }
@@ -502,8 +499,8 @@ public class FinalUserController extends GenericController {
         
         try {
             validator.checkUsername(username);
-        } catch (EJBException ex) {
-            request.setAttribute(Information.USERNAME, ex.getCausedByException().getMessage());
+        } catch (Exception ex) {
+            request.setAttribute(Information.USERNAME, ex.getMessage());
             forward(AdminController.getJSP(AdminController.SEARCH_AGENCY_EMPLOYEE));
             return;
         }
@@ -528,21 +525,21 @@ public class FinalUserController extends GenericController {
         
         try {
             validator.checkPassword(oldPassword);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.PASSWORD, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.PASSWORD, ex.getMessage());
         }
         try {
             validator.checkPassword(newPassword);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.NEW_PASSWORD, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.NEW_PASSWORD, ex.getMessage());
         }
         try {
             validator.checkPassword(confirmedPassword);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.CONFIRMED_PASSWORD, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.CONFIRMED_PASSWORD, ex.getMessage());
         }
         
         FinalUser sessionUser = auth.sessionUser(request);
@@ -565,7 +562,7 @@ public class FinalUserController extends GenericController {
         sessionUser.setPassword(newPassword);
         try {
             finalUserService.edit(sessionUser);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             sessionUser.setPassword(oldPassword);
             request.setAttribute(Information.ERROR, "Opss! something went wrong. Please try again.");
             forward(AccountController.getJSP(AccountController.CHANGE_PASSWORD));
@@ -635,9 +632,9 @@ public class FinalUserController extends GenericController {
 
         try {
             validator.checkDateRange(from, to);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.STATUS, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.STATUS, ex.getMessage());
         }
         
         if (validated) {

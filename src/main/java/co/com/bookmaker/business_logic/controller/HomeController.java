@@ -7,9 +7,7 @@ package co.com.bookmaker.business_logic.controller;
 
 import co.com.bookmaker.business_logic.controller.security.AuthenticationController;
 import co.com.bookmaker.business_logic.service.parlay.ParlayService;
-import co.com.bookmaker.business_logic.service.security.AuthenticationService;
 import co.com.bookmaker.data_access.entity.parlay.Parlay;
-import javax.ejb.EJB;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import co.com.bookmaker.util.type.Attribute;
@@ -28,15 +26,12 @@ public class HomeController extends GenericController {
     
     public static final String TRACK_PARLAY = "track_parlay";
     
-    @EJB
-    AuthenticationService auth;
-    
-    @EJB
-    ParlayService parlayService;
+    private ParlayService parlayService;
     
     @Override
     public void init() {
         
+        parlayService = new ParlayService();
     }
     
     public static String getJSP(String resource) {

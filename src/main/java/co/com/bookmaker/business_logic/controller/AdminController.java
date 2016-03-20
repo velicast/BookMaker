@@ -16,7 +16,6 @@ import co.com.bookmaker.data_access.entity.event.MatchEvent;
 import co.com.bookmaker.data_access.entity.parlay.Parlay;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import co.com.bookmaker.util.form.bean.AgencyBean;
@@ -28,7 +27,6 @@ import co.com.bookmaker.util.type.Role;
 import co.com.bookmaker.util.type.Status;
 import java.text.ParseException;
 import java.util.Calendar;
-import javax.ejb.EJBException;
 
 /**
  *
@@ -64,19 +62,20 @@ public class AdminController extends GenericController {
     public static final String MONEY = "money";
     public static final String MATCHES = "matches";
     
-    @EJB
     private FinalUserService finalUserService;
-    @EJB
     private AgencyService agencyService;
-    @EJB
     private ParameterValidator validator;
-    @EJB
     private ParlayService parlayService;
-    @EJB
     private MatchEventService matchEventService;
     
     @Override
     public void init() {
+        
+        finalUserService = new FinalUserService();
+        agencyService = new AgencyService();
+        validator = new ParameterValidator();
+        parlayService = new ParlayService();
+        matchEventService = new MatchEventService();
         
         allowTO(INDEX, Role.ADMIN);
         allowTO(SEARCH_USER, Role.ADMIN);
@@ -413,9 +412,9 @@ public class AdminController extends GenericController {
 
         try {
             validator.checkDateRange(from, to);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.STATUS, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.STATUS, ex.getMessage());
         }
         if (validated) {
             List<Parlay> parlays = parlayService.searchBy(null, null, null, from, to, null);
@@ -534,9 +533,9 @@ public class AdminController extends GenericController {
 
         try {
             validator.checkDateRange(from, to);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.STATUS, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.STATUS, ex.getMessage());
         }
         
         if (validated) {

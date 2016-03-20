@@ -11,7 +11,6 @@ import co.com.bookmaker.data_access.dao.FinalUserDAO;
 import co.com.bookmaker.data_access.entity.FinalUser;
 import co.com.bookmaker.data_access.entity.event.Sport;
 import co.com.bookmaker.util.type.Attribute;
-import javax.ejb.EJB;
 import co.com.bookmaker.util.type.Role;
 import co.com.bookmaker.util.type.SportID;
 import co.com.bookmaker.util.type.Status;
@@ -33,13 +32,11 @@ import net.sf.jasperreports.engine.JasperReport;
 @WebListener
 public class StartupService implements ServletContextListener {
     
-    @EJB
-    SportDAO sportDAO;
-    @EJB
-    FinalUserDAO finalUserDAO;
-
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        
+        SportDAO sportDAO = new SportDAO();
+        FinalUserDAO finalUserDAO = new FinalUserDAO();
         
         Logger.getLogger(StartupService.class.getName()).log(Level.INFO, "Stating App...");
         

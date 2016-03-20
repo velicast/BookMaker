@@ -11,19 +11,20 @@ import co.com.bookmaker.data_access.entity.FinalUser;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import co.com.bookmaker.util.type.Role;
 
 /**
  *
  * @author eduarc
  */
-@Stateless
 public class FinalUserService {
 
-    @EJB
-    private FinalUserDAO finalUserDAO;
+    private final FinalUserDAO finalUserDAO;
+    
+    public FinalUserService() {
+        
+        finalUserDAO = new FinalUserDAO();
+    }
     
     public List<FinalUser> findAll() {
         return finalUserDAO.findAll();

@@ -8,14 +8,12 @@ package co.com.bookmaker.business_logic.service;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.ejb.Singleton;
 
 /**
  * The checker throws an IllegalArgumentException if the arguments doesn't meet the constrains
  * 
  * @author eduarc
  */
-@Singleton
 public class ParameterValidator {
 
     private static final Pattern usernamePattern;

@@ -23,8 +23,6 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import co.com.bookmaker.util.type.Status;
 import co.com.bookmaker.util.type.OddType;
 
@@ -32,19 +30,22 @@ import co.com.bookmaker.util.type.OddType;
  *
  * @author eduarc
  */
-@Stateless
 public class MatchEventService {
 
-    @EJB
-    private MatchEventDAO matchEventDAO;
-    @EJB
-    private AgencyDAO agencyDAO;
-    @EJB
-    private ParlayOddService parlayOddService;
-    @EJB
-    private ParlayService parlayService;
-    @EJB
-    private ScoreService scoreService;
+    private final MatchEventDAO matchEventDAO;
+    private final AgencyDAO agencyDAO;
+    private final ParlayOddService parlayOddService;
+    private final ParlayService parlayService;
+    private final ScoreService scoreService;
+    
+    public MatchEventService() {
+        
+        matchEventDAO = new MatchEventDAO();
+        agencyDAO = new AgencyDAO();
+        parlayOddService = new ParlayOddService();
+        parlayService = new ParlayService();
+        scoreService = new ScoreService();
+    }
     
     public void create(MatchEvent match) {
         matchEventDAO.create(match);
@@ -59,7 +60,7 @@ public class MatchEventService {
     }
     
     public MatchEvent getMatchEvent(Long id) {
-        return matchEventDAO.findRefresh(id);
+        return matchEventDAO.find(id);
     }
     
     public List<MatchEvent> getMatchesByTournament(Tournament tournament, Integer status) {

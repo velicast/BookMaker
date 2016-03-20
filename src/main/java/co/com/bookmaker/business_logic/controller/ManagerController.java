@@ -5,7 +5,6 @@
  */
 package co.com.bookmaker.business_logic.controller;
 
-import co.com.bookmaker.business_logic.service.ParameterValidator;
 import co.com.bookmaker.business_logic.service.AgencyService;
 import co.com.bookmaker.business_logic.service.FinalUserService;
 import co.com.bookmaker.business_logic.service.event.MatchEventPeriodService;
@@ -31,7 +30,6 @@ import co.com.bookmaker.util.type.Status;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 
@@ -60,31 +58,30 @@ public class ManagerController extends GenericController {
     public static final String MATCH_SUMMARY = "match_summary";
     public static final String TOURNAMENT_SUMMARY = "tournament_summary";
     
-    @EJB
     private AuthenticationService auth;
-    @EJB
     private AgencyService agencyService;
-    @EJB
-    private ParameterValidator validator;
-    @EJB
     private ParlayService parlayService;
-    @EJB
     private FinalUserService finalUserService;
-    @EJB
     private MatchEventService matchEventService;
-    @EJB
     private SportService sportService;
-    @EJB
     private TeamService teamService;
-    @EJB
     private ParlayOddService parlayOddService;
-    @EJB
     private MatchEventPeriodService matchPeriodService;
-    @EJB
     private TournamentService tournamentService;
     
     @Override
     public void init() {
+        
+        finalUserService = new FinalUserService();
+        auth = new AuthenticationService();
+        agencyService = new AgencyService();
+        parlayService = new ParlayService();
+        matchEventService = new MatchEventService();
+        sportService = new SportService();
+        teamService = new TeamService();
+        parlayOddService = new ParlayOddService();
+        matchPeriodService = new MatchEventPeriodService();
+        tournamentService = new TournamentService();
         
         allowTO(INDEX, Role.MANAGER);
         allowTO(AGENCY_SUMMARY, Role.MANAGER);

@@ -12,7 +12,6 @@ import co.com.bookmaker.business_logic.service.security.AuthenticationService;
 import co.com.bookmaker.data_access.entity.Agency;
 import co.com.bookmaker.data_access.entity.FinalUser;
 import co.com.bookmaker.data_access.entity.parlay.ParlayOdd;
-import javax.ejb.EJB;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import co.com.bookmaker.util.type.Attribute;
@@ -31,13 +30,14 @@ public class ParlayOddController extends GenericController {
     public static final String TICKET = "ticket";
     public static final String TABLE_ODDS = "table_odds";
     
-    @EJB
     private AuthenticationService auth;
-    @EJB
     private ParlayOddService parlayOddService;
     
     @Override
     public void init() {
+        
+        auth = new AuthenticationService();
+        parlayOddService = new ParlayOddService();
         
         allowTO(TICKET, Role.CLIENT);
     }

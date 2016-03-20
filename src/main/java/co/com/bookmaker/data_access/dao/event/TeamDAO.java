@@ -7,13 +7,11 @@ package co.com.bookmaker.data_access.dao.event;
 
 import co.com.bookmaker.data_access.dao.GenericDAO;
 import co.com.bookmaker.data_access.entity.event.Team;
-import javax.ejb.Stateless;
 
 /**
  *
  * @author eduarc
  */
-@Stateless
 public class TeamDAO extends GenericDAO<Team> {
 
     public TeamDAO() {

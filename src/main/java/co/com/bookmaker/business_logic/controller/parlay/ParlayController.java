@@ -35,8 +35,6 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import co.com.bookmaker.util.form.bean.SearchParlayBean;
@@ -75,27 +73,28 @@ public class ParlayController extends GenericController {
     public static final String PRINT = "print";
     public static final String SEARCH = "search";
     
-    @EJB
     private AuthenticationService auth;
-    @EJB
     private ParlayService parlayService;
-    @EJB
     private ParlayOddService parlayOddService;
-    @EJB
     private SportService sportService;
-    @EJB
     private TeamService teamService;
-    @EJB
     private TournamentService tournamentService;
-    @EJB
     private MatchEventService matchEventService;
-    @EJB
     private MatchEventPeriodService matchPeriodService;
-    @EJB
     private ParameterValidator validator;
     
     @Override
     public void init() {
+        
+        auth = new AuthenticationService();
+        validator = new ParameterValidator();
+        parlayService = new ParlayService();
+        matchEventService = new MatchEventService();
+        sportService = new SportService();
+        teamService = new TeamService();
+        parlayOddService = new ParlayOddService();
+        matchPeriodService = new MatchEventPeriodService();
+        tournamentService = new TournamentService();
         
         allowDO(BUY, Role.CLIENT);
         allowDO(GET_PROFIT, Role.CLIENT);
@@ -342,7 +341,7 @@ public class ParlayController extends GenericController {
         
         try {
             parlayService.create(parlay);
-        } catch(EJBException ex) {
+        } catch(Exception ex) {
             request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
             forward(ClientController.getJSP(ClientController.INDEX));
             return;
@@ -409,7 +408,7 @@ public class ParlayController extends GenericController {
             parlay.setStatus(Status.PENDING);
             parlay.setSeller(auth.sessionUser(request));
             parlayService.edit(parlay);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             parlay.setStatus(Status.IN_QUEUE);
             request.setAttribute(Information.ERROR, "Opss! something went wrong. Please try again.");
             forward(SellerController.getJSP(SellerController.PARLAY_SUMMARY));
@@ -460,7 +459,7 @@ public class ParlayController extends GenericController {
         parlay.setSeller(auth.sessionUser(request));
         try {
             parlayService.update(parlay);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             parlay.setStatus(Status.IN_QUEUE);
             request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
             request.setAttribute(Attribute.PARLAY, parlay);
@@ -500,9 +499,9 @@ public class ParlayController extends GenericController {
         if (username != null && username.trim().length() > 0) {
             try {
                 validator.checkUsername(username);
-            } catch (EJBException ex) {
+            } catch (Exception ex) {
                 validated = false;
-                request.setAttribute(Information.USERNAME, ex.getCausedByException().getMessage());
+                request.setAttribute(Information.USERNAME, ex.getMessage());
             }
         }
         if (username != null && username.trim().length() == 0) {
@@ -548,9 +547,9 @@ public class ParlayController extends GenericController {
         
         try {
             validator.checkDateRange(from, to);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.TIME_FROM, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.TIME_FROM, ex.getMessage());
         }
         
         Integer status = null;
@@ -626,7 +625,7 @@ public class ParlayController extends GenericController {
                     return;
                 }
             }
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             parlay.setStatus(Status.PENDING);
             request.setAttribute(Information.ERROR, "Opss! something went wrong. Please try again.");
             request.setAttribute(Attribute.PARLAY, parlay);

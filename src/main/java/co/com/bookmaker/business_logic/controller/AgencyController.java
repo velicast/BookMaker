@@ -14,8 +14,6 @@ import co.com.bookmaker.data_access.entity.Agency;
 import co.com.bookmaker.data_access.entity.FinalUser;
 import co.com.bookmaker.data_access.entity.parlay.Parlay;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import co.com.bookmaker.util.form.bean.AgencyBean;
@@ -47,19 +45,20 @@ public class AgencyController extends GenericController {
     public static final String LIST = "list";
     public static final String BALANCE = "balance";
     
-    @EJB
     private FinalUserService finalUserService;
-    @EJB
     private AgencyService agencyService;
-    @EJB
     private AuthenticationService auth;
-    @EJB
     private ParameterValidator validator;
-    @EJB
     private ParlayService parlayService;
     
     @Override
     public void init() {
+        
+        finalUserService = new FinalUserService();
+        auth = new AuthenticationService();
+        agencyService = new AgencyService();
+        validator = new ParameterValidator();
+        parlayService = new ParlayService();
         
         allowDO(NEW, Role.ADMIN);
         allowDO(EDIT, Role.ADMIN);
@@ -118,37 +117,37 @@ public class AgencyController extends GenericController {
         
         try {
             validator.checkUsername(managerUsername);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.USERNAME, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.USERNAME, ex.getMessage());
         }
         
         try {
             validator.checkAgencyName(name);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.NAME, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.NAME, ex.getMessage());
         }
         
         try {
             validator.checkCity(city);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.CITY, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.CITY, ex.getMessage());
         }
         
         try {
             validator.checkAddress(address);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.ADDRESS, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.ADDRESS, ex.getMessage());
         }
         
         try {
             validator.checkTelephone(telephone);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.TELEPHONE, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.TELEPHONE, ex.getMessage());
         }
         
         Integer status = null;
@@ -177,23 +176,23 @@ public class AgencyController extends GenericController {
         
         try {
             validator.checkMinOdds(minOdds);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MIN_ODDS, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.MIN_ODDS, ex.getMessage());
         }
 
         try {
             validator.checkMinOdds(maxOdds);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MAX_ODDS, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.MAX_ODDS, ex.getMessage());
         }
 
         try {
             validator.checkOddsRange(minOdds, maxOdds);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MIN_ODDS, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.MIN_ODDS, ex.getMessage());
         }
         
         Double maxProfit = null;
@@ -206,9 +205,9 @@ public class AgencyController extends GenericController {
         
         try {
             validator.checkMaxProfit(maxProfit);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MAX_PROFIT, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.MAX_PROFIT, ex.getMessage());
         }
         
         FinalUser manager = finalUserService.getUser(managerUsername);
@@ -251,7 +250,7 @@ public class AgencyController extends GenericController {
         
         try {
             agencyService.create(newAgency, manager);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             request.setAttribute(Attribute.AGENCY, a);
             request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again");
             forward(AdminController.getJSP(AdminController.NEW_AGENCY));
@@ -312,30 +311,30 @@ public class AgencyController extends GenericController {
         
         try {
             validator.checkAgencyName(name);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.NAME, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.NAME, ex.getMessage());
         }
         
         try {
             validator.checkCity(city);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.CITY, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.CITY, ex.getMessage());
         }
         
         try {
             validator.checkAddress(address);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.ADDRESS, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.ADDRESS, ex.getMessage());
         }
         
         try {
             validator.checkTelephone(telephone);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.TELEPHONE, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.TELEPHONE, ex.getMessage());
         }
         
         Integer status = null;
@@ -372,30 +371,30 @@ public class AgencyController extends GenericController {
         
         try {
             validator.checkMinOdds(minOdds);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MIN_ODDS, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.MIN_ODDS, ex.getMessage());
         }
 
         try {
             validator.checkMinOdds(maxOdds);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MAX_ODDS, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.MAX_ODDS, ex.getMessage());
         }
 
         try {
             validator.checkOddsRange(minOdds, maxOdds);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MIN_ODDS, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.MIN_ODDS, ex.getMessage());
         }
         
         try {
             validator.checkMaxProfit(maxProfit);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MAX_PROFIT, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.MAX_PROFIT, ex.getMessage());
         }
         
         // FIN Validacion
@@ -423,7 +422,7 @@ public class AgencyController extends GenericController {
         request.setAttribute(Attribute.AGENCY, agency);
         try {
             agencyService.edit(agency);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
             request.setAttribute(Attribute.AGENCY, a);
             forward(AdminController.getJSP(AdminController.EDIT_AGENCY));
@@ -453,7 +452,7 @@ public class AgencyController extends GenericController {
         
         try {
             validator.checkUsername(username);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             request.setAttribute(Information.USERNAME, "Invalid username "+username);
             forward(AdminController.getJSP(AdminController.SEARCH_AGENCY_EMPLOYEE));
             return;
@@ -472,7 +471,7 @@ public class AgencyController extends GenericController {
             employee.setAgency(agency);
             try {
                 finalUserService.edit(employee);
-            } catch (EJBException ex) {
+            } catch (Exception ex) {
                 employee.setAgency(null);
                 request.setAttribute(Attribute.FINAL_USER, employee);
                 request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
@@ -504,7 +503,7 @@ public class AgencyController extends GenericController {
         
         try {
             validator.checkUsername(username);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             request.setAttribute(Information.USERNAME, "Invalid username "+username);
             forward(AdminController.getJSP(AdminController.SEARCH_AGENCY_EMPLOYEE));
             return;
@@ -533,7 +532,7 @@ public class AgencyController extends GenericController {
         employee.setAgency(null);
         try {
             finalUserService.edit(employee);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             employee.setAgency(agency);
             request.setAttribute(Attribute.FINAL_USER, employee);
             request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
@@ -558,8 +557,8 @@ public class AgencyController extends GenericController {
         
         try {
             validator.checkUsername(username);
-        } catch (EJBException ex) {
-            request.setAttribute(Information.USERNAME, ex.getCausedByException().getMessage());
+        } catch (Exception ex) {
+            request.setAttribute(Information.USERNAME, ex.getMessage());
             forward(AdminController.getJSP(AdminController.SEARCH_AGENCY));
             return;
         }
@@ -640,9 +639,9 @@ public class AgencyController extends GenericController {
 
         try {
             validator.checkDateRange(from, to);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.STATUS, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.STATUS, ex.getMessage());
         }
         if (validated) {
             List<Parlay> parlays = parlayService.searchBy(agency.getId(), null, null, from, to, null);

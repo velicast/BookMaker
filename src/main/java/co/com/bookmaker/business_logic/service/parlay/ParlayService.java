@@ -14,19 +14,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import co.com.bookmaker.util.type.Status;
 
 /**
  *
  * @author eduarc
  */
-@Stateless
 public class ParlayService {
 
-    @EJB
-    private ParlayDAO parlayDAO;
+    private final ParlayDAO parlayDAO;
+    
+    public ParlayService() {
+        
+        parlayDAO = new ParlayDAO();
+    }
     
     public Parlay getParlay(Long id) {
         return parlayDAO.find(id);

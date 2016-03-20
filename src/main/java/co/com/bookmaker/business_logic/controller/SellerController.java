@@ -12,7 +12,6 @@ import co.com.bookmaker.data_access.entity.FinalUser;
 import co.com.bookmaker.data_access.entity.parlay.Parlay;
 import co.com.bookmaker.util.form.bean.SearchParlayBean;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import co.com.bookmaker.util.type.Attribute;
@@ -38,14 +37,15 @@ public class SellerController extends GenericController {
     public static final String DASHBOARD = "dashboard";
     public static final String PARLAY_SEARCH_RESULT = "parlay_search_result";
     
-    @EJB
     private ParlayService parlayService;
-    @EJB 
     private AuthenticationService auth;
     
     @Override
     public void init() {
         
+        auth = new AuthenticationService();
+        parlayService = new ParlayService();
+
         allowTO(INDEX, Role.SELLER);
         allowTO(SELLING_QUEUE, Role.SELLER);
         allowTO(SEARCH_PARLAY, Role.SELLER);

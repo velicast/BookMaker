@@ -16,7 +16,6 @@ import co.com.bookmaker.data_access.entity.FinalUser;
 import co.com.bookmaker.data_access.entity.event.Sport;
 import co.com.bookmaker.data_access.entity.event.Tournament;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import co.com.bookmaker.util.type.Attribute;
@@ -36,23 +35,24 @@ public class ClientController extends GenericController {
     
     public static final String MATCHES = "matches";
     
-    @EJB
     private SportService sportService;
-    @EJB
     private TeamService teamService;
-    @EJB
     private TournamentService tournamentService;
-    @EJB
     private MatchEventService matchEventService;
-    @EJB
     private MatchEventPeriodService matchPeriodService;
-    @EJB
     private AuthenticationService auth;
-    @EJB
     private ParlayOddService parlayOddService;
     
     @Override
     public void init() {
+        
+        auth = new AuthenticationService();
+        matchEventService = new MatchEventService();
+        sportService = new SportService();
+        teamService = new TeamService();
+        parlayOddService = new ParlayOddService();
+        matchPeriodService = new MatchEventPeriodService();
+        tournamentService = new TournamentService();
         
         allowTO(INDEX, Role.CLIENT);
         allowTO(MATCHES, Role.CLIENT);

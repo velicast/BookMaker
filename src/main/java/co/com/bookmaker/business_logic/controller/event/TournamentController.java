@@ -17,8 +17,6 @@ import co.com.bookmaker.data_access.entity.event.Sport;
 import co.com.bookmaker.data_access.entity.event.Tournament;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import co.com.bookmaker.util.type.Attribute;
@@ -44,17 +42,18 @@ public class TournamentController extends GenericController {
     public static final String SEARCH_RESULT = "search_result";
     public static final String LIST = "list";
     
-    @EJB
     private AuthenticationService auth;
-    @EJB
     private SportService sportService;
-    @EJB
     private TournamentService tournamentService;
-    @EJB
     private ParameterValidator validator;
     
     @Override
     public void init() {
+        
+        auth = new AuthenticationService();
+        validator = new ParameterValidator();
+        sportService = new SportService();
+        tournamentService = new TournamentService();
         
         allowDO(NEW, Role.ANALYST);
         allowDO(EDIT, Role.ANALYST);
@@ -99,9 +98,9 @@ public class TournamentController extends GenericController {
         
         try {
             validator.checkTournamentName(name);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.NAME, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.NAME, ex.getMessage());
         }
         
         Integer status = null;
@@ -143,7 +142,7 @@ public class TournamentController extends GenericController {
         }
         try {
             tournamentService.create(tournament);
-        } catch(EJBException ex) {
+        } catch(Exception ex) {
             request.setAttribute(Information.ERROR, "Opss! something went wrong. Please try again.");
             return;
         }
@@ -162,9 +161,9 @@ public class TournamentController extends GenericController {
         
         try {
             validator.checkTournamentName(name);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.NAME, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.NAME, ex.getMessage());
         }
         
         Integer status = null;
@@ -221,7 +220,7 @@ public class TournamentController extends GenericController {
         }
         try {
             tournamentService.edit(tournament);
-        } catch(EJBException ex) {
+        } catch(Exception ex) {
             request.setAttribute(Information.ERROR, "Opss! something went wrong. Please try again.");
             forward(AnalystController.getJSP(AnalystController.EDIT_TOURNAMENT));
             return;

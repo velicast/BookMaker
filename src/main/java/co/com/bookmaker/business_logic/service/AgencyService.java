@@ -10,20 +10,21 @@ import co.com.bookmaker.data_access.dao.FinalUserDAO;
 import co.com.bookmaker.data_access.entity.Agency;
 import co.com.bookmaker.data_access.entity.FinalUser;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
 
 /**
  *
  * @author eduarc
  */
-@Stateless
 public class AgencyService {
 
-    @EJB
-    private AgencyDAO agencyDAO;
-    @EJB
-    private FinalUserDAO finalUserDAO;
+    private final AgencyDAO agencyDAO;
+    private final FinalUserDAO finalUserDAO;
+    
+    public AgencyService() {
+        
+        agencyDAO = new AgencyDAO();
+        finalUserDAO = new FinalUserDAO();
+    }
     
     public Agency getAgency(Long id) {
         if (id == null) {

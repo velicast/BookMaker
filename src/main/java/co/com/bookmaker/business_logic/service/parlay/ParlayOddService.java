@@ -12,19 +12,19 @@ import co.com.bookmaker.data_access.entity.event.Team;
 import co.com.bookmaker.data_access.entity.parlay.Parlay;
 import co.com.bookmaker.data_access.entity.parlay.ParlayOdd;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
 
 /**
  *
  * @author eduarc
  */
-@Stateless
 public class ParlayOddService {
 
-    @EJB
-    private ParlayOddDAO parlayOddDAO;
+    private final ParlayOddDAO parlayOddDAO;
     
+    public ParlayOddService() {
+        
+        parlayOddDAO = new ParlayOddDAO();
+    }
     public ParlayOdd getOdd(Long id) {
         return parlayOddDAO.find(id);
     }

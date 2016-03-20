@@ -16,7 +16,7 @@
 <jsp:useBean id="Status" class="co.com.bookmaker.util.type.Status"></jsp:useBean>
 <jsp:useBean id="Role" class="co.com.bookmaker.util.type.Role"></jsp:useBean>
 
-<link rel="stylesheet" href="/css/parlay/table_summary.css">
+<link rel="stylesheet" href="css/parlay/table_summary.css">
 <style>
     .table_employee_th1 {
         text-align: center;

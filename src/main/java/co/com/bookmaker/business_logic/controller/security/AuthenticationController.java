@@ -17,8 +17,6 @@ import co.com.bookmaker.business_logic.service.FinalUserService;
 import co.com.bookmaker.business_logic.service.security.AuthenticationService;
 import co.com.bookmaker.data_access.entity.Agency;
 import co.com.bookmaker.data_access.entity.FinalUser;
-import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import co.com.bookmaker.util.type.Attribute;
@@ -40,17 +38,16 @@ public class AuthenticationController extends GenericController {
     public static final String LOGOUT = "logout";
     public static final String ROLE_SELECTION = "role_selection";
     
-    
-    @EJB
-    AuthenticationService auth;
-    @EJB
-    FinalUserService finalUserService;
-    @EJB
+    private AuthenticationService auth;
+    private FinalUserService finalUserService;
     private ParameterValidator validator;
     
     @Override
     public void init() {
         
+        finalUserService = new FinalUserService();
+        auth = new AuthenticationService();
+        validator = new ParameterValidator();
     }
 
     public static String getJSP(String resource) {
@@ -113,7 +110,7 @@ public class AuthenticationController extends GenericController {
             try {
                 validator.checkUsername(username);
                 validator.checkPassword(password);
-            } catch (EJBException ex) {
+            } catch (Exception ex) {
                 request.setAttribute(Information.ERROR, "Login failed. Invalid username or password");
                 forward(HomeController.getJSP(HomeController.INDEX));
                 return;
@@ -155,7 +152,7 @@ public class AuthenticationController extends GenericController {
         String roleSeller = request.getParameter(Parameter.ROLE_SELLER);
         String roleClient = request.getParameter(Parameter.ROLE_CLIENT);
         
-        String username = (String ) request.getSession().getAttribute(Attribute.USERNAME);
+        String username = (String) request.getSession().getAttribute(Attribute.USERNAME);
         FinalUser user = finalUserService.getUser(username);
         
         if (user == null) {

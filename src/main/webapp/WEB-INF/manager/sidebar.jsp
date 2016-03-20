@@ -5,7 +5,7 @@
 --%>
 <%@page import="co.com.bookmaker.business_logic.controller.ManagerController"%>
 
-<link rel="stylesheet" href="/css/sidebar.css">
+<link rel="stylesheet" href="css/sidebar.css">
 
 <nav class="navbar navbar-default" role="navigation">
     <div class="main_menu menu_role_title">

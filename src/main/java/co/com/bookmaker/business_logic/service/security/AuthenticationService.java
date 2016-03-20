@@ -5,29 +5,20 @@
  */
 package co.com.bookmaker.business_logic.service.security;
 
-import co.com.bookmaker.data_access.dao.FinalUserDAO;
 import co.com.bookmaker.data_access.entity.FinalUser;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import co.com.bookmaker.util.type.Attribute;
 import co.com.bookmaker.util.type.Role;
-import javax.ejb.Stateless;
 
 /**
  *
  * @author eduarc
  */
-@Stateless
 public class AuthenticationService {
-    
-    @EJB FinalUserDAO finalUserDAO;
-    
-    public AuthenticationService() {}
     
     public FinalUser sessionUser(HttpServletRequest request) {
         return (FinalUser) request.getSession().getAttribute(Attribute.SESSION_USER);
@@ -106,7 +97,7 @@ public class AuthenticationService {
                 Long role = null;
                 try {
                     role = (Long)s.getAttribute(Attribute.SESSION_ROLE);
-                } catch (EJBException ex) {
+                } catch (Exception ex) {
                     toInvalidate.add(s);
                 }
                 if (role != null && (logoutRoles&role) != 0) {

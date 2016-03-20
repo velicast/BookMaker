@@ -11,7 +11,6 @@ import co.com.bookmaker.util.type.Attribute;
 import co.com.bookmaker.util.type.Role;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import javax.ejb.EJB;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,11 +29,12 @@ public class AccountController extends GenericController {
     
     public static final String SIDEBAR = "sidebar";
     
-    @EJB
     private AuthenticationService auth;
     
     @Override
     public void init() {
+       
+        auth = new AuthenticationService();
         
         Long role = Role.ALL&(~Role.CLIENT);
         allowTO(INDEX, role);

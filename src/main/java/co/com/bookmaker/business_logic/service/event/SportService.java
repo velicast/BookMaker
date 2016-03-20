@@ -9,19 +9,19 @@ import co.com.bookmaker.data_access.dao.event.SportDAO;
 import co.com.bookmaker.data_access.entity.event.Sport;
 import java.util.Comparator;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import co.com.bookmaker.util.type.Status;
 
 /**
  *
  * @author eduarc
  */
-@Stateless
 public class SportService {
 
-    @EJB
-    private SportDAO sportDAO;
+    private final SportDAO sportDAO;
+    
+    public SportService() {
+        sportDAO = new SportDAO();
+    }
     
     public Sport getSport(Integer id, Integer status) {
         

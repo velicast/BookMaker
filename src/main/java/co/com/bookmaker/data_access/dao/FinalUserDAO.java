@@ -6,13 +6,11 @@
 package co.com.bookmaker.data_access.dao;
 
 import co.com.bookmaker.data_access.entity.FinalUser;
-import javax.ejb.Stateless;
 
 /**
  *
  * @author eduarc
  */
-@Stateless
 public class FinalUserDAO extends GenericDAO<FinalUser> {
     
     public FinalUserDAO() {

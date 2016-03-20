@@ -10,19 +10,20 @@ import co.com.bookmaker.data_access.entity.event.MatchEvent;
 import co.com.bookmaker.data_access.entity.event.MatchEventPeriod;
 import java.util.Comparator;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
 
 /**
  *
  * @author eduarc
  */
-@Stateless
 public class MatchEventPeriodService {
 
-    @EJB
-    private MatchPeriodDAO matchPeriodDAO;
+    private final MatchPeriodDAO matchPeriodDAO;
 
+    public MatchEventPeriodService() {
+        
+        matchPeriodDAO = new MatchPeriodDAO();
+    }
+    
     public void create(MatchEventPeriod period) {
         matchPeriodDAO.create(period);
     }

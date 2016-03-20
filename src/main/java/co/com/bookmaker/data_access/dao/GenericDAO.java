@@ -7,9 +7,10 @@ package co.com.bookmaker.data_access.dao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
-import javax.persistence.PersistenceContext;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -21,22 +22,32 @@ public class GenericDAO<T> {
     
     private final Class<T> entityClass;
 
-    @PersistenceContext(unitName = "BookMakerPU")
-    private EntityManager em;
+    private static final EntityManagerFactory emf;
+
+    static {
+        emf = Persistence.createEntityManagerFactory("BookMakerPU");
+    }
     
     public GenericDAO(Class<T> entityClass) {
+        
         this.entityClass = entityClass;
     }
 
     public EntityManager getEntityManager() {
-        return em;
+        synchronized (emf) {
+            return emf.createEntityManager();
+        }
     }
     
     public void create(T entity) {
         
+        EntityManager em = getEntityManager();
         try {
+            em.getTransaction().begin();
             em.persist(entity);
             em.flush();
+            em.getTransaction().commit();
+            em.close();
         } catch (Exception ex) {
             em.getTransaction().rollback();
             throw ex;
@@ -45,9 +56,13 @@ public class GenericDAO<T> {
 
     public void edit(T entity) {
         
+        EntityManager em = getEntityManager();
         try {
+            em.getTransaction().begin();
             em.merge(entity);
             em.flush();
+            em.getTransaction().commit();
+            em.close();
         } catch (Exception ex) {
             em.getTransaction().rollback();
             throw ex;
@@ -56,9 +71,13 @@ public class GenericDAO<T> {
 
     public void remove(T entity) {
         
+        EntityManager em = getEntityManager();
         try {
+            em.getTransaction().begin();
             em.remove(em.merge(entity));
             em.flush();
+            em.getTransaction().commit();
+            em.close();
         } catch (Exception ex) {
             em.getTransaction().rollback();
             throw ex;
@@ -89,6 +108,7 @@ public class GenericDAO<T> {
         else {
             queryString += "t."+attributes[n-1]+" = :"+attributes[n-1].replaceAll("\\.", "_");
         }
+        EntityManager em = getEntityManager();
         Query q = em.createQuery(queryString);
         for (int i = 0; i < n; i++) {
             q.setParameter(attributes[i].replaceAll("\\.", "_"), values[i]);
@@ -127,24 +147,23 @@ public class GenericDAO<T> {
         else {
             queryString += "t."+attributes[n-1]+" = :"+attributes[n-1].replaceAll("\\.", "_");
         }
+        EntityManager em = getEntityManager();
         Query q = em.createQuery(queryString);
         for (int i = 0; i < n; i++) {
             q.setParameter(attributes[i].replaceAll("\\.", "_"), values[i]);
         }
         return q.getResultList();
     }
-
-    public T findRefresh(Object id) {
-        
-        return em.find(entityClass, id);
-    }
     
     public T find(Object id) {
+        
+        EntityManager em = getEntityManager();
         return em.find(entityClass, id);
     }
 
     public List<T> findAll() {
         
+        EntityManager em = getEntityManager();
         javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return em.createQuery(cq).getResultList();
@@ -152,6 +171,7 @@ public class GenericDAO<T> {
 
     public List<T> findRange(int[] range) {
         
+        EntityManager em = getEntityManager();
         javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         javax.persistence.Query q = em.createQuery(cq);
@@ -162,6 +182,7 @@ public class GenericDAO<T> {
 
     public int count() {
         
+        EntityManager em = getEntityManager();
         javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
         cq.select(em.getCriteriaBuilder().count(rt));

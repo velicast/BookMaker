@@ -11,18 +11,19 @@ import co.com.bookmaker.data_access.entity.event.MatchEventPeriod;
 import co.com.bookmaker.data_access.entity.event.Score;
 import co.com.bookmaker.data_access.entity.event.Team;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
 
 /**
  *
  * @author eduarc
  */
-@Stateless
 public class ScoreService {
     
-    @EJB
-    private ScoreDAO scoreDAO;
+    private final ScoreDAO scoreDAO;
+    
+    public ScoreService() {
+        
+        scoreDAO = new ScoreDAO();
+    }
     
     public void edit(Score score) {
         scoreDAO.edit(score);

@@ -7,13 +7,11 @@ package co.com.bookmaker.data_access.dao.parlay;
 
 import co.com.bookmaker.data_access.dao.GenericDAO;
 import co.com.bookmaker.data_access.entity.parlay.ParlayOdd;
-import javax.ejb.Stateless;
 
 /**
  *
  * @author eduarc
  */
-@Stateless
 public class ParlayOddDAO extends GenericDAO<ParlayOdd> {
     
     public ParlayOddDAO() {

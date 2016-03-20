@@ -10,7 +10,6 @@ import co.com.bookmaker.data_access.entity.Agency;
 import co.com.bookmaker.data_access.entity.event.Sport;
 import co.com.bookmaker.data_access.entity.event.Tournament;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.persistence.Query;
 import co.com.bookmaker.util.type.Status;
 
@@ -18,7 +17,6 @@ import co.com.bookmaker.util.type.Status;
  *
  * @author eduarc
  */
-@Stateless
 public class TournamentDAO extends GenericDAO<Tournament> {
 
     public TournamentDAO() {

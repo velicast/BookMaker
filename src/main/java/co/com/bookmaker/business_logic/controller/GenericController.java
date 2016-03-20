@@ -8,7 +8,6 @@ package co.com.bookmaker.business_logic.controller;
 import co.com.bookmaker.business_logic.service.security.AuthenticationService;
 import java.io.IOException;
 import java.util.TreeMap;
-import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -31,7 +30,7 @@ public abstract class GenericController extends HttpServlet {
     protected TreeMap<String, Long> toResource = new TreeMap<>();
     protected TreeMap<String, Long> doResource = new TreeMap<>();
     
-    @EJB private AuthenticationService auth;
+    private AuthenticationService auth;
     
     public void allowTO(String resource, Long role) {
         toResource.put(resource, role);
@@ -100,6 +99,7 @@ public abstract class GenericController extends HttpServlet {
         if (role == null) {
             return true;
         }
+        auth = new AuthenticationService();
         Long sessionRole = auth.sessionRole(request);
         return sessionRole != null && ((role&sessionRole) != 0);
     }
@@ -113,6 +113,7 @@ public abstract class GenericController extends HttpServlet {
         if (role == null) {
             return true;
         }
+        auth = new AuthenticationService();
         Long sessionRole = auth.sessionRole(request);
         return sessionRole != null && ((role&sessionRole) != 0);
     }

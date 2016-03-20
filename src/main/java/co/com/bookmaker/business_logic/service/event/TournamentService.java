@@ -14,23 +14,24 @@ import co.com.bookmaker.data_access.entity.event.Tournament;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import co.com.bookmaker.util.type.Pair;
 
 /**
  *
  * @author eduarc
  */
-@Stateless
 public class TournamentService {
 
-    @EJB
-    private TournamentDAO tournamentDAO;
-    @EJB
-    private MatchEventDAO matchEventDAO;
-    @EJB
-    private AgencyDAO agencyDAO;
+    private final TournamentDAO tournamentDAO;
+    private final MatchEventDAO matchEventDAO;
+    private final AgencyDAO agencyDAO;
+    
+    public TournamentService() {
+        
+        tournamentDAO = new TournamentDAO();
+        matchEventDAO = new MatchEventDAO();
+        agencyDAO = new AgencyDAO();
+    }
     
     public void create(Tournament tournament) {
         tournamentDAO.create(tournament);

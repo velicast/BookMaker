@@ -23,7 +23,6 @@ import co.com.bookmaker.data_access.entity.event.Tournament;
 import co.com.bookmaker.data_access.entity.parlay.ParlayOdd;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import co.com.bookmaker.util.form.bean.MatchEventBean;
@@ -63,25 +62,25 @@ public class AnalystController extends GenericController {
     public static final String TOURNAMENT_SUMMARY = "tournament_summary";
     public static final String TOURNAMENT_SEARCH_RESULT = "tournament_search_result";
     
-    @EJB
     private AuthenticationService auth;
-    @EJB
     private SportService sportService;
-    @EJB
     private TournamentService tournamentService;
-    @EJB
     private MatchEventPeriodService matchPeriodService;
-    @EJB
     private TeamService teamService;
-    @EJB
     private MatchEventService matchEventService;
-    @EJB
     private ParlayOddService parlayOddService;
-    @EJB
     private ScoreService scoreService;
     
     @Override
     public void init() {
+        
+        auth = new AuthenticationService();
+        matchEventService = new MatchEventService();
+        sportService = new SportService();
+        teamService = new TeamService();
+        parlayOddService = new ParlayOddService();
+        matchPeriodService = new MatchEventPeriodService();
+        tournamentService = new TournamentService();
         
         allowTO(INDEX, Role.ANALYST);
         

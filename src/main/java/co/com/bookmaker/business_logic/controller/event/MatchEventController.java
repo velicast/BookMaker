@@ -29,8 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import co.com.bookmaker.util.form.bean.MatchEventBean;
@@ -60,23 +58,24 @@ public class MatchEventController extends GenericController {
     public static final String RESULT = "result";
     public static final String CANCEL = "cancel";
     
-    @EJB
     private AuthenticationService auth;
-    @EJB
     private TournamentService tournamentService;
-    @EJB
     private ParlayOddService parlayOddService;
-    @EJB
     private MatchEventPeriodService matchPeriodService;
-    @EJB
     private TeamService teamService;
-    @EJB
     private MatchEventService matchEventService;
-    @EJB
     private ParameterValidator validator;
     
     @Override
     public void init() {
+        
+        auth = new AuthenticationService();
+        validator = new ParameterValidator();
+        matchEventService = new MatchEventService();
+        teamService = new TeamService();
+        parlayOddService = new ParlayOddService();
+        matchPeriodService = new MatchEventPeriodService();
+        tournamentService = new TournamentService();
         
         allowDO(NEW, Role.ANALYST);
         allowDO(EDIT, Role.ANALYST);
@@ -125,9 +124,9 @@ public class MatchEventController extends GenericController {
         
         try {
             validator.checkMatchName(name);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.NAME, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.NAME, ex.getMessage());
         }
         
         Integer sportId = null;
@@ -179,9 +178,9 @@ public class MatchEventController extends GenericController {
             startDate.setTime(dStartDate);
             try {
                 validator.checkMatchStartDate(startDate);
-            } catch (EJBException ex) {
+            } catch (Exception ex) {
                 validated = false;
-                request.setAttribute(Information.START_DATE, ex.getCausedByException().getMessage());
+                request.setAttribute(Information.START_DATE, ex.getMessage());
             }
         }
         
@@ -222,9 +221,9 @@ public class MatchEventController extends GenericController {
             
             try {
                 validator.checkTeamName(strTeamName);
-            } catch (EJBException ex) {
+            } catch (Exception ex) {
                 validated = false;
-                request.setAttribute(Information.TEAM+" "+t, ex.getCausedByException().getMessage());
+                request.setAttribute(Information.TEAM+" "+t, ex.getMessage());
             }
             
             Team team = new Team();
@@ -478,7 +477,7 @@ public class MatchEventController extends GenericController {
                 }
             }
         }
-        } catch(EJBException ex) {     
+        } catch(Exception ex) {     
             //-----------
             // ROLLBACK!!
             // ----------
@@ -545,9 +544,9 @@ public class MatchEventController extends GenericController {
         
         try {
             validator.checkMatchName(name);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.NAME, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.NAME, ex.getMessage());
         }
         
         Integer sportId = null;
@@ -602,9 +601,9 @@ public class MatchEventController extends GenericController {
             startDate.setTime(dStartDate);
             try {
                 validator.checkMatchStartDate(startDate);
-            } catch (EJBException ex) {
+            } catch (Exception ex) {
                 validated = false;
-                request.setAttribute(Information.START_DATE, ex.getCausedByException().getMessage());
+                request.setAttribute(Information.START_DATE, ex.getMessage());
             }
         }
         
@@ -667,9 +666,9 @@ public class MatchEventController extends GenericController {
             
             try {
                 validator.checkTeamName(strTeamName);
-            } catch (EJBException ex) {
+            } catch (Exception ex) {
                 validated = false;
-                request.setAttribute(Information.TEAM+" "+t, ex.getCausedByException().getMessage());
+                request.setAttribute(Information.TEAM+" "+t, ex.getMessage());
             }
             
             Team team = teams[t];
@@ -952,7 +951,7 @@ public class MatchEventController extends GenericController {
             }
             matchPeriodService.edit(periods[p]);
         }
-        } catch(EJBException ex) {
+        } catch(Exception ex) {
             request.setAttribute(Information.WARNING, "Opss! Something went wrong. Maybe all changes were not applied."
                     + "<br/>Please check.");
         }
@@ -990,9 +989,9 @@ public class MatchEventController extends GenericController {
         if (author != null && author.trim().length() > 0) {
             try {
                 validator.checkUsername(author);
-            } catch (EJBException ex) {
+            } catch (Exception ex) {
                 validated = false;
-                request.setAttribute(Information.USERNAME, ex.getCausedByException().getMessage());
+                request.setAttribute(Information.USERNAME, ex.getMessage());
             }
         } else {
             author = null;
@@ -1046,9 +1045,9 @@ public class MatchEventController extends GenericController {
         
         try {
             validator.checkDateRange(from, to);
-        } catch (EJBException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.TIME_FROM, ex.getCausedByException().getMessage());
+            request.setAttribute(Information.TIME_FROM, ex.getMessage());
         }
         
         Integer status = null;
@@ -1129,7 +1128,7 @@ public class MatchEventController extends GenericController {
             }
             match.setStatus(Status.CANCELLED);
             matchEventService.edit(match);
-        } catch(EJBException ex) {
+        } catch(Exception ex) {
             request.setAttribute(Information.ERROR, "Opss! something went wrong. Please try again.");
             forward(AnalystController.getJSP(AnalystController.MATCH_SUMMARY));
             return;

@@ -7,13 +7,11 @@ package co.com.bookmaker.data_access.dao.event;
 
 import co.com.bookmaker.data_access.dao.GenericDAO;
 import co.com.bookmaker.data_access.entity.event.Score;
-import javax.ejb.Stateless;
 
 /**
  *
  * @author eduarc
  */
-@Stateless
 public class ScoreDAO extends GenericDAO<Score> {
 
     public ScoreDAO() {
