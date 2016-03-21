@@ -10,6 +10,7 @@ import co.com.bookmaker.business_logic.service.FinalUserService;
 import co.com.bookmaker.business_logic.service.ParameterValidator;
 import co.com.bookmaker.business_logic.service.event.MatchEventService;
 import co.com.bookmaker.business_logic.service.parlay.ParlayService;
+import co.com.bookmaker.business_logic.service.security.AuthenticationService;
 import co.com.bookmaker.data_access.entity.Agency;
 import co.com.bookmaker.data_access.entity.FinalUser;
 import co.com.bookmaker.data_access.entity.event.MatchEvent;
@@ -62,6 +63,7 @@ public class AdminController extends GenericController {
     public static final String MONEY = "money";
     public static final String MATCHES = "matches";
     
+    private AuthenticationService auth;
     private FinalUserService finalUserService;
     private AgencyService agencyService;
     private ParameterValidator validator;
@@ -71,6 +73,7 @@ public class AdminController extends GenericController {
     @Override
     public void init() {
         
+        auth = new AuthenticationService();
         finalUserService = new FinalUserService();
         agencyService = new AgencyService();
         validator = new ParameterValidator();
@@ -204,6 +207,7 @@ public class AdminController extends GenericController {
         FinalUser result = finalUserService.getUser(username);
         if (result != null) {
             request.setAttribute(Attribute.FINAL_USER, result);
+            request.setAttribute(Attribute.ONLINE, auth.isOnline(result, request));
             forward(getJSP(USER_SUMMARY));
         } else {
             forward(getJSP(SEARCH_USER));
@@ -246,6 +250,7 @@ public class AdminController extends GenericController {
         if (agency != null) {
             request.setAttribute(Attribute.AGENCY, agency);
             request.setAttribute(Attribute.EMPLOYEES, agencyService.getEmployees(agency));
+            request.setAttribute(Attribute.AUTHENTICATION_SERVICE, auth);
             forward(getJSP(AGENCY_SUMMARY));
         }
     }
@@ -420,19 +425,25 @@ public class AdminController extends GenericController {
             List<Parlay> parlays = parlayService.searchBy(null, null, null, from, to, null);
             
             Integer soldParlays = 0;
+            Integer inQueue = 0;
             Double revenue = 0D;
             Double cost = 0D;
             for (Parlay p : parlays) {
                 Integer st = p.getStatus();
                 if (!st.equals(Status.CANCELLED)) {
-                    soldParlays++;
-                    revenue += p.getRisk();
-                    if (p.getStatus().equals(Status.WIN)) {
-                        cost += p.getProfit();
+                    if (st.equals(Status.IN_QUEUE)) {
+                        inQueue++;
+                    } else {
+                        soldParlays++;
+                        revenue += p.getRisk();
+                        if (p.getStatus().equals(Status.WIN)) {
+                            cost += p.getProfit();
+                        }
                     }
                 }
             }
             Double profit = revenue-cost;
+            request.setAttribute(Attribute.IN_QUEUE, inQueue);
             request.setAttribute(Attribute.PARLAYS, soldParlays);
             request.setAttribute(Attribute.REVENUE, revenue);
             request.setAttribute(Attribute.COST, cost);
@@ -471,6 +482,7 @@ public class AdminController extends GenericController {
             }
         }
         
+        request.setAttribute(Attribute.ONLINE, auth.countOnlineUsers(request));
         request.setAttribute(Attribute.AGENCIES, totalAgencies);
         request.setAttribute(Attribute.ACTIVE_AGENCIES, activeAgencies);
         request.setAttribute(Attribute.INACTIVE_AGENCIES, inactiveAgencies);

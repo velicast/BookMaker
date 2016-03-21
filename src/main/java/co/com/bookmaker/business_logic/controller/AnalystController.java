@@ -81,6 +81,7 @@ public class AnalystController extends GenericController {
         parlayOddService = new ParlayOddService();
         matchPeriodService = new MatchEventPeriodService();
         tournamentService = new TournamentService();
+        scoreService = new ScoreService();
         
         allowTO(INDEX, Role.ANALYST);
         

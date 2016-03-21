@@ -464,8 +464,11 @@ public class FinalUserController extends GenericController {
             role |= Role.CLIENT;
         }
 
-        List<FinalUser> result = finalUserService.searchBy(username, role, status);
+        boolean online = request.getParameter(Parameter.ONLINE) != null;
+        
+        List<FinalUser> result = finalUserService.searchBy(request, username, role, status, online);
         request.setAttribute(Attribute.USERS, result);
+        request.setAttribute(Attribute.AUTHENTICATION_SERVICE, auth);
 
         forward(AdminController.getJSP(AdminController.SEARCH_USER_RESULT));
     }
@@ -643,19 +646,25 @@ public class FinalUserController extends GenericController {
                 List<Parlay> parlays = parlayService.searchBy(agency.getId(), null, user.getUsername(), from, to, null);
 
                 Integer soldParlays = 0;
+                Integer inQueue = 0;
                 Double revenue = 0D;
                 Double cost = 0D;
                 for (Parlay p : parlays) {
                     Integer st = p.getStatus();
                     if (!st.equals(Status.CANCELLED)) {
-                        soldParlays++;
-                        revenue += p.getRisk();
-                        if (p.getStatus().equals(Status.WIN)) {
-                            cost += p.getProfit();
+                        if (st.equals(Status.IN_QUEUE)) {
+                            inQueue++;
+                        } else {
+                            soldParlays++;
+                            revenue += p.getRisk();
+                            if (p.getStatus().equals(Status.WIN)) {
+                                cost += p.getProfit();
+                            }
                         }
                     }
                 }
                 Double profit = revenue-cost;
+                request.setAttribute(Attribute.IN_QUEUE, inQueue);
                 request.setAttribute(Attribute.PARLAYS, soldParlays);
                 request.setAttribute(Attribute.REVENUE, revenue);
                 request.setAttribute(Attribute.COST, cost);

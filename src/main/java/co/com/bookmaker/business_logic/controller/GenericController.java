@@ -137,7 +137,7 @@ public abstract class GenericController extends HttpServlet {
             processDO(pDo);
         }
         else {
-            redirect("/");
+            redirect("");
         }
     }
     

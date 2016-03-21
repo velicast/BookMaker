@@ -70,6 +70,14 @@
         </c:if>
         </div>
     </div>
+    <c:if test="${requestScope[Attr.ONLINE] == true}">
+    <div class="form-group">
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+            <h4 class="status_label"><span class = "label label-success">Online</span></h4>
+        </div>
+    </div>
+    </c:if>
     <c:if test="${user.agency != null}">
     <div class="form-group">
         <label class="col-md-2 control-label">Agency:</label>

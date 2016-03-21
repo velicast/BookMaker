@@ -93,6 +93,8 @@ public class Parameter {
     public static final String NEW_PASSWORD = "p53";
     public static final String CONFIRMED_NEW_PASSWORD = "p54";
     
+    public static final String ONLINE = "p55";
+    
     public String getROLE_CLIENT() {
         return ROLE_CLIENT;
     }
@@ -303,5 +305,9 @@ public class Parameter {
 
     public String getCONFIRMED_NEW_PASSWORD() {
         return CONFIRMED_NEW_PASSWORD;
+    }
+
+    public String getONLINE() {
+        return ONLINE;
     }
 }

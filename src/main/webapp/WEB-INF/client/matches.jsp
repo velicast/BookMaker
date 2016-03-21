@@ -111,4 +111,4 @@
 </table>
 </c:forEach>
 </c:forEach>
-<script src="/js/client/matches.js"></script>
+<script src="js/client/matches.js"></script>

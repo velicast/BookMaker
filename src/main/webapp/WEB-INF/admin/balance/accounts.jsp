@@ -35,7 +35,7 @@
             <p class="form-control-static">${requestScope[Attr.AGENCIES]}</p>
         </div>
     </div>
-        <div class="form-group">
+    <div class="form-group">
         <label class="col-md-2 control-label">Active: </label>
         <div class="col-md-4">
             <p class="form-control-static">${requestScope[Attr.ACTIVE_AGENCIES]}</p>
@@ -56,7 +56,13 @@
             <p class="form-control-static">${requestScope[Attr.USERS]}</p>
         </div>
     </div>
-        <div class="form-group">
+    <div class="form-group">
+        <label class="col-md-2 control-label">Online: </label>
+        <div class="col-md-4">
+            <p class="form-control-static">${requestScope[Attr.ONLINE]}</p>
+        </div>
+    </div>    
+    <div class="form-group">
         <label class="col-md-2 control-label">Active: </label>
         <div class="col-md-4">
             <p class="form-control-static">${requestScope[Attr.ACTIVE_USERS]}</p>

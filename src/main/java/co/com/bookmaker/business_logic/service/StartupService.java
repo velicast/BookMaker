@@ -8,6 +8,7 @@ package co.com.bookmaker.business_logic.service;
 import co.com.bookmaker.business_logic.service.security.ActiveSessions;
 import co.com.bookmaker.data_access.dao.event.SportDAO;
 import co.com.bookmaker.data_access.dao.FinalUserDAO;
+import co.com.bookmaker.data_access.dao.GenericDAO;
 import co.com.bookmaker.data_access.entity.FinalUser;
 import co.com.bookmaker.data_access.entity.event.Sport;
 import co.com.bookmaker.util.type.Attribute;
@@ -18,6 +19,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Persistence;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -34,6 +36,8 @@ public class StartupService implements ServletContextListener {
     
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        
+        GenericDAO.setEntityManagerFactory(Persistence.createEntityManagerFactory("BookMakerPU"));
         
         SportDAO sportDAO = new SportDAO();
         FinalUserDAO finalUserDAO = new FinalUserDAO();
@@ -75,5 +79,6 @@ public class StartupService implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         
+        GenericDAO.getEntityManagerFactory().close();
     }
 }

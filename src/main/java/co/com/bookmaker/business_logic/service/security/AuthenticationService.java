@@ -5,6 +5,7 @@
  */
 package co.com.bookmaker.business_logic.service.security;
 
+import co.com.bookmaker.data_access.dao.FinalUserDAO;
 import co.com.bookmaker.data_access.entity.FinalUser;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,13 @@ import co.com.bookmaker.util.type.Role;
  * @author eduarc
  */
 public class AuthenticationService {
+    
+    private final FinalUserDAO finalUserDAO;
+    
+    public AuthenticationService() {
+        
+        finalUserDAO = new FinalUserDAO();
+    }
     
     public FinalUser sessionUser(HttpServletRequest request) {
         return (FinalUser) request.getSession().getAttribute(Attribute.SESSION_USER);
@@ -78,6 +86,42 @@ public class AuthenticationService {
             }
         }
         return null;
+    }
+    
+    public boolean isOnline(FinalUser user, HttpServletRequest request) {
+        
+        Map<Long, List<HttpSession>> activeSessions = 
+            (Map<Long, List<HttpSession>>) request.getServletContext().getAttribute(Attribute.ACTIVE_SESSIONS);
+        List<HttpSession> s = activeSessions.get(user.getId());
+        return s != null && s.size() > 0;
+    }
+    
+    public int countOnlineUsers(HttpServletRequest request) {
+        
+        Map<Long, List<HttpSession>> activeSessions = 
+            (Map<Long, List<HttpSession>>) request.getServletContext().getAttribute(Attribute.ACTIVE_SESSIONS);
+        
+        int onlineUsers = 0;
+        for (List<HttpSession> sessions : activeSessions.values()) {
+            if (sessions.size() > 0) {
+                onlineUsers++;
+            }
+        }
+        return onlineUsers;
+    }
+    
+    public List<FinalUser> onlineUsers(HttpServletRequest request) {
+        
+        Map<Long, List<HttpSession>> activeSessions = 
+            (Map<Long, List<HttpSession>>) request.getServletContext().getAttribute(Attribute.ACTIVE_SESSIONS);
+        
+        List<FinalUser> onlineUsers = new ArrayList();
+        for (Map.Entry<Long, List<HttpSession>> sessions : activeSessions.entrySet()) {
+            if (sessions.getValue().size() > 0) {
+                onlineUsers.add(finalUserDAO.find(sessions.getKey()));
+            }
+        }
+        return onlineUsers;
     }
     
     private void addUserSession(FinalUser user, HttpSession session, Long logoutRoles) {

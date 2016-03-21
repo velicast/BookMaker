@@ -135,6 +135,7 @@ public class ManagerController extends GenericController {
         Agency agency = auth.sessionUser(request).getAgency();
         request.setAttribute(Attribute.AGENCY, agency);
         request.setAttribute(Attribute.EMPLOYEES, agencyService.getEmployees(agency));
+        request.setAttribute(Attribute.AUTHENTICATION_SERVICE, auth);
         forward(getJSP(AGENCY_SUMMARY));
     }
 
@@ -174,6 +175,7 @@ public class ManagerController extends GenericController {
         FinalUser result = finalUserService.getUser(username);
         if (result != null) {
             request.setAttribute(Attribute.FINAL_USER, result);
+            request.setAttribute(Attribute.ONLINE, auth.isOnline(result, request));
             forward(getJSP(EMPLOYEE_SUMMARY));
         } else {
             forward(getJSP(AGENCY_SUMMARY));

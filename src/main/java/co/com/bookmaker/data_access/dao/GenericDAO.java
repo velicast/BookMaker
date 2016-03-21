@@ -22,10 +22,14 @@ public class GenericDAO<T> {
     
     private final Class<T> entityClass;
 
-    private static final EntityManagerFactory emf;
-
-    static {
-        emf = Persistence.createEntityManagerFactory("BookMakerPU");
+    private static EntityManagerFactory emf;
+    
+    public static void setEntityManagerFactory(EntityManagerFactory emfs) {
+        emf = emfs;
+    }
+    
+    public static EntityManagerFactory getEntityManagerFactory() {
+        return emf;
     }
     
     public GenericDAO(Class<T> entityClass) {
@@ -34,9 +38,7 @@ public class GenericDAO<T> {
     }
 
     public EntityManager getEntityManager() {
-        synchronized (emf) {
-            return emf.createEntityManager();
-        }
+        return emf.createEntityManager();
     }
     
     public void create(T entity) {

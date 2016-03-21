@@ -1,8 +1,4 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 $(document).ready(function () {
 
 $(":checkbox").on('change', function () {
@@ -17,7 +13,7 @@ $(":checkbox").on('change', function () {
         nOdds = nOdds + 1;
         $("#nOdds").text(nOdds);
 
-        $.post("/odds",
+        $.post("odds",
                 {to: "ticket",
                  p18: oddId},
         function (data) {

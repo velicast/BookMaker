@@ -647,19 +647,25 @@ public class AgencyController extends GenericController {
             List<Parlay> parlays = parlayService.searchBy(agency.getId(), null, null, from, to, null);
             
             Integer soldParlays = 0;
+            Integer inQueue = 0;
             Double revenue = 0D;
             Double cost = 0D;
             for (Parlay p : parlays) {
                 Integer st = p.getStatus();
                 if (!st.equals(Status.CANCELLED)) {
-                    soldParlays++;
-                    revenue += p.getRisk();
-                    if (p.getStatus().equals(Status.WIN)) {
-                        cost += p.getProfit();
+                    if (st.equals(Status.IN_QUEUE)) {
+                        inQueue++;
+                    } else {
+                        soldParlays++;
+                        revenue += p.getRisk();
+                        if (p.getStatus().equals(Status.WIN)) {
+                            cost += p.getProfit();
+                        }
                     }
                 }
             }
             Double profit = revenue-cost;
+            request.setAttribute(Attribute.IN_QUEUE, inQueue);
             request.setAttribute(Attribute.PARLAYS, soldParlays);
             request.setAttribute(Attribute.REVENUE, revenue);
             request.setAttribute(Attribute.COST, cost);

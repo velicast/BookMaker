@@ -25,22 +25,24 @@
         padding-top: 0px;
     }
     .table_employee_th1 {
-        text-align: center;
         width: 20%;
     }
     .table_employee_th2 {
-        text-align: center;
-        width: 45%;
+        width: 40%;
     }
     .table_employee_th3 {
-        text-align: center;
-        width: 20%;
-    }
-    .table_employee_th4 {
-        text-align: center;
         width: 15%;
     }
+    .table_employee_th4 {
+        width: 15%;
+    }
+    .table_employee_th5 {
+        width: 10%;
+    }
     .table td {
+        text-align: center;
+    }
+    .table th {
         text-align: center;
     }
 </style>
@@ -50,6 +52,8 @@
 
 <c:set var="sUser" value="${sessionScope[Attr.SESSION_USER]}"></c:set>
 <jsp:useBean id="sUser" class="co.com.bookmaker.data_access.entity.FinalUser"></jsp:useBean>
+    
+<c:set var="auth" value="${requestScope[Attr.AUTHENTICATION_SERVICE]}"></c:set>
 
 <h2 class="main_content_title"> Agency Summary </h2>
 
@@ -148,6 +152,7 @@
                       <th class="table_employee_th2">Full Name</th>
                       <th class="table_employee_th3">Roles</th>
                       <th class="table_employee_th4">Status</th>
+                      <th class="table_employee_th5">Online</th>
                    </tr>
                 </thead>
                 <tbody>
@@ -169,6 +174,7 @@
                              <c:if test="${employee.inRole(Role.CLIENT)}">Client<br/></c:if>
                         </td>
                         <td>${Status.str(employee.status)}</td>
+                        <td>${auth.isOnline(employee, pageContext.request) ? "Yes" : "No"}</td>
                      </tr>
                     </c:forEach>
                 </tbody>

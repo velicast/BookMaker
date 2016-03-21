@@ -72,13 +72,19 @@
         <h4 class="col-md-6">Parlay</h4>
     </div>
     <div class="form-group">
+        <label class="col-md-2 control-label">In Queue: </label>
+        <div class="col-md-4">
+            <p class="form-control-static">${requestScope[Attr.IN_QUEUE]}</p>
+        </div>
+    </div>
+    <div class="form-group">
         <label class="col-md-2 control-label">Sold: </label>
         <div class="col-md-4">
             <p class="form-control-static">${requestScope[Attr.PARLAYS]}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Total Revenue: </label>
+        <label class="col-md-2 control-label">Total Sold: </label>
         <div class="col-md-4">
             <p class="form-control-static">$ <fmt:formatNumber value="${requestScope[Attr.REVENUE]}" maxFractionDigits="0"/></p>
         </div>

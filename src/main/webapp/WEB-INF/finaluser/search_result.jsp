@@ -19,27 +19,24 @@
 <link rel="stylesheet" href="css/parlay/table_summary.css">
 <style>
     .table_employee_th1 {
-        text-align: center;
         width: 20%;
     }
     .table_employee_th2 {
-        text-align: center;
-        width: 45%;
+        width: 40%;
     }
     .table_employee_th3 {
-        text-align: center;
-        width: 20%;
-    }
-    .table_employee_th4 {
-        text-align: center;
         width: 15%;
     }
-    .table td {
-        text-align: center;
+    .table_employee_th4 {
+        width: 15%;
+    }
+    .table_employee_th5 {
+        width: 10%;
     }
 </style>
 
 <c:set var="users" value="${requestScope[Attr.USERS]}"></c:set>
+<c:set var="auth" value="${requestScope[Attr.AUTHENTICATION_SERVICE]}"></c:set>
 
 <table class="table table-hover table-bordered table-condensed">
     <caption>${users.size()} result(s) found</caption>
@@ -49,6 +46,7 @@
             <th class="table_employee_th2">Full Name</th>
             <th class="table_employee_th3">Roles</th>
             <th class="table_employee_th4">Status</th>
+            <th class="table_employee_th5">Online</th>
         </tr>
     </thead>
     <tbody>
@@ -65,6 +63,7 @@
             <c:if test="${user.inRole(Role.CLIENT)}">Client<br/></c:if>
             </td>
             <td>${Status.str(user.status)}</td>
+            <td>${auth.isOnline(user, pageContext.request) ? "Yes" : "No"}</td>
         </tr>
     </c:forEach>
     </tbody>

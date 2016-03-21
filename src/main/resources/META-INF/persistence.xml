@@ -2,6 +2,16 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="BookMakerPU" transaction-type="RESOURCE_LOCAL">
     <non-jta-data-source>BookMakerDS</non-jta-data-source>
+    <class>co.com.bookmaker.data_access.entity.Agency</class>
+    <class>co.com.bookmaker.data_access.entity.FinalUser</class>
+    <class>co.com.bookmaker.data_access.entity.event.MatchEvent</class>
+    <class>co.com.bookmaker.data_access.entity.event.MatchEventPeriod</class>
+    <class>co.com.bookmaker.data_access.entity.event.Score</class>
+    <class>co.com.bookmaker.data_access.entity.event.Sport</class>
+    <class>co.com.bookmaker.data_access.entity.event.Team</class>
+    <class>co.com.bookmaker.data_access.entity.event.Tournament</class>
+    <class>co.com.bookmaker.data_access.entity.parlay.Parlay</class>
+    <class>co.com.bookmaker.data_access.entity.parlay.ParlayOdd</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>

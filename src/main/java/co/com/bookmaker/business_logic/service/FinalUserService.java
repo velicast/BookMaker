@@ -5,6 +5,7 @@
  */
 package co.com.bookmaker.business_logic.service;
 
+import co.com.bookmaker.business_logic.service.security.AuthenticationService;
 import co.com.bookmaker.data_access.dao.FinalUserDAO;
 import co.com.bookmaker.data_access.entity.Agency;
 import co.com.bookmaker.data_access.entity.FinalUser;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import co.com.bookmaker.util.type.Role;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -20,17 +22,19 @@ import co.com.bookmaker.util.type.Role;
 public class FinalUserService {
 
     private final FinalUserDAO finalUserDAO;
+    private final AuthenticationService auth;
     
     public FinalUserService() {
         
         finalUserDAO = new FinalUserDAO();
+        auth = new AuthenticationService();
     }
     
     public List<FinalUser> findAll() {
         return finalUserDAO.findAll();
     }
     
-    public List<FinalUser> searchBy(String username, Long role, Integer status) {
+    public List<FinalUser> searchBy(HttpServletRequest request, String username, Long role, Integer status, boolean online) {
         
         List<String> attributes = new ArrayList();
         List<Object> values = new ArrayList();
@@ -46,7 +50,14 @@ public class FinalUserService {
         List<FinalUser> preliminar = finalUserDAO.findAll(attributes.toArray(new String[]{}), values.toArray());
         List<FinalUser> result = new ArrayList();
         for (FinalUser user : preliminar) {
-            if (user.inRole(role)) {
+            boolean add = true;
+            if (role != null) {
+                add &= user.inRole(role);
+            }
+            if (online == true) {
+                add &= auth.isOnline(user, request);
+            }
+            if (add) {
                 result.add(user);
             }
         }

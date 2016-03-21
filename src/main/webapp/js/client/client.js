@@ -1,8 +1,4 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 $(document).ready(function () {
     
     $("#ticket").on("close.bs.alert", ".ticket_bet", function () {
@@ -37,7 +33,7 @@ $(document).ready(function () {
             $("#profit").prop("value", "");
             return;
         }
-        $.post("/parlay",
+        $.post("parlay",
                 {do: "getprofit",
                     p25: vOddselection,
                     p26: risk},
@@ -65,7 +61,7 @@ $(document).ready(function () {
             profit = maxProfit;
             $("#profit").prop("value", profit);
         }
-        $.get("/parlay",
+        $.get("parlay",
                 {do: "getrisk",
                     p25: vOddselection,
                     p27: profit},
@@ -119,7 +115,7 @@ $(document).ready(function () {
             return true;
         }
         $('#st'+id).text("1");
-        $.post("/client",
+        $.post("client",
                 {to: "matches",
                  p38: id},
         function (data) {

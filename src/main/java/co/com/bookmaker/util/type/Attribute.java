@@ -120,6 +120,10 @@ public class Attribute {
     
     public static final String COMPILED_TICKED_REPORT = "a83";
     
+    public static final String ONLINE = "a84";
+    
+    public static final String AUTHENTICATION_SERVICE = "a85";
+    
     public String getSESSION_USER() {
         return SESSION_USER;
     }
@@ -462,5 +466,13 @@ public class Attribute {
 
     public static String getCOMPILED_TICKED_REPORT() {
         return COMPILED_TICKED_REPORT;
+    }
+
+    public String getONLINE() {
+        return ONLINE;
+    }
+
+    public String getAUTHENTICATION_SERVICE() {
+        return AUTHENTICATION_SERVICE;
     }
 }
