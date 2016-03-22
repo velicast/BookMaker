@@ -90,7 +90,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Risk</label>
+        <label class="col-md-2 control-label">Risk:</label>
         <div class="col-md-4">
             <p class="form-control-static">$ <fmt:formatNumber value="${parlay.risk}" maxFractionDigits="0"/></p>
         </div>

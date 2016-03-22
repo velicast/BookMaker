@@ -30,10 +30,10 @@ public class SessionListener implements HttpSessionListener {
     public void sessionDestroyed(HttpSessionEvent se) {
         
         HttpSession session = se.getSession();
-        Map<Long, List<HttpSession>> activeSessions = 
-                (Map<Long, List<HttpSession>>) session.getServletContext().getAttribute(Attribute.ACTIVE_SESSIONS);
         FinalUser user = (FinalUser) session.getAttribute(Attribute.SESSION_USER);
         if (user != null) {
+            Map<Long, List<HttpSession>> activeSessions = 
+                (Map<Long, List<HttpSession>>) session.getServletContext().getAttribute(Attribute.ACTIVE_SESSIONS);
             List<HttpSession> userSessions = activeSessions.get(user.getId());
             if (userSessions != null) {
                 userSessions.remove(session);
