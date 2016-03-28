@@ -53,6 +53,14 @@ public class AuthenticationService {
         return user;
     }
     
+    public void updateLogin(HttpServletRequest request, FinalUser user) {
+        
+        HttpSession session = request.getSession();
+        session.setAttribute(Attribute.SESSION_USER, user);
+        Long sessionRole = (Long) session.getAttribute(Attribute.SESSION_ROLE);
+        session.setAttribute(Attribute.SESSION_ROLE, user.getRol()&sessionRole);
+    }
+    
     public FinalUser logout(HttpServletRequest request) {
         
         HttpSession toLogout = request.getSession(false);

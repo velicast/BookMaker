@@ -5,6 +5,8 @@
  */
 package co.com.bookmaker.data_access.entity;
 
+import co.com.bookmaker.data_access.entity.event.MatchEvent;
+import co.com.bookmaker.data_access.entity.event.Tournament;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Objects;
@@ -15,6 +17,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import co.com.bookmaker.util.type.Role;
+import java.util.List;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -49,8 +54,25 @@ public class FinalUser implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar birthDate;
     
-    @ManyToOne
+    @OneToOne
     private Agency agency;
+    
+        // Tracking info. Not related to the business.
+        // In future versions this info will be decoupled from business code
+    @ManyToOne
+    private FinalUser author;    
+    
+    @OneToMany(mappedBy="author")
+    private List<FinalUser> createdUsers;
+    
+    @OneToMany(mappedBy="author")
+    private List<Agency> createAgencies;
+    
+    @OneToMany(mappedBy="author")
+    private List<MatchEvent> createdMatches;
+    
+    @OneToMany(mappedBy="author")
+    private List<Tournament> createdTournaments;
     
     public FinalUser() {
     }
@@ -179,12 +201,52 @@ public class FinalUser implements Serializable {
         this.status = status;
     }
 
+    public FinalUser getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(FinalUser author) {
+        this.author = author;
+    }
+
     public Agency getAgency() {
         return agency;
     }
 
     public void setAgency(Agency agency) {
         this.agency = agency;
+    }
+
+    public List<FinalUser> getCreatedUsers() {
+        return createdUsers;
+    }
+
+    public void setCreatedUsers(List<FinalUser> createdUsers) {
+        this.createdUsers = createdUsers;
+    }
+
+    public List<Agency> getCreateAgencies() {
+        return createAgencies;
+    }
+
+    public void setCreateAgencies(List<Agency> createAgencies) {
+        this.createAgencies = createAgencies;
+    }
+
+    public List<MatchEvent> getCreatedMatches() {
+        return createdMatches;
+    }
+
+    public void setCreatedMatches(List<MatchEvent> createdMatches) {
+        this.createdMatches = createdMatches;
+    }
+
+    public List<Tournament> getCreatedTournaments() {
+        return createdTournaments;
+    }
+
+    public void setCreatedTournaments(List<Tournament> createdTournaments) {
+        this.createdTournaments = createdTournaments;
     }
     
     @Override
@@ -208,9 +270,6 @@ public class FinalUser implements Serializable {
             return false;
         }
         final FinalUser other = (FinalUser) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.id, other.id);
     }
 }

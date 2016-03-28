@@ -44,6 +44,7 @@ public class AgencyController extends GenericController {
     public static final String REM_EMPLOYEE = "rem_employee";
     public static final String LIST = "list";
     public static final String BALANCE = "balance";
+    public static final String MEDIT = "medit";
     
     private FinalUserService finalUserService;
     private AgencyService agencyService;
@@ -66,6 +67,7 @@ public class AgencyController extends GenericController {
         allowDO(ADD_EMPLOYEE, Role.ADMIN);
         allowDO(REM_EMPLOYEE, Role.ADMIN);
         allowDO(BALANCE, Role.ADMIN|Role.MANAGER);
+        allowDO(MEDIT, Role.MANAGER);
     }
 
     public static String getJSP(String resource) {
@@ -93,6 +95,8 @@ public class AgencyController extends GenericController {
                 doRemEmployee(); break;
             case BALANCE:
                 doBalance(); break;
+            case MEDIT:
+                doMEdit(); break;
             default:
                 redirectError(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -244,8 +248,10 @@ public class AgencyController extends GenericController {
             return;
         }
         
+        FinalUser author = auth.sessionUser(request);
+            
         Agency newAgency = new Agency();
-        agencyService.setAttributes(newAgency, name, email, telephone,
+        agencyService.setAttributes(author, newAgency, name, email, telephone,
                 city, address, minOdds, maxOdds, maxProfit, acceptGlobalOdds != null, status);
         
         try {
@@ -256,14 +262,9 @@ public class AgencyController extends GenericController {
             forward(AdminController.getJSP(AdminController.NEW_AGENCY));
             return;
         }
-        auth.logout(request, manager);
-        if (auth.sessionUser(request) == null) {
-            request.setAttribute(Information.INFO, "Please login again to see the changes.");
-            forward(HomeController.getJSP(HomeController.INDEX));
-            return;
-        }
         request.setAttribute(Attribute.AGENCY, newAgency);
         request.setAttribute(Attribute.EMPLOYEES, agencyService.getEmployees(newAgency));
+        request.setAttribute(Attribute.AUTHENTICATION_SERVICE, auth);
         forward(AdminController.getJSP(AdminController.AGENCY_SUMMARY));
     }
 
@@ -302,12 +303,18 @@ public class AgencyController extends GenericController {
         
         Agency agency = getAgency();
         if (agency == null) {
-            System.out.println("");
             return;
         }
         
         // INICIO Validacion
         boolean validated = true;
+        
+        // Solo el author puede modificarlo
+        /*if (!agency.getAuthor().equals(auth.sessionUser(request))) {
+            request.setAttribute(Information.ERROR, "Restricted operation");
+            forward(HomeController.getJSP(HomeController.URL));
+            return;
+        }*/
         
         try {
             validator.checkAgencyName(name);
@@ -350,7 +357,7 @@ public class AgencyController extends GenericController {
             minOdds = Integer.parseInt(strMinOdds);
         } catch (NumberFormatException ex) {
             validated = false;
-            request.setAttribute(Information.STATUS, "Invalid min odds value");
+            request.setAttribute(Information.MIN_ODDS, "Invalid min odds value");
         }
         
         Integer maxOdds = null;
@@ -358,7 +365,7 @@ public class AgencyController extends GenericController {
             maxOdds = Integer.parseInt(strMaxOdds);
         } catch (NumberFormatException ex) {
             validated = false;
-            request.setAttribute(Information.STATUS, "Invalid max odds value");
+            request.setAttribute(Information.MAX_ODDS, "Invalid max odds value");
         }
         
         Double maxProfit = null;
@@ -366,7 +373,7 @@ public class AgencyController extends GenericController {
             maxProfit = Double.parseDouble(strMaxProfit);
         } catch (NumberFormatException ex) {
             validated = false;
-            request.setAttribute(Information.STATUS, "Invalid max profit value");
+            request.setAttribute(Information.MAX_PROFIT, "Invalid max profit value");
         }
         
         try {
@@ -417,7 +424,7 @@ public class AgencyController extends GenericController {
             return;
         }
         
-        agencyService.setAttributes(agency, name, email, telephone,
+        agencyService.setAttributes(agency.getAuthor(), agency, name, email, telephone,
                 city, address, minOdds, maxOdds, maxProfit, acceptGlobalOdds != null, status);
         request.setAttribute(Attribute.AGENCY, agency);
         try {
@@ -435,6 +442,7 @@ public class AgencyController extends GenericController {
         }
         request.setAttribute(Attribute.AGENCY, agency);
         request.setAttribute(Attribute.EMPLOYEES, employees);
+        request.setAttribute(Attribute.AUTHENTICATION_SERVICE, auth);
         forward(AdminController.getJSP(AdminController.AGENCY_SUMMARY));
     }
 
@@ -478,13 +486,8 @@ public class AgencyController extends GenericController {
                 forward(AdminController.getJSP(AdminController.USER_SUMMARY));
                 return;
             }
-            auth.logout(request, employee);
-            if (auth.sessionUser(request) == null) {
-                request.setAttribute(Information.INFO, "Please login again to see the changes.");
-                forward(HomeController.getJSP(HomeController.INDEX));
-                return;
-            }
             request.setAttribute(Attribute.EMPLOYEES, agencyService.getEmployees(agency));
+            request.setAttribute(Attribute.AUTHENTICATION_SERVICE, auth);
             request.setAttribute(Information.INFO, "User "+username+" successfully added");
             forward(AdminController.getJSP(AdminController.AGENCY_SUMMARY));
         }
@@ -540,13 +543,8 @@ public class AgencyController extends GenericController {
             return;
         }
         employees.remove(employee);
-        auth.logout(request, employee);
-        if (auth.sessionUser(request) == null) {
-            request.setAttribute(Information.INFO, "Please login again to see the changes.");
-            forward(HomeController.getJSP(HomeController.INDEX));
-            return;
-        }
         request.setAttribute(Attribute.EMPLOYEES, employees);
+        request.setAttribute(Attribute.AUTHENTICATION_SERVICE, auth);
         request.setAttribute(Information.INFO, "User "+username+" successfully removed");
         forward(AdminController.getJSP(AdminController.AGENCY_SUMMARY));
     }
@@ -576,6 +574,7 @@ public class AgencyController extends GenericController {
             Agency agency = employee.getAgency();
             request.setAttribute(Attribute.EMPLOYEES, agencyService.getEmployees(agency));
             request.setAttribute(Attribute.AGENCY, agency);
+            request.setAttribute(Attribute.AUTHENTICATION_SERVICE, auth);
             forward(AdminController.getJSP(AdminController.AGENCY_SUMMARY));
         }
     }
@@ -648,23 +647,36 @@ public class AgencyController extends GenericController {
             
             Integer soldParlays = 0;
             Integer inQueue = 0;
+            Integer cancelled = 0;
+            Integer win = 0;
+            Integer lose = 0;
             Double revenue = 0D;
             Double cost = 0D;
             for (Parlay p : parlays) {
-                Integer st = p.getStatus();
-                if (!st.equals(Status.CANCELLED)) {
-                    if (st.equals(Status.IN_QUEUE)) {
+                switch (p.getStatus()) {
+                    case Status.CANCELLED:
+                        cancelled++;
+                        break;
+                    case Status.IN_QUEUE:
                         inQueue++;
-                    } else {
+                        break;
+                    case Status.WIN:
                         soldParlays++;
+                        win++;
                         revenue += p.getRisk();
-                        if (p.getStatus().equals(Status.WIN)) {
-                            cost += p.getProfit();
-                        }
-                    }
+                        cost += p.getProfit();
+                        break;
+                    case Status.LOSE:
+                        revenue += p.getRisk();
+                        soldParlays++;
+                        lose++;
+                        break;
                 }
             }
             Double profit = revenue-cost;
+            request.setAttribute(Attribute.WIN, win);
+            request.setAttribute(Attribute.LOSE, lose);
+            request.setAttribute(Attribute.CANCELLED, cancelled);
             request.setAttribute(Attribute.IN_QUEUE, inQueue);
             request.setAttribute(Attribute.PARLAYS, soldParlays);
             request.setAttribute(Attribute.REVENUE, revenue);
@@ -680,5 +692,100 @@ public class AgencyController extends GenericController {
         else if (roleRequester == Role.MANAGER) {
             forward(ManagerController.getJSP(ManagerController.AGENCY_BALANCE));
         }
+    }
+
+    private void doMEdit() {
+        
+        Agency agency = getAgency();
+        if (agency == null) {
+            return;
+        }
+        String strMinOdds = request.getParameter(Parameter.MIN_ODDS);
+        String strMaxOdds = request.getParameter(Parameter.MAX_ODDS);
+        String strMaxProfit = request.getParameter(Parameter.MAX_PROFIT);
+        
+        boolean validated = true;
+        
+        Integer minOdds = null;
+        try {
+            minOdds = Integer.parseInt(strMinOdds);
+        } catch (NumberFormatException ex) {
+            validated = false;
+            request.setAttribute(Information.MIN_ODDS, "Invalid min odds value");
+        }
+        
+        Integer maxOdds = null;
+        try {
+            maxOdds = Integer.parseInt(strMaxOdds);
+        } catch (NumberFormatException ex) {
+            validated = false;
+            request.setAttribute(Information.MAX_ODDS, "Invalid max odds value");
+        }
+        
+        Double maxProfit = null;
+        try {
+            maxProfit = Double.parseDouble(strMaxProfit);
+        } catch (NumberFormatException ex) {
+            validated = false;
+            request.setAttribute(Information.MAX_PROFIT, "Invalid max profit value");
+        }
+        
+        try {
+            validator.checkMinOdds(minOdds);
+        } catch (Exception ex) {
+            validated = false;
+            request.setAttribute(Information.MIN_ODDS, ex.getMessage());
+        }
+
+        try {
+            validator.checkMinOdds(maxOdds);
+        } catch (Exception ex) {
+            validated = false;
+            request.setAttribute(Information.MAX_ODDS, ex.getMessage());
+        }
+
+        try {
+            validator.checkOddsRange(minOdds, maxOdds);
+        } catch (Exception ex) {
+            validated = false;
+            request.setAttribute(Information.MIN_ODDS, ex.getMessage());
+        }
+        
+        try {
+            validator.checkMaxProfit(maxProfit);
+        } catch (Exception ex) {
+            validated = false;
+            request.setAttribute(Information.MAX_PROFIT, ex.getMessage());
+        }
+        
+        AgencyBean a = new AgencyBean();
+        a.setId(agency.getId());
+        a.setMinOdds(strMinOdds);
+        a.setMaxOdds(strMaxOdds);
+        a.setMaxProfit(strMaxProfit);
+        
+        if (!validated) {
+            request.setAttribute(Attribute.AGENCY, a);
+            forward(ManagerController.getJSP(ManagerController.EDIT_AGENCY));
+            return;
+        }
+        
+        agency.setMinOddsParlay(minOdds);
+        agency.setMaxOddsParlay(maxOdds);
+        agency.setMaxProfit(maxProfit);
+        try {
+            agencyService.edit(agency);
+        } catch (Exception ex) {
+            request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
+            request.setAttribute(Attribute.AGENCY, a);
+            forward(ManagerController.getJSP(ManagerController.EDIT_AGENCY));
+            return;
+        }
+
+        List<FinalUser> employees = agencyService.getEmployees(agency);
+        request.setAttribute(Attribute.AGENCY, agency);
+        request.setAttribute(Attribute.EMPLOYEES, employees);
+        request.setAttribute(Attribute.AUTHENTICATION_SERVICE, auth);
+        forward(ManagerController.getJSP(ManagerController.AGENCY_SUMMARY));
     }
 }

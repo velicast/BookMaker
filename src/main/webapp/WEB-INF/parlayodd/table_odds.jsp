@@ -18,15 +18,18 @@
         width: 12%;
     }
     .table_odds_th2 {
-        width: 23%;
+        width: 20%;
     }
     .table_odds_th3 {
-        width: 36%;
+        width: 28%;
     }
     .table_odds_th4 {
-        width: 17%;
+        width: 14%;
     }
     .table_odds_th5 {
+        width: 14%;
+    }
+    .table_odds_th6 {
         width: 12%;
     }
     .table td {
@@ -40,6 +43,7 @@
         padding: 0px;
     }
     .table .td_t {
+        font-size: 12px;
         padding-top : 2px;
         padding-bottom : 5px;
     }
@@ -52,7 +56,8 @@
             <th class="table_odds_th2">Team</th>
             <th class="table_odds_th3">Match</th>
             <th class="table_odds_th4">Period</th>
-            <th class="table_odds_th5">Status</th>
+            <th class="table_odds_th5">Date</th>
+            <th class="table_odds_th6">Status</th>
         </tr>
     </thead>
     <tbody>
@@ -78,6 +83,7 @@
             <td class="td_t">${odd.team.name}</td>
             <td class="td_t">${odd.period.match.name}</td>
             <td class="td_t">${odd.period.name}</td>
+            <td class="td_t"><fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${odd.period.match.startDate.getTime()}"/></td>
             <td class="td_t">
                 <c:if test="${odd.status == Status.WIN}">
                 <h4 class="status_label"><span class = "label label-success">${Status.str(odd.status)}</span></h4>

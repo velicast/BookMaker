@@ -192,7 +192,7 @@ public class ParlayController extends GenericController {
 
         parlayService.updateProfit(parlay);
         
-        String res = String.format("%.2f", Math.min(maxProfit, parlay.getProfit()));
+        String res = String.format("%.0f", Math.min(maxProfit, parlay.getProfit()));
         try {
             response.getOutputStream().write(res.getBytes());
         } catch (IOException ex) {
@@ -248,7 +248,7 @@ public class ParlayController extends GenericController {
         parlay.setOdds(odds);
         Double factor = parlayService.getFactor(parlay);
         
-        String res = String.format("%.2f", profit/factor);
+        String res = String.format("%.0f", profit/factor);
         try {
             response.getOutputStream().write(res.getBytes());
         } catch (IOException ex) {
@@ -346,9 +346,8 @@ public class ParlayController extends GenericController {
             forward(ClientController.getJSP(ClientController.INDEX));
             return;
         }
-        request.setAttribute(Information.INFO, "<b>Ticket ID: "+parlay.getId()+"</b>"
+        request.setAttribute(Information.INFO, "<b>Ticket ID: "+(parlay.getId()+ParlayService.OFFSET_PARLAY_ID)+"</b>"
                 +"<br/><b style=\"font-size: 20px \">Thanks for purchasing!</b>");
-        
         forward(ClientController.getJSP(ClientController.INDEX));
     }
 
@@ -391,6 +390,9 @@ public class ParlayController extends GenericController {
             return;
         }
         try {
+            request.setAttribute(Attribute.PARLAY, parlay);
+            request.setAttribute(Attribute.PARLAY_ODDS, parlay.getOdds());
+            
             for (ParlayOdd odd : parlay.getOdds()) {
                 Integer matchStatus = odd.getPeriod().getMatch().getStatus();
                 if (matchStatus.equals(Status.PENDING_RESULT) || matchStatus.equals(Status.FINISHED)) {
@@ -401,10 +403,6 @@ public class ParlayController extends GenericController {
                     return;
                 }
             }
-                // FIN VALIDACION
-            request.setAttribute(Attribute.PARLAY, parlay);
-            request.setAttribute(Attribute.PARLAY_ODDS, parlay.getOdds());
-            
             parlay.setStatus(Status.PENDING);
             parlay.setSeller(auth.sessionUser(request));
             parlayService.edit(parlay);
@@ -414,7 +412,7 @@ public class ParlayController extends GenericController {
             forward(SellerController.getJSP(SellerController.PARLAY_SUMMARY));
             return;
         }
-        request.setAttribute(Information.INFO, "<b>Parlay "+parlayId+" Accepted! Now you can print the ticket.</b>");
+        request.setAttribute(Information.INFO, "<b>Parlay ID "+(parlayId+ParlayService.OFFSET_PARLAY_ID)+" Accepted! Now you can print the ticket.</b>");
         forward(SellerController.getJSP(SellerController.PARLAY_SUMMARY));
     }
 
@@ -467,7 +465,7 @@ public class ParlayController extends GenericController {
             forward(SellerController.getJSP(SellerController.PARLAY_SUMMARY));
             return;
         }
-        request.setAttribute(Information.INFO, "<b>Parlay Id "+parlayId+" Canceled!</b>");
+        request.setAttribute(Information.INFO, "<b>Parlay ID "+(parlayId+ParlayService.OFFSET_PARLAY_ID)+" Canceled!</b>");
         forward(SellerController.getJSP(SellerController.SELLING_QUEUE));
     }
 
@@ -517,6 +515,10 @@ public class ParlayController extends GenericController {
                 validated = false;
             }
         }
+        if (parlayId != null) {
+            parlayId -= ParlayService.OFFSET_PARLAY_ID;
+        }
+        
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Calendar from = null;
         if (strFrom != null && strFrom.length() > 0) {
@@ -577,6 +579,7 @@ public class ParlayController extends GenericController {
             }
             return;
         }
+        
         List<Parlay> result = parlayService.searchBy(agency.getId(), parlayId, username, from, to, status);
         request.setAttribute(Attribute.PARLAYS, result);
         
@@ -610,7 +613,7 @@ public class ParlayController extends GenericController {
             return;
         }
         Parlay parlay = parlayService.getParlay(parlayId);
-        if (parlay == null || !parlay.getStatus().equals(Status.PENDING)) {
+        /*if (parlay == null || !parlay.getStatus().equals(Status.PENDING)) {
             redirect(HomeController.URL);
             return;
         }
@@ -631,7 +634,7 @@ public class ParlayController extends GenericController {
             request.setAttribute(Attribute.PARLAY, parlay);
             forward(SellerController.getJSP(SellerController.PARLAY_SUMMARY));
             return;
-        }
+        }*/
         
         NumberFormat moneyFormatter = NumberFormat.getNumberInstance();
         moneyFormatter.setMaximumFractionDigits(0);
@@ -642,7 +645,7 @@ public class ParlayController extends GenericController {
             ParlayOddBean oddBean = new ParlayOddBean();
             
             MatchEvent match = odd.getPeriod().getMatch();
-            oddBean.setMatch(match.getName());
+            oddBean.setMatch(match.getName()+" | "+odd.getPeriod().getName());
             oddBean.setStartDate(dateFormatter.format(match.getStartDate().getTime()));
             
             switch (odd.getType()) {
@@ -668,10 +671,10 @@ public class ParlayController extends GenericController {
             odds.add(oddBean);
         }
 
-        Map<String, String> parameters = new TreeMap();
+        Map<String, Object> parameters = new TreeMap();
         parameters.put("agency", parlay.getSeller().getAgency().getName());
         parameters.put("date", dateFormatter.format(parlay.getPurchaseDate().getTime()));
-        parameters.put("ticketID", parlay.getId()+"");
+        parameters.put("ticketID", (parlay.getId()+ParlayService.OFFSET_PARLAY_ID)+"");
         parameters.put("risk", "$ "+moneyFormatter.format(parlay.getRisk()));
         parameters.put("profit", "$ "+moneyFormatter.format(parlay.getProfit()));
         
@@ -684,7 +687,7 @@ public class ParlayController extends GenericController {
             byte[] pdfData = JasperExportManager.exportReportToPdf(jPrint);
             
             response.setContentType("application/pdf");
-            response.addHeader("Content-Disposition", "attachment; filename=ticket"+parlay.getId()+".pdf");
+            response.addHeader("Content-Disposition", "attachment; filename=ticket"+(parlay.getId()+ParlayService.OFFSET_PARLAY_ID)+".pdf");
             response.setContentLength(pdfData.length);
             response.getOutputStream().write(pdfData);
         } catch (JRException | IOException ex) {

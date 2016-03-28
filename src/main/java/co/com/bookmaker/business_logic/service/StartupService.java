@@ -42,9 +42,9 @@ public class StartupService implements ServletContextListener {
         SportDAO sportDAO = new SportDAO();
         FinalUserDAO finalUserDAO = new FinalUserDAO();
         
-        Logger.getLogger(StartupService.class.getName()).log(Level.INFO, "Stating App...");
+        Logger.getLogger(StartupService.class.getName()).log(Level.INFO, "Starting App...");
         
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT-5:00"));
+        TimeZone.setDefault(TimeZone.getTimeZone("America/Bogota"));
         Locale.setDefault(Locale.US);
         
         try {

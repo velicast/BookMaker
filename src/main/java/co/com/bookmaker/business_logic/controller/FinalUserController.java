@@ -226,8 +226,10 @@ public class FinalUserController extends GenericController {
             return;
         }
 
+        FinalUser author = auth.sessionUser(request);
+        
         FinalUser newUser = new FinalUser();
-        finalUserService.setAttributes(newUser,
+        finalUserService.setAttributes(author, newUser,
                 username, password, email, birthDate, firstName, lastName, city,
                 telephone, address, status,
                 roleAdmin != null, roleManager != null, roleAnalyst != null,
@@ -271,6 +273,14 @@ public class FinalUserController extends GenericController {
         String strBirthDate = request.getParameter(Parameter.BIRTH_DATE);
 
         // INICIO Validacion 
+        FinalUser oldUser = finalUserService.getUser(targetUsername);
+        if (oldUser == null) {
+            request.setAttribute(Information.USERNAME, "User " + username + " not found");
+            request.setAttribute(Attribute.USERNAME, username);
+            forward(AdminController.getJSP(AdminController.SEARCH_USER));
+            return;
+        }
+        
         boolean validated = true;
 
         try {
@@ -375,18 +385,11 @@ public class FinalUserController extends GenericController {
             return;
         }
 
-        FinalUser oldUser = finalUserService.getUser(targetUsername);
-        if (oldUser == null) {
-            request.setAttribute(Information.USERNAME, "User " + username + " not found");
-            request.setAttribute(Attribute.USERNAME, username);
-            forward(AdminController.getJSP(AdminController.SEARCH_USER));
-            return;
-        }
         if (password == null || password.length() == 0) {
             password = oldUser.getPassword();
         }
         
-        finalUserService.setAttributes(oldUser,
+        finalUserService.setAttributes(oldUser.getAuthor(), oldUser,
                 username, password, email, birthDate, firstName, lastName, city,
                 telephone, address, status,
                 roleAdmin != null, roleManager != null, roleAnalyst != null,
@@ -402,12 +405,6 @@ public class FinalUserController extends GenericController {
             }
             request.setAttribute(Attribute.FINAL_USER, user);
             forward(AdminController.getJSP(AdminController.EDIT_USER));
-            return;
-        }
-        auth.logout(request, oldUser);
-        if (auth.sessionUser(request) == null) {
-            request.setAttribute(Information.INFO, "Please login again to see the changes.");
-            forward(HomeController.getJSP(HomeController.INDEX));
             return;
         }
         request.setAttribute(Attribute.FINAL_USER, oldUser);
@@ -647,23 +644,36 @@ public class FinalUserController extends GenericController {
 
                 Integer soldParlays = 0;
                 Integer inQueue = 0;
+                Integer cancelled = 0;
+                Integer win = 0;
+                Integer lose = 0;
                 Double revenue = 0D;
                 Double cost = 0D;
                 for (Parlay p : parlays) {
-                    Integer st = p.getStatus();
-                    if (!st.equals(Status.CANCELLED)) {
-                        if (st.equals(Status.IN_QUEUE)) {
+                    switch (p.getStatus()) {
+                        case Status.CANCELLED:
+                            cancelled++;
+                            break;
+                        case Status.IN_QUEUE:
                             inQueue++;
-                        } else {
+                            break;
+                        case Status.WIN:
                             soldParlays++;
+                            win++;
                             revenue += p.getRisk();
-                            if (p.getStatus().equals(Status.WIN)) {
-                                cost += p.getProfit();
-                            }
-                        }
+                            cost += p.getProfit();
+                            break;
+                        case Status.LOSE:
+                            revenue += p.getRisk();
+                            soldParlays++;
+                            lose++;
+                            break;
                     }
                 }
                 Double profit = revenue-cost;
+                request.setAttribute(Attribute.WIN, win);
+                request.setAttribute(Attribute.LOSE, lose);
+                request.setAttribute(Attribute.CANCELLED, cancelled);
                 request.setAttribute(Attribute.IN_QUEUE, inQueue);
                 request.setAttribute(Attribute.PARLAYS, soldParlays);
                 request.setAttribute(Attribute.REVENUE, revenue);

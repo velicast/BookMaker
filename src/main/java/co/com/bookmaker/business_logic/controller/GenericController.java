@@ -5,7 +5,9 @@
  */
 package co.com.bookmaker.business_logic.controller;
 
+import co.com.bookmaker.business_logic.service.FinalUserService;
 import co.com.bookmaker.business_logic.service.security.AuthenticationService;
+import co.com.bookmaker.data_access.entity.FinalUser;
 import java.io.IOException;
 import java.util.TreeMap;
 import javax.servlet.RequestDispatcher;
@@ -31,6 +33,7 @@ public abstract class GenericController extends HttpServlet {
     protected TreeMap<String, Long> doResource = new TreeMap<>();
     
     private AuthenticationService auth;
+    private FinalUserService finalUserService;
     
     public void allowTO(String resource, Long role) {
         toResource.put(resource, role);
@@ -99,7 +102,6 @@ public abstract class GenericController extends HttpServlet {
         if (role == null) {
             return true;
         }
-        auth = new AuthenticationService();
         Long sessionRole = auth.sessionRole(request);
         return sessionRole != null && ((role&sessionRole) != 0);
     }
@@ -113,7 +115,6 @@ public abstract class GenericController extends HttpServlet {
         if (role == null) {
             return true;
         }
-        auth = new AuthenticationService();
         Long sessionRole = auth.sessionRole(request);
         return sessionRole != null && ((role&sessionRole) != 0);
     }
@@ -127,6 +128,15 @@ public abstract class GenericController extends HttpServlet {
         this.response = response;
         this.session = request.getSession();
       
+            // keep updated session user
+        auth = new AuthenticationService();
+        FinalUser sessionUser = auth.sessionUser(request);
+        if (sessionUser != null) {
+            finalUserService = new FinalUserService();
+            sessionUser = finalUserService.find(sessionUser.getId());
+            auth.updateLogin(request, sessionUser);
+        }
+        
         if (pTo == null && pDo == null && canTo(INDEX)) {
             processTO(INDEX);
         }

@@ -15,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -37,7 +36,7 @@ public class Tournament implements Serializable {
     
     private Integer status;
     
-    @OneToOne
+    @ManyToOne
     private FinalUser author;
 
     public Long getId() {

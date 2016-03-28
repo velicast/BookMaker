@@ -34,6 +34,6 @@
             </c:if>
         </span>
     </b> <br/>
-    <small>${odd.period.match.name}</small> <br/>
+    <small>${odd.period.match.name} | ${odd.period.name}</small> <br/>
     <small><b><fmt:formatDate type="time" pattern="dd/MM/yyyy HH:mm" value="${odd.period.cutoff.getTime()}"/></b></small>
 </div>

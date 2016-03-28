@@ -259,7 +259,7 @@ public class TournamentController extends GenericController {
             forward(AnalystController.getJSP(AnalystController.SEARCH_TOURNAMENT));
             return;
         }
-        List<Pair<Tournament, Long>> result;
+        List<Pair<Tournament, Integer>> result;
                 
         FinalUser user = auth.sessionUser(request);
         Agency agency = user.getAgency();

@@ -13,6 +13,7 @@
     <class>co.com.bookmaker.data_access.entity.parlay.Parlay</class>
     <class>co.com.bookmaker.data_access.entity.parlay.ParlayOdd</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <shared-cache-mode>NONE</shared-cache-mode>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>

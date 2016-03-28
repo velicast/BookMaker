@@ -92,6 +92,11 @@ public class MatchEventService {
         return matches;
     }
     
+    public Integer countMatches(Tournament tournament, Integer status) {
+        return matchEventDAO.countMatches(tournament, status);
+    }
+
+            
     public List<MatchEvent> searchAllBy(Integer sportId, Long tournamentId, String author, Calendar from, Calendar to, Integer status) {
         
         List<MatchEvent> pre = matchEventDAO.findAll();

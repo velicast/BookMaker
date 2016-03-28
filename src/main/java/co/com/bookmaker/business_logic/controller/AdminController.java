@@ -426,23 +426,36 @@ public class AdminController extends GenericController {
             
             Integer soldParlays = 0;
             Integer inQueue = 0;
+            Integer cancelled = 0;
+            Integer win = 0;
+            Integer lose = 0;
             Double revenue = 0D;
             Double cost = 0D;
             for (Parlay p : parlays) {
-                Integer st = p.getStatus();
-                if (!st.equals(Status.CANCELLED)) {
-                    if (st.equals(Status.IN_QUEUE)) {
+                switch (p.getStatus()) {
+                    case Status.CANCELLED:
+                        cancelled++;
+                        break;
+                    case Status.IN_QUEUE:
                         inQueue++;
-                    } else {
+                        break;
+                    case Status.WIN:
                         soldParlays++;
+                        win++;
                         revenue += p.getRisk();
-                        if (p.getStatus().equals(Status.WIN)) {
-                            cost += p.getProfit();
-                        }
-                    }
+                        cost += p.getProfit();
+                        break;
+                    case Status.LOSE:
+                        revenue += p.getRisk();
+                        soldParlays++;
+                        lose++;
+                        break;
                 }
             }
             Double profit = revenue-cost;
+            request.setAttribute(Attribute.WIN, win);
+            request.setAttribute(Attribute.LOSE, lose);
+            request.setAttribute(Attribute.CANCELLED, cancelled);
             request.setAttribute(Attribute.IN_QUEUE, inQueue);
             request.setAttribute(Attribute.PARLAYS, soldParlays);
             request.setAttribute(Attribute.REVENUE, revenue);

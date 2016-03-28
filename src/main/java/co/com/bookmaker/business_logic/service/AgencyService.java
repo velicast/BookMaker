@@ -33,10 +33,11 @@ public class AgencyService {
         return agencyDAO.find(id);
     }
     
-    public void setAttributes(Agency agency, String name,
+    public void setAttributes(FinalUser author, Agency agency, String name,
             String email, String telephone, String city, String address, 
             Integer minOdds, Integer maxOdds, Double maxPayout, Boolean acceptGlobalOdds, Integer status) {
         
+        agency.setAuthor(author);
         agency.setName(name);
         agency.setEmail(email);
         agency.setTelephone(telephone);

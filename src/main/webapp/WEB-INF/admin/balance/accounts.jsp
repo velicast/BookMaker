@@ -25,55 +25,62 @@
 
 <h2 class="main_content_title"> Accounts Balance </h2>
 
-<form role="form" class="form-horizontal">
-    <div class="form-group" style="text-align: center">
-        <h4 class="col-md-6">Agency</h4>
+<div class="row">
+    <div class="col-md-6">
+        <form role="form" class="form-horizontal">
+            <div class="form-group" style="text-align: center">
+                <h4 class="col-md-12">Agency</h4>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Total: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.AGENCIES]}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Active: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.ACTIVE_AGENCIES]}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Inactive: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.INACTIVE_AGENCIES]}</p>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Total: </label>
-        <div class="col-md-4">
-            <p class="form-control-static">${requestScope[Attr.AGENCIES]}</p>
-        </div>
+    <div class="col-md-6">
+        <form role="form" class="form-horizontal">
+            <div class="form-group" style="text-align: center">
+                <h4 class="col-md-12">User</h4>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Total: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.USERS]}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Online: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.ONLINE]}</p>
+                </div>
+            </div>    
+            <div class="form-group">
+                <label class="col-md-3 control-label">Active: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.ACTIVE_USERS]}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Inactive: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.INACTIVE_USERS]}</p>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Active: </label>
-        <div class="col-md-4">
-            <p class="form-control-static">${requestScope[Attr.ACTIVE_AGENCIES]}</p>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Inactive: </label>
-        <div class="col-md-4">
-            <p class="form-control-static">${requestScope[Attr.INACTIVE_AGENCIES]}</p>
-        </div>
-    </div>
-    <div class="form-group" style="text-align: center">
-        <h4 class="col-md-6">User</h4>
-    </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Total: </label>
-        <div class="col-md-4">
-            <p class="form-control-static">${requestScope[Attr.USERS]}</p>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Online: </label>
-        <div class="col-md-4">
-            <p class="form-control-static">${requestScope[Attr.ONLINE]}</p>
-        </div>
-    </div>    
-    <div class="form-group">
-        <label class="col-md-2 control-label">Active: </label>
-        <div class="col-md-4">
-            <p class="form-control-static">${requestScope[Attr.ACTIVE_USERS]}</p>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Inactive: </label>
-        <div class="col-md-4">
-            <p class="form-control-static">${requestScope[Attr.INACTIVE_USERS]}</p>
-        </div>
-    </div>
-</form>
-
+</div>
 

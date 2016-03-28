@@ -70,6 +70,10 @@ public class FinalUserService {
                                  new Object[] { username,   password});
     }
     
+    public FinalUser find(Long id) {
+        return finalUserDAO.find(id);
+    }
+    
     public FinalUser getUser(String username) {
         
         return finalUserDAO.find(new String[] {"username"},
@@ -82,11 +86,12 @@ public class FinalUserService {
                                  new Object[] { username, agency.getId()});
     }
     
-    public void setAttributes(FinalUser user, 
+    public void setAttributes(FinalUser author, FinalUser user, 
             String username, String password, String email, Calendar birthDate, String firstName, String lastName, 
             String city, String telephone, String address, Integer status,
             boolean admin, boolean manager, boolean analyst, boolean seller, boolean client) {
         
+        user.setAuthor(author);
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);

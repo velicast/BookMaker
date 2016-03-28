@@ -23,6 +23,7 @@ import co.com.bookmaker.util.type.Information;
 import co.com.bookmaker.util.type.Parameter;
 import co.com.bookmaker.util.type.Role;
 import co.com.bookmaker.util.type.Status;
+import java.util.ArrayList;
 
 /**
  *
@@ -88,9 +89,45 @@ public class ClientController extends GenericController {
     protected void toIndex() {
         
         List<Sport> sports = sportService.getSports(Status.ACTIVE);
-        request.setAttribute(Attribute.SPORT, sports);
+        List<Integer> countMatchesSport = new ArrayList();
         
-        request.setAttribute(Attribute.TOURNAMENT_SERVICE, tournamentService);
+        List<List<Tournament>> tournaments = new ArrayList();
+        List<List<Integer>> countMatchesTournament = new ArrayList();
+        
+        for (int i = 0; i < sports.size(); i++) {
+            Sport s = sports.get(i);
+            
+            List<Tournament> sTournaments = tournamentService.getTournaments(s.getId(), Status.ACTIVE);
+            /*if (sTournaments.isEmpty()) {
+                sports.remove(i);
+                i--;
+                continue;
+            }*/
+            List<Integer> countTournament = new ArrayList();
+            
+            int nSportMatches = 0;
+            for (int j = 0; j < sTournaments.size(); j++) {
+                Tournament t = sTournaments.get(j);
+                
+                int nTournamentMatches = matchEventService.countMatches(t, Status.ACTIVE);
+                if (nTournamentMatches == 0) {
+                    sTournaments.remove(j);
+                    j--;
+                    continue;
+                }
+                countTournament.add(nTournamentMatches);
+                
+                nSportMatches += nTournamentMatches;
+            }
+            tournaments.add(sTournaments);
+            countMatchesSport.add(nSportMatches);
+            countMatchesTournament.add(countTournament);
+        }
+        
+        request.setAttribute(Attribute.SPORTS, sports);
+        request.setAttribute(Attribute.TOURNAMENTS, tournaments);
+        request.setAttribute(Attribute.COUNT_MATCHES_SPORT, countMatchesSport);
+        request.setAttribute(Attribute.COUNT_MATCHES_TOURNAMENT, countMatchesTournament);
         
         forward(getJSP(INDEX));
     }

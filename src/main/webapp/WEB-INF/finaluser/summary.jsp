@@ -30,10 +30,13 @@
 <c:set var="user" value="${requestScope[Attr.FINAL_USER]}"></c:set>
 <jsp:useBean id="user" class="co.com.bookmaker.data_access.entity.FinalUser"></jsp:useBean>
 
+<c:set var="sUser" value="${sessionScope[Attr.SESSION_USER]}"></c:set>
+<jsp:useBean id="sUser" class="co.com.bookmaker.data_access.entity.FinalUser"></jsp:useBean>
+    
 <c:set var="add" value="${requestScope[Attr.ADD_EMPLOYEE]}"></c:set>
 <c:set var="rem" value="${requestScope[Attr.REM_EMPLOYEE]}"></c:set>
 
-<h2 class="main_content_title"> User Summary </h2>
+<h2 class="main_content_title"> User </h2>
 
 <form role="form" class="form-horizontal">      
     <div class="form-group">
@@ -70,6 +73,15 @@
         </c:if>
         </div>
     </div>
+    <c:if test="${sUser.author == null}">
+    <div class="form-group">
+        <label class="col-md-2 control-label">Author: </label>
+        <div class="col-md-4">
+            <p class="form-control-static"><a href="<%=AdminController.URL%>?to=<%=AdminController.USER_SUMMARY%>&${Param.USERNAME}=${user.author.username}">
+                    ${user.author.username}</a> - ${user.author.firstName} ${user.author.lastName}</p>
+        </div>
+    </div>
+    </c:if>
     <c:if test="${requestScope[Attr.ONLINE] == true}">
     <div class="form-group">
         <div class="col-md-2"></div>

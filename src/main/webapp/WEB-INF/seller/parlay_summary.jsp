@@ -31,7 +31,7 @@
                 </div>
                 <!-- Main Content -->
                 <div id="mainContent" class="col-md-9 side-body">
-                    <h2 class="main_content_title"> Parlay Summary </h2>
+                    <h2 class="main_content_title"> Parlay </h2>
                     <jsp:include page="<%=ParlayController.getJSP(ParlayController.SUMMARY)%>">
                         <jsp:param name="roleRequester" value="${Role.SELLER}"></jsp:param>
                     </jsp:include>

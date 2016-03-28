@@ -124,6 +124,13 @@ public class Attribute {
     
     public static final String AUTHENTICATION_SERVICE = "a85";
     
+    public static final String WIN = "a86";
+    public static final String LOSE = "a87";
+    public static final String CANCELLED = "a88";
+    
+    public static final String COUNT_MATCHES_SPORT = "a89";
+    public static final String COUNT_MATCHES_TOURNAMENT = "a90";
+    
     public String getSESSION_USER() {
         return SESSION_USER;
     }
@@ -474,5 +481,25 @@ public class Attribute {
 
     public String getAUTHENTICATION_SERVICE() {
         return AUTHENTICATION_SERVICE;
+    }
+
+    public String getWIN() {
+        return WIN;
+    }
+
+    public String getLOSE() {
+        return LOSE;
+    }
+
+    public String getCANCELLED() {
+        return CANCELLED;
+    }
+
+    public String getCOUNT_MATCHES_SPORT() {
+        return COUNT_MATCHES_SPORT;
+    }
+
+    public String getCOUNT_MATCHES_TOURNAMENT() {
+        return COUNT_MATCHES_TOURNAMENT;
     }
 }

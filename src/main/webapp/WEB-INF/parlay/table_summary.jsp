@@ -16,6 +16,7 @@
 <jsp:useBean id="Info" class="co.com.bookmaker.util.type.Information"></jsp:useBean>
 <jsp:useBean id="Status" class="co.com.bookmaker.util.type.Status"></jsp:useBean>
 <jsp:useBean id="Role" class="co.com.bookmaker.util.type.Role"></jsp:useBean>
+<jsp:useBean id="ParlayService" class="co.com.bookmaker.business_logic.service.parlay.ParlayService"></jsp:useBean>
 
 <link rel="stylesheet" href="css/parlay/table_summary.css">
 
@@ -38,13 +39,12 @@
        <jsp:useBean id="parlay" class="co.com.bookmaker.data_access.entity.parlay.Parlay"></jsp:useBean>
         <tr>
             <c:if test="${param.roleRequester == Role.SELLER}">
-            <td class="td_t"><a href="<%=SellerController.URL%>?to=<%=SellerController.PARLAY_SUMMARY%>&${Param.PARLAY}=${parlay.id}">${parlay.id}</a></td>
+                <td class="td_t"><a href="<%=SellerController.URL%>?to=<%=SellerController.PARLAY_SUMMARY%>&${Param.PARLAY}=${parlay.id}">${parlay.id+ParlayService.OFFSET_PARLAY_ID}</a></td>
             </c:if>
             <c:if test="${param.roleRequester == Role.MANAGER}">
-            <td class="td_t"><a href="<%=ManagerController.URL%>?to=<%=ManagerController.PARLAY_SUMMARY%>&${Param.PARLAY}=${parlay.id}">${parlay.id}</a></td>
+            <td class="td_t"><a href="<%=ManagerController.URL%>?to=<%=ManagerController.PARLAY_SUMMARY%>&${Param.PARLAY}=${parlay.id}">${parlay.id+ParlayService.OFFSET_PARLAY_ID}</a></td>
             </c:if>
-            <td class="td_t"><fmt:formatDate type="time" pattern="dd/MM/yyyy" value="${parlay.purchaseDate.getTime()}"/>
-                <fmt:formatDate type="time" pattern="HH:mm" value="${parlay.purchaseDate.getTime()}"/></td>
+            <td class="td_t"><fmt:formatDate type="both" pattern="dd/MM/yyyy HH:mm" value="${parlay.purchaseDate.getTime()}"/></td>
             <td class="td_t">${parlay.clientName}</td>
             <td class="td_t">$<fmt:formatNumber value="${parlay.risk}" maxFractionDigits="0"/></td>
             <td class="td_t">$<fmt:formatNumber value="${parlay.profit}" maxFractionDigits="0"/></td>

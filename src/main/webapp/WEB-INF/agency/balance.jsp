@@ -43,45 +43,66 @@
         </div>
     </form>
 </div>
+        
 <div class="row">
-    <form class="form-horizontal">
-        <div class="form-group" style="text-align: center">
-            <h4 class="col-md-6">Parlay</h4>
-        </div>
-        <div class="form-group">
-            <label class="col-md-2 control-label">In Queue: </label>
-            <div class="col-md-4">
-                <p class="form-control-static">${requestScope[Attr.IN_QUEUE]}</p>
+    <div class="col-md-6">
+        <form role="form" class="form-horizontal">
+            <div class="form-group" style="text-align: center">
+                <h4 class="col-md-12">Parlay</h4>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-2 control-label">Sold: </label>
-            <div class="col-md-4">
-                <p class="form-control-static">${requestScope[Attr.PARLAYS]}</p>
+            <div class="form-group">
+                <label class="col-md-3 control-label">In Queue: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.IN_QUEUE]}</p>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-2 control-label">Total Sold: </label>
-            <div class="col-md-4">
-                <p class="form-control-static">$ <fmt:formatNumber value="${requestScope[Attr.REVENUE]}" maxFractionDigits="0"/></p>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Win: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.WIN]}</p>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-2 control-label">Total Cost: </label>
-            <div class="col-md-4">
-                <p class="form-control-static">$ <fmt:formatNumber value="${requestScope[Attr.COST]}" maxFractionDigits="0"/></p>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Lose: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.LOSE]}</p>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-2 control-label">Total Profit: </label>
-            <div class="col-md-4">
-            <c:if test="${requestScope[Attr.PROFIT] < 0}">
-                <p class="form-control-static" style="color: red">$ <fmt:formatNumber value="${requestScope[Attr.PROFIT]}" maxFractionDigits="0"/></p>
-            </c:if>
-            <c:if test="${requestScope[Attr.PROFIT] >= 0}">
-                <p class="form-control-static" style="color: green">$ <fmt:formatNumber value="${requestScope[Attr.PROFIT]}" maxFractionDigits="0"/></p>
-            </c:if>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Cancelled: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.CANCELLED]}</p>
+                </div>
             </div>
-        </div>
-    </form>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Sold: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.PARLAYS]}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Total Sold: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">$ <fmt:formatNumber value="${requestScope[Attr.REVENUE]}" maxFractionDigits="0"/></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Total Cost: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">$ <fmt:formatNumber value="${requestScope[Attr.COST]}" maxFractionDigits="0"/></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Total Profit: </label>
+                <div class="col-md-9">
+                <c:if test="${requestScope[Attr.PROFIT] < 0}">
+                    <p class="form-control-static" style="color: red">$ <fmt:formatNumber value="${requestScope[Attr.PROFIT]}" maxFractionDigits="0"/></p>
+                </c:if>
+                <c:if test="${requestScope[Attr.PROFIT] >= 0}">
+                    <p class="form-control-static" style="color: green">$ <fmt:formatNumber value="${requestScope[Attr.PROFIT]}" maxFractionDigits="0"/></p>
+                </c:if>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

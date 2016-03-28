@@ -9,9 +9,7 @@
 	<parameter name="risk" class="java.lang.String"/>
 	<parameter name="profit" class="java.lang.String"/>
 	<parameter name="agency" class="java.lang.String"/>
-	<queryString>
-		<![CDATA[]]>
-	</queryString>
+
 	<field name="team" class="java.lang.String"/>
 	<field name="match" class="java.lang.String"/>
 	<field name="startDate" class="java.lang.String"/>
@@ -24,14 +22,14 @@
 			<textField isBlankWhenNull="true">
 				<reportElement x="-21" y="0" width="226" height="15" />
 				<textElement textAlignment="Center">
-					<font size="12"/>
+					<font  size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{agency}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="-21" y="15" width="226" height="12" />
 				<textElement textAlignment="Center">
-					<font size="8" isItalic="false"/>
+					<font size="8"/>
 				</textElement>
 				<text><![CDATA[www.bookmaker.com.co]]></text>
 			</staticText>
@@ -42,56 +40,56 @@
 			<staticText>
 				<reportElement x="0" y="0" width="40" height="11" />
 				<textElement textAlignment="Right">
-					<font size="8"/>
+					<font  size="7"/>
 				</textElement>
 				<text><![CDATA[Date:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="11" width="40" height="11" />
 				<textElement textAlignment="Right">
-					<font size="8"/>
+					<font  size="7"/>
 				</textElement>
 				<text><![CDATA[Ticket ID:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="22" width="40" height="11" />
 				<textElement textAlignment="Right">
-					<font size="8"/>
+					<font  size="7"/>
 				</textElement>
 				<text><![CDATA[Risk:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="33" width="40" height="11" />
 				<textElement textAlignment="Right">
-					<font size="8"/>
+					<font  size="7"/>
 				</textElement>
 				<text><![CDATA[Profit:]]></text>
 			</staticText>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement x="44" y="0" width="140" height="11" />
 				<textElement>
-					<font size="8"/>
+					<font  size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{date}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="44" y="11" width="140" height="11" />
 				<textElement>
-					<font size="8"/>
+					<font  size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ticketID}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="44" y="22" width="140" height="11" />
 				<textElement>
-					<font size="8"/>
+					<font  size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{risk}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="44" y="33" width="140" height="11" />
 				<textElement>
-					<font size="8"/>
+					<font  size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{profit}]]></textFieldExpression>
 			</textField>
@@ -101,25 +99,25 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="28" splitType="Stretch">
+		<band height="32" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="120" height="9" />
 				<textElement>
-					<font size="7"/>
+					<font  size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{team}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="120" y="0" width="64" height="9" />
 				<textElement textAlignment="Right">
-					<font size="7"/>
+					<font  size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{odd}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="0" y="9" width="184" height="9" />
 				<textElement>
-					<font size="7"/>
+					<font  size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{match}]]></textFieldExpression>
 			</textField>
@@ -129,7 +127,7 @@
 					<bottomPen lineWidth="0.3" lineStyle="Dashed"/>
 				</box>
 				<textElement>
-					<font size="7"/>
+					<font  size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{startDate}]]></textFieldExpression>
 			</textField>
@@ -139,7 +137,29 @@
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band splitType="Stretch"/>
+		<band height="180" splitType="Stretch">
+			<componentElement>
+				<reportElement x="53" y="2" width="77" height="60" uuid="48697f81-5a83-469b-afb1-53f7dd202a9f"/>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA[$P{ticketID}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+                        <staticText>
+				<reportElement x="0" y="70" width="184" height="108" uuid="b964b53c-a5f5-4331-97f9-b570adefff12"/>
+				<textElement textAlignment="Justified">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[NOTAS:
+
+- Páguese únicamente al portador.
+
+- Consérvelo bien. Se invalida en caso de pérdida, tachón o enmendadura.
+
+- Tenga en cuenta que algunos juegos pueden ser cancelados y no tenidos en cuenta.
+
+- Averigue el estado de su apuesta ingresando a www.bookmaker.com.co. ]]></text>
+			</staticText>
+		</band>
 	</pageFooter>
 	<summary>
 		<band splitType="Stretch"/>

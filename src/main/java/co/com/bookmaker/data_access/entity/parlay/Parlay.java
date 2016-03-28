@@ -10,14 +10,12 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 
 /**
@@ -25,17 +23,16 @@ import javax.persistence.Temporal;
  * @author eduarc
  */
 @Entity
-@SequenceGenerator(name="parlaySeq", initialValue=100000, allocationSize=50)
 public class Parlay implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="parlaySeq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     private Double risk;
     
     private Double profit;
     
-    @ManyToMany(cascade=CascadeType.MERGE)
+    @ManyToMany
     private List<ParlayOdd> odds;
     
     private Integer status;
@@ -134,6 +131,5 @@ public class Parlay implements Serializable {
         }
         final Parlay other = (Parlay) obj;
         return Objects.equals(this.id, other.id);
-    }
-    
+    }   
 }

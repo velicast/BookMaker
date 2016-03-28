@@ -28,7 +28,7 @@
     }
 </style>
 
-<h2 class="main_content_title"> Tournament Summary </h2>
+<h2 class="main_content_title"> Tournament </h2>
 
 <form role="form" class="form-horizontal">
     <c:if test="${tournament.author.id == sUser.id}">

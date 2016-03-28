@@ -21,6 +21,7 @@ import co.com.bookmaker.data_access.entity.event.MatchEvent;
 import co.com.bookmaker.data_access.entity.event.Sport;
 import co.com.bookmaker.data_access.entity.event.Tournament;
 import co.com.bookmaker.data_access.entity.parlay.Parlay;
+import co.com.bookmaker.util.form.bean.AgencyBean;
 import co.com.bookmaker.util.form.bean.SearchParlayBean;
 import co.com.bookmaker.util.type.Attribute;
 import co.com.bookmaker.util.type.Information;
@@ -57,6 +58,8 @@ public class ManagerController extends GenericController {
     public static final String PARLAY_SUMMARY = "parlay_summary";
     public static final String MATCH_SUMMARY = "match_summary";
     public static final String TOURNAMENT_SUMMARY = "tournament_summary";
+    
+    public static final String EDIT_AGENCY = "edit_agency";
     
     private AuthenticationService auth;
     private AgencyService agencyService;
@@ -120,6 +123,8 @@ public class ManagerController extends GenericController {
                 toMatchSummary(); break;
             case TOURNAMENT_SUMMARY:
                 toTournamentSummary(); break;
+            case EDIT_AGENCY:
+                toEditAgency(); break;
             default:
                 redirectError(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -169,7 +174,7 @@ public class ManagerController extends GenericController {
         String username = request.getParameter(Parameter.USERNAME);
         
         if (username == null) {
-            forward(getJSP(AGENCY_SUMMARY));
+            redirect(HomeController.URL);
             return;
         }
         FinalUser result = finalUserService.getUser(username);
@@ -178,7 +183,7 @@ public class ManagerController extends GenericController {
             request.setAttribute(Attribute.ONLINE, auth.isOnline(result, request));
             forward(getJSP(EMPLOYEE_SUMMARY));
         } else {
-            forward(getJSP(AGENCY_SUMMARY));
+            redirect(HomeController.URL);
         }
     }
     
@@ -187,12 +192,12 @@ public class ManagerController extends GenericController {
         String username = request.getParameter(Parameter.USERNAME);
         
         if (username == null) {
-            forward(getJSP(AGENCY_SUMMARY));
+            redirect(HomeController.URL);
             return;
         }
         FinalUser user = finalUserService.getUser(username);
         if (user == null) {
-            forward(getJSP(AGENCY_SUMMARY));
+            redirect(HomeController.URL);
             return;
         }
         
@@ -336,5 +341,32 @@ public class ManagerController extends GenericController {
         }
         request.setAttribute(Attribute.TOURNAMENT, tournament);
         forward(getJSP(TOURNAMENT_SUMMARY));
+    }
+
+    private void toEditAgency() {
+        
+        String strAgencyId = request.getParameter(Parameter.AGENCY);
+        Long agencyId = null;
+        if (strAgencyId != null) {
+            try {
+                agencyId = Long.parseLong(strAgencyId);
+            } catch(Exception ex) {
+                redirect(HomeController.URL);
+                return;
+            }
+        }
+        Agency agency = agencyService.getAgency(agencyId);
+        if (agency == null) {
+            redirect(HomeController.URL);
+            return;
+        }
+        AgencyBean a = new AgencyBean();
+        a.setId(agency.getId());
+        a.setMinOdds(agency.getMinOddsParlay()+"");
+        a.setMaxOdds(agency.getMaxOddsParlay()+"");
+        a.setMaxProfit(agency.getMaxProfit()+"");
+
+        request.setAttribute(Attribute.AGENCY, a);
+        forward(getJSP(EDIT_AGENCY));
     }
 }

@@ -16,7 +16,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -45,7 +44,7 @@ public class MatchEvent implements Serializable {
     @OneToMany(mappedBy="match")
     private List<MatchEventPeriod> periods;
     
-    @OneToOne
+    @ManyToOne
     private FinalUser author;
     
     public Long getId() {

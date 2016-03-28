@@ -55,7 +55,7 @@
     
 <c:set var="auth" value="${requestScope[Attr.AUTHENTICATION_SERVICE]}"></c:set>
 
-<h2 class="main_content_title"> Agency Summary </h2>
+<h2 class="main_content_title"> Agency </h2>
 
 <form role="form" class="form-horizontal">
     <div class="form-group">
@@ -75,13 +75,24 @@
             <span class="glyphicon glyphicon-stats"></span> Balance</a>
         </c:if>
         <c:if test="${param.roleRequester == Role.MANAGER}">
+            <a id="btnEditAgency" class="btn btn-default" 
+               href="<%=ManagerController.URL%>?to=<%=ManagerController.EDIT_AGENCY%>&${Param.AGENCY}=${agency.id}">
+                <span class="glyphicon glyphicon-edit"></span> Edit</a>
             <a id="btnAgencyBalance" class="btn btn-default" 
                 href="<%=ManagerController.URL%>?to=<%=ManagerController.AGENCY_BALANCE%>">
                 <span class="glyphicon glyphicon-stats"></span> Balance</a>
         </c:if>
         </div>
     </div>
-    
+    <c:if test="${sUser.author == null}">
+    <div class="form-group">
+        <label class="col-md-2 control-label">Author: </label>
+        <div class="col-md-4">
+            <p class="form-control-static"><a href="<%=AdminController.URL%>?to=<%=AdminController.USER_SUMMARY%>&${Param.USERNAME}=${agency.author.username}">
+                    ${agency.author.username}</a> - ${agency.author.firstName} ${agency.author.lastName}</p>
+        </div>
+    </div>
+    </c:if>
     <div class="form-group">
         <label class="col-md-2 control-label">Name: </label>
         <div class="col-md-4">
@@ -198,6 +209,9 @@
             <span class="glyphicon glyphicon-stats"></span> Balance</a>
         </c:if>
         <c:if test="${param.roleRequester == Role.MANAGER}">
+            <a id="btnEditAgency" class="btn btn-default" 
+               href="<%=ManagerController.URL%>?to=<%=ManagerController.EDIT_AGENCY%>&${Param.AGENCY}=${agency.id}">
+                <span class="glyphicon glyphicon-edit"></span> Edit</a>
             <a id="btnAgencyBalance" class="btn btn-default" 
                 href="<%=ManagerController.URL%>?to=<%=ManagerController.AGENCY_BALANCE%>">
                 <span class="glyphicon glyphicon-stats"></span> Balance</a>

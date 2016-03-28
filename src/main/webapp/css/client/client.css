@@ -40,6 +40,14 @@ body {
     color: #275c7c;
     background-color: #d1e9f5;
 }
+.s_badge {
+    color: #275c7c;
+    background: #d1e9f5;
+}
+.t_badge {
+    color: #d1e9f5;
+    background: #275c7c;
+}
 .th1 {
     text-align: center;
     width: 10%;

@@ -22,6 +22,8 @@ import co.com.bookmaker.util.type.Status;
  */
 public class ParlayService {
 
+    public static final Long OFFSET_PARLAY_ID = 100000L;
+    
     private final ParlayDAO parlayDAO;
     
     public ParlayService() {
@@ -124,6 +126,10 @@ public class ParlayService {
                                  new Object[] { status, seller.getId()});
     }
     
+    /*public List<Parlay> getParlays(ParlayOdd odd) {
+        
+    }*/
+    
     public List<Parlay> getParlaysInQueue(FinalUser seller) {
         
         List<Parlay> list = getParlays(Status.IN_QUEUE, seller);
@@ -186,5 +192,9 @@ public class ParlayService {
             }
         });
         return result;
+    }
+
+    public Long getOFFSET_PARLAY_ID() {
+        return OFFSET_PARLAY_ID;
     }
 }

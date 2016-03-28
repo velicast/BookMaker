@@ -1,6 +1,7 @@
 
 $(document).ready(function () {
     
+    $("#ticket").off("close.bs.alert", ".ticket_bet");
     $("#ticket").on("close.bs.alert", ".ticket_bet", function () {
         var strId = $(this).prop("id");
         var oddId = strId.substr(1);
@@ -9,16 +10,15 @@ $(document).ready(function () {
 
         var value = $("#oddselection").prop("value");
         value = value.replace(" " + oddId + " ", "");
+
         $("#oddselection").prop("value", value);
 
         var nOdds = parseInt($("#nOdds").text());
         nOdds = nOdds - 1;
         $("#nOdds").text(nOdds);
         var vRisk = $("#risk").prop("value");
-        if (vRisk !== null) {
+        if (vRisk !== null && vRisk !== "") {
             $("#btn_risk").click();
-        } else {
-            $("#btn_profit").click();
         }
     });
 
@@ -107,6 +107,7 @@ $(document).ready(function () {
         return true;
     });
     
+    $('.collapse .tournament').off('show.bs.collapse');
     $('.collapse .tournament').on('show.bs.collapse', function () {
         var strId = $(this).prop("id");
         var id = strId.substr(2);
@@ -119,7 +120,6 @@ $(document).ready(function () {
                 {to: "matches",
                  p38: id},
         function (data) {
-            console.log(data);
             $("#lg"+id).append(data);
         }
         );

@@ -23,21 +23,21 @@ public class MatchEventDAO extends GenericDAO<MatchEvent> {
         super(MatchEvent.class);
     }
     
-    public Long countActiveMatches(Tournament tournament) {
+    public Integer countMatches(Tournament tournament, Integer status) {
         
         Query q = getEntityManager().createQuery("SELECT COUNT(m.id) FROM MatchEvent m WHERE "
                 + "m.tournament.id = :tId AND m.status = :status")
                 .setParameter("tId", tournament.getId())
-                .setParameter("status", Status.ACTIVE);
-        return (Long) q.getSingleResult();
+                .setParameter("status", status);
+        return (Integer) ((Long)q.getSingleResult()).intValue();
     }
     
-    public Long countMatches(Tournament tournament) {
+    public Integer countMatches(Tournament tournament) {
         
         Query q = getEntityManager().createQuery("SELECT COUNT(m.id) FROM MatchEvent m WHERE "
                 + "m.tournament.id = :tId")
                 .setParameter("tId", tournament.getId());
-        return (Long) q.getSingleResult();
+        return (Integer) q.getSingleResult();
     }
 
     public List<MatchEvent> findOnlyByAgency(Agency agency) {

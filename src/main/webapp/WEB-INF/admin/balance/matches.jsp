@@ -38,46 +38,52 @@
         </div>
     </form>
 </div>
-<form role="form" class="form-horizontal">
-    <div class="form-group" style="text-align: center">
-        <h4 class="col-md-6">Match</h4>
+
+<div class="row">
+    <div class="col-md-6">
+        <form role="form" class="form-horizontal">
+            <div class="form-group" style="text-align: center">
+                <h4 class="col-md-12">Match</h4>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Total: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.MATCHES]}</p>
+                </div>
+            </div>
+                <div class="form-group">
+                <label class="col-md-3 control-label">Active: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.ACTIVE_MATCHES]}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Inactive: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.INACTIVE_MATCHES]}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Cancelled: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.CANCELLED_MATCHES]}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Pending: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.PENDING_MATCHES]}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">Finished: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.FINISHED_MATCHES]}</p>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Total: </label>
-        <div class="col-md-4">
-            <p class="form-control-static">${requestScope[Attr.MATCHES]}</p>
-        </div>
-    </div>
-        <div class="form-group">
-        <label class="col-md-2 control-label">Active: </label>
-        <div class="col-md-4">
-            <p class="form-control-static">${requestScope[Attr.ACTIVE_MATCHES]}</p>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Inactive: </label>
-        <div class="col-md-4">
-            <p class="form-control-static">${requestScope[Attr.INACTIVE_MATCHES]}</p>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Cancelled: </label>
-        <div class="col-md-4">
-            <p class="form-control-static">${requestScope[Attr.CANCELLED_MATCHES]}</p>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Pending Result: </label>
-        <div class="col-md-4">
-            <p class="form-control-static">${requestScope[Attr.PENDING_MATCHES]}</p>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Finished: </label>
-        <div class="col-md-4">
-            <p class="form-control-static">${requestScope[Attr.FINISHED_MATCHES]}</p>
-        </div>
-    </div>
-</form>
+</div>
+
     
 

@@ -7,7 +7,7 @@
         <property name="databaseName" value="bookmakerdb"/>
         <property name="User" value="root"/>
         <property name="Password" value=""/>
-        <property name="URL" value="jdbc:mysql://localhost:3307/bookmakerdb"/>
+        <property name="URL" value="jdbc:mysql://localhost:3307/bookmakerdb?serverTimezone=America/Bogota&useLegacyDatetimeCode=false"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="BookMakerDS" object-type="user" pool-name="mysql_bookmakerdb_rootPool"/>

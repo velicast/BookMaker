@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import co.com.bookmaker.util.type.Pair;
+import co.com.bookmaker.util.type.Status;
 
 /**
  *
@@ -76,7 +77,7 @@ public class TournamentService {
     
         // Usado en el form de busqueda. Un usuario solo puede ver aquellas que
         // fueron creadas en su misma agencia, o cuartel
-    public List<Pair<Tournament, Long>> searchBy(Long agencyId, Integer sportId, Integer status, boolean activeMatches) {
+    public List<Pair<Tournament, Integer>> searchBy(Long agencyId, Integer sportId, Integer status, boolean activeMatches) {
 
         List<Tournament> pre;
         if (agencyId == null) {
@@ -88,7 +89,7 @@ public class TournamentService {
             }
             pre = tournamentDAO.findOnlyAgency(agency);
         }
-        List<Pair<Tournament, Long>> result = new ArrayList();
+        List<Pair<Tournament, Integer>> result = new ArrayList();
         for (Tournament t : pre) {
             boolean add = true;
             if (sportId != null) {
@@ -97,7 +98,7 @@ public class TournamentService {
             if (status != null) {
                 add &= Objects.equals(t.getStatus(), status);
             }
-            Long active = matchEventDAO.countActiveMatches(t);
+            Integer active = matchEventDAO.countMatches(t, Status.ACTIVE);
             if (activeMatches) {
                 add &= active != 0;
             }

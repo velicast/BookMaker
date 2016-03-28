@@ -66,7 +66,7 @@
 <c:set var="oddService" value="${requestScope[Attr.PARLAYODD_SERVICE]}"></c:set>
 <jsp:useBean id="oddService" class="co.com.bookmaker.business_logic.service.parlay.ParlayOddService"></jsp:useBean>
 
-<h2 class="main_content_title"> ${SportId.str(match.tournament.sport.id)} Match Summary </h2>
+<h2 class="main_content_title"> ${SportId.str(match.tournament.sport.id)} Match </h2>
 <form id="newMatchForm" role="form" class="form-horizontal">
     <c:if test="${match.author.id == sUser.id}">
     <div class="form-group">
@@ -93,7 +93,7 @@
         <label class="control-label col-md-2">Author: </label>
         <div class="col-md-4">
             <c:set var="else" value="${true}"></c:set>
-            <c:if test="${ok && param.roleRequester == Role.MANAGER}">
+            <c:if test="${else && param.roleRequester == Role.MANAGER}">
             <c:set var="else" value="${false}"></c:set>
             <p class="form-control-static">
                 <a href="<%=ManagerController.URL%>?to=<%=ManagerController.EMPLOYEE_SUMMARY%>&${Param.USERNAME}=${match.author.username}">

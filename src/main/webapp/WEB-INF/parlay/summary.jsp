@@ -18,6 +18,7 @@
 <jsp:useBean id="Info" class="co.com.bookmaker.util.type.Information"></jsp:useBean>
 <jsp:useBean id="Status" class="co.com.bookmaker.util.type.Status"></jsp:useBean>
 <jsp:useBean id="Role" class="co.com.bookmaker.util.type.Role"></jsp:useBean>
+<jsp:useBean id="ParlayService" class="co.com.bookmaker.business_logic.service.parlay.ParlayService"></jsp:useBean>
 
 <style>
     .form-group {
@@ -62,7 +63,7 @@
     <div class="form-group">
         <label class="col-md-2 control-label">Ticket ID:</label>
         <div class="col-md-4">
-            <p class="form-control-static">${parlay.id}</p>
+            <p class="form-control-static">${parlay.id+ParlayService.OFFSET_PARLAY_ID}</p>
         </div>
     </div>
     <c:if test="${requestScope[Attr.TRACK_PARLAY] == null}">
@@ -85,8 +86,7 @@
     <div class="form-group">
         <label class="col-md-2 control-label">Date:</label>
         <div class="col-md-4">
-            <p class="form-control-static"><fmt:formatDate type="time" pattern="dd/MM/yyyy" value="${parlay.purchaseDate.getTime()}"/><br/>
-                <fmt:formatDate type="time" pattern="HH:mm" value="${parlay.purchaseDate.getTime()}"/></p>
+            <p class="form-control-static"><fmt:formatDate type="time" pattern="dd/MM/yyyy HH:mm" value="${parlay.purchaseDate.getTime()}"/></p>
         </div>
     </div>
     <div class="form-group">

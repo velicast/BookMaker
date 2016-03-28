@@ -16,8 +16,11 @@
 <c:set var="sUser" value="${sessionScope[Attr.SESSION_USER]}"></c:set>
 <jsp:useBean id="sUser" class="co.com.bookmaker.data_access.entity.FinalUser"></jsp:useBean>
 
-<c:set var="tournamentService" value="${requestScope[Attr.TOURNAMENT_SERVICE]}"></c:set>
-<jsp:useBean id="tournamentService" class="co.com.bookmaker.business_logic.service.event.TournamentService"></jsp:useBean>
+<c:set var="sports" value="${requestScope[Attr.SPORTS]}"></c:set>
+<c:set var="tournaments" value="${requestScope[Attr.TOURNAMENTS]}"></c:set>
+
+<c:set var="countSports" value="${requestScope[Attr.COUNT_MATCHES_SPORT]}"></c:set>
+<c:set var="countTournaments" value="${requestScope[Attr.COUNT_MATCHES_TOURNAMENT]}"></c:set>
 
 <!DOCTYPE html>
 <html>
@@ -37,19 +40,28 @@
                     <div class="panel panel-default">
                         <div class="panel-heading panel_heading"><h4>PARLAY CARDS</h4></div>
                         <div class="panel-body pcard">
-                            <c:forEach var="sport" items="${requestScope[Attr.SPORT]}">
+                            <c:if test="${sports.size() > 0}">
+                            <c:forEach var="s" begin="0" end="${sports.size()-1}">
+                            <c:set var="sport" value="${sports.get(s)}"></c:set>
                             <jsp:useBean id="sport" class="co.com.bookmaker.data_access.entity.event.Sport"></jsp:useBean>
-                            <button class="btn btn-block sport_btn" data-toggle="collapse" data-target="#sp${sport.id}">${sport.name}</button>
+                            
+                            <button class="btn btn-block sport_btn" data-toggle="collapse" data-target="#sp${sport.id}">${sport.name} <span class = "badge s_badge">${countSports.get(s)}</span></button>
                             <div id="sp${sport.id}" class="collapse league_div">
-                                <c:forEach var="tournament" items="${tournamentService.getClientTournaments(sUser.agency, sport, Status.ACTIVE)}">
+                                <c:set var="sCountTournaments" value="${countTournaments.get(s)}"></c:set>
+                                <c:set var="sTournaments" value="${tournaments.get(s)}"></c:set>
+                                <c:if test="${sTournaments.size() > 0}">
+                                <c:forEach var="t" begin="0" end="${sTournaments.size()-1}">
+                                <c:set var="tournament" value="${sTournaments.get(t)}"></c:set>
                                 <jsp:useBean id="tournament" class="co.com.bookmaker.data_access.entity.event.Tournament"></jsp:useBean>
-                                <button class="btn btn-block league_btn" data-toggle="collapse" data-target="#lg${tournament.id}">${tournament.name}</button>
+                                <button class="btn btn-block league_btn" data-toggle="collapse" data-target="#lg${tournament.id}">${tournament.name} <span class = "badge t_badge">${sCountTournaments.get(t)}</span></button>
                                 <div id="lg${tournament.id}" class="collapse tournament">
                                     <var id="st${tournament.id}" hidden>0</var>
                                 </div>
                                 </c:forEach>
+                                </c:if>
                             </div>
                             </c:forEach>
+                            </c:if>
                         </div>
                     </div>
                 </div>

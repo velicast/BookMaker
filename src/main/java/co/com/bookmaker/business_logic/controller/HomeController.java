@@ -80,10 +80,11 @@ public class HomeController extends GenericController {
         try {
             parlayId = Long.parseLong(strParlayId);
         } catch (Exception ex) {
-            request.setAttribute(Information.PARLAY, "Parlay '"+strParlayId+"' not found.");
+            request.setAttribute(Information.PARLAY, "Invalid id "+strParlayId);
             forward(getJSP(INDEX));
             return;
         }
+        parlayId -= ParlayService.OFFSET_PARLAY_ID;
         
         Parlay parlay = parlayService.getParlay(parlayId);
         parlayService.update(parlay);
