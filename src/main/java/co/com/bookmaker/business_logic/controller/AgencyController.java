@@ -439,6 +439,9 @@ public class AgencyController extends GenericController {
         for (FinalUser e : employees) {
             e.setStatus(status);
             finalUserService.edit(e);
+            if (status.equals(Status.INACTIVE)) {
+                auth.logout(request, e);
+            }
         }
         request.setAttribute(Attribute.AGENCY, agency);
         request.setAttribute(Attribute.EMPLOYEES, employees);
