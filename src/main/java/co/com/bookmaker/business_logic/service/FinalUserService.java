@@ -128,7 +128,7 @@ public class FinalUserService {
     public FinalUser create(FinalUser user) {
         
         if (getUser(user.getUsername()) != null) {
-            throw new IllegalArgumentException("User '"+user.getUsername()+"' already exists");
+            throw new IllegalArgumentException("Usuario "+user.getUsername()+" ya existe");
         }
         finalUserDAO.create(user);
         return user;
@@ -138,7 +138,7 @@ public class FinalUserService {
         
         String newUsername = user.getUsername();
         if (getUser(newUsername) != null && !newUsername.equals(targetUsername)) {
-            throw new IllegalArgumentException("User '"+user.getUsername()+"' already exists");
+            throw new IllegalArgumentException("Usuario "+user.getUsername()+" ya existe");
         }
         finalUserDAO.edit(user);
         return user;

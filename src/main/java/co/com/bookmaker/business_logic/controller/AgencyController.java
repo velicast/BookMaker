@@ -159,7 +159,7 @@ public class AgencyController extends GenericController {
             status = Integer.parseInt(strStatus);
         } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.STATUS, "Invalid status value");
+            request.setAttribute(Information.STATUS, "Estado inválido");
         }
         
         Integer minOdds = null;
@@ -167,7 +167,7 @@ public class AgencyController extends GenericController {
             minOdds = Integer.parseInt(strMinOdds);
         } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MIN_ODDS, "Invalid min odds value");
+            request.setAttribute(Information.MIN_ODDS, "Valor inválido");
         }
         
         Integer maxOdds = null;
@@ -175,7 +175,7 @@ public class AgencyController extends GenericController {
             maxOdds = Integer.parseInt(strMaxOdds);
         } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MAX_ODDS, "Invalid max odds value");
+            request.setAttribute(Information.MAX_ODDS, "Valor inválido");
         }
         
         try {
@@ -204,7 +204,7 @@ public class AgencyController extends GenericController {
             maxProfit = Double.parseDouble(strMaxProfit);
         } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MAX_PROFIT, "Invalid max profit value");
+            request.setAttribute(Information.MAX_PROFIT, "Valor inválido");
         }
         
         try {
@@ -217,15 +217,15 @@ public class AgencyController extends GenericController {
         FinalUser manager = finalUserService.getUser(managerUsername);
         if (manager == null) {
             validated = false;
-            request.setAttribute(Information.MANAGER, "User "+managerUsername+" not found");
+            request.setAttribute(Information.MANAGER, "Usuario "+managerUsername+" no econtrado");
         }
         else if (!manager.inRole(Role.MANAGER)) {
             validated = false;
-            request.setAttribute(Information.MANAGER, "The user "+managerUsername+" has not the manager role");
+            request.setAttribute(Information.MANAGER, "El usuario "+managerUsername+" no está en el role de Gerente");
         }
         else if (manager.getAgency() != null) {
             validated = false;
-            request.setAttribute(Information.MANAGER, "The manager "+managerUsername+" is already asigned to an agency");
+            request.setAttribute(Information.MANAGER, "El gerente "+managerUsername+" ya se encuentra asignado a una agencia");
         }
         // FIN Validacion
         
@@ -258,7 +258,7 @@ public class AgencyController extends GenericController {
             agencyService.create(newAgency, manager);
         } catch (Exception ex) {
             request.setAttribute(Attribute.AGENCY, a);
-            request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again");
+            request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo.");
             forward(AdminController.getJSP(AdminController.NEW_AGENCY));
             return;
         }
@@ -347,33 +347,33 @@ public class AgencyController extends GenericController {
         Integer status = null;
         try {
             status = Integer.parseInt(strStatus);
-        } catch (NumberFormatException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.STATUS, "Invalid status value: "+strStatus);
+            request.setAttribute(Information.STATUS, "Estado inválido");
         }
         
         Integer minOdds = null;
         try {
             minOdds = Integer.parseInt(strMinOdds);
-        } catch (NumberFormatException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MIN_ODDS, "Invalid min odds value");
+            request.setAttribute(Information.MIN_ODDS, "Valor inválido");
         }
         
         Integer maxOdds = null;
         try {
             maxOdds = Integer.parseInt(strMaxOdds);
-        } catch (NumberFormatException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MAX_ODDS, "Invalid max odds value");
+            request.setAttribute(Information.MAX_ODDS, "Valor inválido");
         }
         
         Double maxProfit = null;
         try {
             maxProfit = Double.parseDouble(strMaxProfit);
-        } catch (NumberFormatException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MAX_PROFIT, "Invalid max profit value");
+            request.setAttribute(Information.MAX_PROFIT, "Valor inválido");
         }
         
         try {
@@ -430,7 +430,7 @@ public class AgencyController extends GenericController {
         try {
             agencyService.edit(agency);
         } catch (Exception ex) {
-            request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
+            request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo.");
             request.setAttribute(Attribute.AGENCY, a);
             forward(AdminController.getJSP(AdminController.EDIT_AGENCY));
             return;
@@ -461,18 +461,18 @@ public class AgencyController extends GenericController {
         try {
             validator.checkUsername(username);
         } catch (Exception ex) {
-            request.setAttribute(Information.USERNAME, "Invalid username "+username);
+            request.setAttribute(Information.USERNAME, "Nombre de usuario inválido: "+username);
             forward(AdminController.getJSP(AdminController.SEARCH_AGENCY_EMPLOYEE));
             return;
         }
         
         FinalUser employee = finalUserService.getUser(username);
         if (employee == null) {
-            request.setAttribute(Information.USERNAME, "User "+username+" not found");
+            request.setAttribute(Information.USERNAME, "Usuario "+username+" no encontrado");
             forward(AdminController.getJSP(AdminController.SEARCH_AGENCY_EMPLOYEE));
         }
         else if (employee.getAgency() != null) {
-            request.setAttribute(Information.USERNAME, "User "+username+" is already employeed by an agency");
+            request.setAttribute(Information.USERNAME, "Usuario "+username+" ya se encuentra empleado en una agencia");
             forward(AdminController.getJSP(AdminController.SEARCH_AGENCY_EMPLOYEE));
         }
         else {
@@ -482,13 +482,13 @@ public class AgencyController extends GenericController {
             } catch (Exception ex) {
                 employee.setAgency(null);
                 request.setAttribute(Attribute.FINAL_USER, employee);
-                request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
+                request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo.");
                 forward(AdminController.getJSP(AdminController.USER_SUMMARY));
                 return;
             }
             request.setAttribute(Attribute.EMPLOYEES, agencyService.getEmployees(agency));
             request.setAttribute(Attribute.AUTHENTICATION_SERVICE, auth);
-            request.setAttribute(Information.INFO, "User "+username+" successfully added");
+            request.setAttribute(Information.INFO, "Usuario "+username+" agregado satisfactoriamente");
             forward(AdminController.getJSP(AdminController.AGENCY_SUMMARY));
         }
     }
@@ -507,7 +507,7 @@ public class AgencyController extends GenericController {
         try {
             validator.checkUsername(username);
         } catch (Exception ex) {
-            request.setAttribute(Information.USERNAME, "Invalid username "+username);
+            request.setAttribute(Information.USERNAME, "Usuario inválido: "+username);
             forward(AdminController.getJSP(AdminController.SEARCH_AGENCY_EMPLOYEE));
             return;
         }
@@ -515,7 +515,7 @@ public class AgencyController extends GenericController {
         FinalUser employee = finalUserService.getUser(username, agency);
         
         if (employee == null) {
-            request.setAttribute(Information.USERNAME, "User "+username+" is not an employee in the agency");
+            request.setAttribute(Information.USERNAME, "Usuario "+username+" no es un empleado de la agencia");
             forward(AdminController.getJSP(AdminController.SEARCH_AGENCY_EMPLOYEE));
             return;
         }
@@ -527,7 +527,7 @@ public class AgencyController extends GenericController {
             }
         }
         if (employee.inRole(Role.MANAGER) && countManager == 1) {
-            request.setAttribute(Information.USERNAME, "User "+username+" is the only manager in the agency");
+            request.setAttribute(Information.USERNAME, "Usuario "+username+" es el único gerente en la agencia");
             forward(AdminController.getJSP(AdminController.SEARCH_AGENCY_EMPLOYEE));
             return;
         }
@@ -538,14 +538,14 @@ public class AgencyController extends GenericController {
         } catch (Exception ex) {
             employee.setAgency(agency);
             request.setAttribute(Attribute.FINAL_USER, employee);
-            request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
+            request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo.");
             forward(AdminController.getJSP(AdminController.USER_SUMMARY));
             return;
         }
         employees.remove(employee);
         request.setAttribute(Attribute.EMPLOYEES, employees);
         request.setAttribute(Attribute.AUTHENTICATION_SERVICE, auth);
-        request.setAttribute(Information.INFO, "User "+username+" successfully removed");
+        request.setAttribute(Information.INFO, "Usuario "+username+" removido satisfactoriamente");
         forward(AdminController.getJSP(AdminController.AGENCY_SUMMARY));
     }
 
@@ -563,11 +563,11 @@ public class AgencyController extends GenericController {
         
         FinalUser employee = finalUserService.getUser(username);
         if (employee == null) {
-            request.setAttribute(Information.USERNAME, "User "+username+" not found");
+            request.setAttribute(Information.USERNAME, "Usuario "+username+" no encontrado");
             forward(AdminController.getJSP(AdminController.SEARCH_AGENCY));
         }
         else if (employee.getAgency() == null) {
-            request.setAttribute(Information.USERNAME, "The user "+username+" is not employed by an agency");
+            request.setAttribute(Information.USERNAME, "Usuario "+username+" no está empleado por una agencia");
             forward(AdminController.getJSP(AdminController.SEARCH_AGENCY));
         }
         else {
@@ -619,7 +619,7 @@ public class AgencyController extends GenericController {
                 from.set(Calendar.MINUTE, 0);
                 from.set(Calendar.SECOND, 0);
             } catch (ParseException ex) {
-                request.setAttribute(Information.STATUS, "Invalid value "+strFrom);
+                request.setAttribute(Information.STATUS, "Fecha inválida: "+strFrom);
                 validated = false;
             }
         }
@@ -631,7 +631,7 @@ public class AgencyController extends GenericController {
                 to.set(Calendar.MINUTE, 59);
                 to.set(Calendar.SECOND, 59);
             } catch (ParseException ex) {
-                request.setAttribute(Information.STATUS, "Invalid value "+strTo);
+                request.setAttribute(Information.STATUS, "Fecha Inválida: "+strTo);
                 validated = false;
             }
         }
@@ -709,25 +709,25 @@ public class AgencyController extends GenericController {
         Integer minOdds = null;
         try {
             minOdds = Integer.parseInt(strMinOdds);
-        } catch (NumberFormatException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MIN_ODDS, "Invalid min odds value");
+            request.setAttribute(Information.MIN_ODDS, "Valor inválido");
         }
         
         Integer maxOdds = null;
         try {
             maxOdds = Integer.parseInt(strMaxOdds);
-        } catch (NumberFormatException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MAX_ODDS, "Invalid max odds value");
+            request.setAttribute(Information.MAX_ODDS, "Valor inválido");
         }
         
         Double maxProfit = null;
         try {
             maxProfit = Double.parseDouble(strMaxProfit);
-        } catch (NumberFormatException ex) {
+        } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.MAX_PROFIT, "Invalid max profit value");
+            request.setAttribute(Information.MAX_PROFIT, "Valor inválido");
         }
         
         try {
@@ -776,7 +776,7 @@ public class AgencyController extends GenericController {
         try {
             agencyService.edit(agency);
         } catch (Exception ex) {
-            request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
+            request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo.");
             request.setAttribute(Attribute.AGENCY, a);
             forward(ManagerController.getJSP(ManagerController.EDIT_AGENCY));
             return;

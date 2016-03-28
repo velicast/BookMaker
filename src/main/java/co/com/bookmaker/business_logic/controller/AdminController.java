@@ -191,7 +191,7 @@ public class AdminController extends GenericController {
             forward(getJSP(EDIT_USER));
         } else {
             request.setAttribute(Attribute.USERNAME, username);
-            request.setAttribute(Information.ERROR, "User "+username+" not found");
+            request.setAttribute(Information.ERROR, "Usuario "+username+" no encontrado");
             forward(getJSP(SEARCH_USER));
         }
     }
@@ -397,7 +397,7 @@ public class AdminController extends GenericController {
                     from.set(Calendar.MINUTE, 0);
                     from.set(Calendar.SECOND, 0);
                 } catch (ParseException ex) {
-                    request.setAttribute(Information.STATUS, "Invalid value "+strFrom);
+                    request.setAttribute(Information.STATUS, "Fecha inválida: "+strFrom);
                     validated = false;
                 }
             }
@@ -409,7 +409,7 @@ public class AdminController extends GenericController {
                     to.set(Calendar.MINUTE, 59);
                     to.set(Calendar.SECOND, 59);
                 } catch (ParseException ex) {
-                    request.setAttribute(Information.STATUS, "Invalid value "+strTo);
+                    request.setAttribute(Information.STATUS, "Fecha inválida: "+strTo);
                     validated = false;
                 }
             }
@@ -538,7 +538,7 @@ public class AdminController extends GenericController {
                     from.set(Calendar.MINUTE, 0);
                     from.set(Calendar.SECOND, 0);
                 } catch (ParseException ex) {
-                    request.setAttribute(Information.STATUS, "Invalid value "+strFrom);
+                    request.setAttribute(Information.STATUS, "Fecha inválida: "+strFrom);
                     validated = false;
                 }
             }
@@ -550,7 +550,7 @@ public class AdminController extends GenericController {
                     to.set(Calendar.MINUTE, 59);
                     to.set(Calendar.SECOND, 59);
                 } catch (ParseException ex) {
-                    request.setAttribute(Information.STATUS, "Invalid value "+strTo);
+                    request.setAttribute(Information.STATUS, "Fecha inválida: "+strTo);
                     validated = false;
                 }
             }

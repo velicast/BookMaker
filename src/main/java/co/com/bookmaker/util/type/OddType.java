@@ -22,12 +22,12 @@ public class OddType {
     
     static {
         typeName = new String[6];
-        typeName[MONEY_LINE] = "Moneyline";
-        typeName[SPREAD_TEAM0] = "Spread";
-        typeName[SPREAD_TEAM1] = "Spread";
+        typeName[MONEY_LINE] = "Linea de Dinero";
+        typeName[SPREAD_TEAM0] = "Handicap";
+        typeName[SPREAD_TEAM1] = "Handicap";
         typeName[TOTAL_OVER] = "Total";
         typeName[TOTAL_UNDER] = "Total";
-        typeName[DRAW_LINE] = "Draw";
+        typeName[DRAW_LINE] = "Empate";
     }
     
     public String str(int type) {

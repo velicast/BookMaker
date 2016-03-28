@@ -23,13 +23,13 @@
 <jsp:useBean id="Info" class="co.com.bookmaker.util.type.Information"></jsp:useBean>
 <jsp:useBean id="Role" class="co.com.bookmaker.util.type.Role"></jsp:useBean>
 
-<h2 class="main_content_title"> Accounts Balance </h2>
+<h2 class="main_content_title"> Balance de Cuentas </h2>
 
 <div class="row">
     <div class="col-md-6">
         <form role="form" class="form-horizontal">
             <div class="form-group" style="text-align: center">
-                <h4 class="col-md-12">Agency</h4>
+                <h4 class="col-md-12">Agencia</h4>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">Total: </label>
@@ -38,13 +38,13 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Active: </label>
+                <label class="col-md-3 control-label">Activa: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.ACTIVE_AGENCIES]}</p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Inactive: </label>
+                <label class="col-md-3 control-label">Inactiva: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.INACTIVE_AGENCIES]}</p>
                 </div>
@@ -54,7 +54,7 @@
     <div class="col-md-6">
         <form role="form" class="form-horizontal">
             <div class="form-group" style="text-align: center">
-                <h4 class="col-md-12">User</h4>
+                <h4 class="col-md-12">Usuario</h4>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">Total: </label>
@@ -69,13 +69,13 @@
                 </div>
             </div>    
             <div class="form-group">
-                <label class="col-md-3 control-label">Active: </label>
+                <label class="col-md-3 control-label">Activa: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.ACTIVE_USERS]}</p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Inactive: </label>
+                <label class="col-md-3 control-label">Inactiva: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.INACTIVE_USERS]}</p>
                 </div>

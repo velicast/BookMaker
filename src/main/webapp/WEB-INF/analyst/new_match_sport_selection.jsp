@@ -12,6 +12,7 @@
 <jsp:useBean id="Info" class="co.com.bookmaker.util.type.Information"></jsp:useBean>
 <jsp:useBean id="Attr" class="co.com.bookmaker.util.type.Attribute"></jsp:useBean>
 <jsp:useBean id="Role" class="co.com.bookmaker.util.type.Role"></jsp:useBean>
+<jsp:useBean id="SportID" class="co.com.bookmaker.util.type.SportID"></jsp:useBean>
 
 <!DOCTYPE html>
 <html>
@@ -21,7 +22,7 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/analyst/analyst.css">
         
-        <title>BookMaker - New Match</title>
+        <title>BookMaker - Nuevo Juego</title>
     </head>
     <body>
         <jsp:include page="/WEB-INF/navbar.jsp"></jsp:include>
@@ -32,22 +33,22 @@
                 </div>
                 <!-- Main Content -->
                 <div id="mainContent" class="col-md-9 side-body">
-                    <h2 class="main_content_title"> New Match </h2>
+                    <h2 class="main_content_title"> Nuevo Juego </h2>
                     <form id="newMatchSportSelectionForm" role="form" class="form-horizontal" action="<%=AnalystController.URL%>">
                         <input type="hidden" name="to" value="<%=AnalystController.NEW_MATCH%>">
                         <div class="form-group">
-                            <label class="control-label col-md-2">Sport: </label>
+                            <label class="control-label col-md-2">Deporte: </label>
                             <div class="col-md-4">
                                 <select name="${Param.SPORT}" class="form-control">
                                     <c:forEach var="sport" items="${requestScope[Attr.SPORTS]}">
                                     <jsp:useBean id="sport" class="co.com.bookmaker.data_access.entity.event.Sport"></jsp:useBean>
-                                        <option value="${sport.id}">${sport.name}</option>
+                                        <option value="${sport.id}">${SportID.str(sport.id)}</option>
                                     </c:forEach>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6" style="text-align: center">
-                            <button class="btn btn-submit" id="btnSelectSport"><span class="glyphicon glyphicon-check"></span> Select</button>
+                            <button class="btn btn-submit" id="btnSelectSport"><span class="glyphicon glyphicon-check"></span> Seleccionar</button>
                         </div>
                         <output style="color: red">${requestScope[Info.SPORT]}</output>
                     </form>

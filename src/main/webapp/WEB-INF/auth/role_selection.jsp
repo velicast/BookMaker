@@ -21,7 +21,7 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/role_selection.css">
         
-        <title>BookMaker - Select Roles</title>
+        <title>BookMaker - Seleccionar Roles</title>
     </head>
     <body style="text-align: center">
         <jsp:include page="/WEB-INF/navbar.jsp"></jsp:include>
@@ -31,7 +31,7 @@
                 <div class="col-md-4">
                     <div class="panel panel-default">
                         <div class="form_heading panel-heading">
-                            <h3>Roles to Login</h3>
+                            <h3>Iniciar Sesión Como</h3>
                         </div>
                         <div class="panel-body">
                         <c:set var="user" value="${sessionScope[Attr.FINAL_USER]}"></c:set>
@@ -43,7 +43,7 @@
                                 <label class="c-input c-checkbox">
                                     <input type="checkbox" name="${Param.ROLE_ADMIN}" checked/>
                                     <span class="c-indicator"></span>
-                                    Administrator
+                                    Administrador
                                 </label>                            
                             </div>
                             </c:if>
@@ -52,7 +52,7 @@
                                 <label class="c-input c-checkbox">
                                     <input type="checkbox" name="${Param.ROLE_MANAGER}" checked/>
                                     <span class="c-indicator"></span>
-                                    Manager
+                                    Gerente
                                 </label>                            
                             </div>
                             </c:if>
@@ -61,7 +61,7 @@
                                 <label class="c-input c-checkbox">
                                     <input type="checkbox" name="${Param.ROLE_ANALYST}" checked/>
                                     <span class="c-indicator"></span>
-                                    Analyst
+                                    Analista
                                 </label>  
                             </div>
                             </c:if>
@@ -70,7 +70,7 @@
                                 <label class="c-input c-checkbox">
                                     <input type="checkbox" name="${Param.ROLE_SELLER}" checked/>
                                     <span class="c-indicator"></span>
-                                    Seller
+                                    Vendedor
                                 </label>  
                             </div>
                             </c:if>
@@ -79,12 +79,12 @@
                                 <label class="c-input c-checkbox">
                                     <input type="checkbox" name="${Param.ROLE_CLIENT}" checked/>
                                     <span class="c-indicator"></span>
-                                    Client
+                                    Cliente
                                 </label>  
                             </div>
                             </c:if>
                             <div class="form-group" style="text-align: center">
-                                <button type="submit" class="btn btn-submit"><i class="glyphicon glyphicon-log-in"></i> <b>Login</b></button>
+                                <button type="submit" class="btn btn-submit"><i class="glyphicon glyphicon-log-in"></i> <b>Iniciar Sesión</b></button>
                             </div>
                         </form>
                         </div>

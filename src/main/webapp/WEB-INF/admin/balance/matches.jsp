@@ -23,17 +23,17 @@
 <jsp:useBean id="Info" class="co.com.bookmaker.util.type.Information"></jsp:useBean>
 <jsp:useBean id="Role" class="co.com.bookmaker.util.type.Role"></jsp:useBean>
 
-<h2 class="main_content_title"> Matches Balance </h2>
+<h2 class="main_content_title"> Balance de Juegos </h2>
 
 <div class="row">
     <form id="balanceForm" role="form" class="form-inline" action="<%=AdminController.URL%>" method="GET">
         <input type="hidden" name="to" value="<%=AdminController.MATCHES_BALANCE%>">
         <div class="form-group col-md-8">
-            <label class="control-label">From: </label>
+            <label class="control-label">Desde </label>
             <input type="text" class="form-control input-sm" name="${Param.TIME_FROM}" value="${requestScope[Attr.TIME_FROM]}" placeholder="dd/MM/yyyy">
-            <label class="control-label">To: </label>
+            <label class="control-label">Hasta: </label>
             <input type="text" class="form-control input-sm" name="${Param.TIME_TO}" value="${requestScope[Attr.TIME_TO]}" placeholder="dd/MM/yyyy">
-            <button id="btnBalance" type="submit" class="btn btn-submit"><span class="glyphicon glyphicon-stats"></span> Calculate</button>
+            <button id="btnBalance" type="submit" class="btn btn-submit"><span class="glyphicon glyphicon-stats"></span> Calcular</button>
             <output style="color: red">${requestScope[Info.STATUS]}</output>
         </div>
     </form>
@@ -43,7 +43,7 @@
     <div class="col-md-6">
         <form role="form" class="form-horizontal">
             <div class="form-group" style="text-align: center">
-                <h4 class="col-md-12">Match</h4>
+                <h4 class="col-md-12">Juego</h4>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">Total: </label>
@@ -52,31 +52,31 @@
                 </div>
             </div>
                 <div class="form-group">
-                <label class="col-md-3 control-label">Active: </label>
+                <label class="col-md-3 control-label">Activo: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.ACTIVE_MATCHES]}</p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Inactive: </label>
+                <label class="col-md-3 control-label">Inactivo: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.INACTIVE_MATCHES]}</p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Cancelled: </label>
+                <label class="col-md-3 control-label">Cancelado: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.CANCELLED_MATCHES]}</p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Pending: </label>
+                <label class="col-md-3 control-label">Pendiente: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.PENDING_MATCHES]}</p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Finished: </label>
+                <label class="col-md-3 control-label">Finalizado: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.FINISHED_MATCHES]}</p>
                 </div>

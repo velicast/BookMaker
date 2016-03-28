@@ -297,7 +297,7 @@ public class ManagerController extends GenericController {
         try {
             matchId = Long.parseLong(strMatchId);
         } catch(Exception ex) {
-            request.setAttribute(Information.SEARCH_RESULT, "Match "+strMatchId+" not found");
+            request.setAttribute(Information.SEARCH_RESULT, "Juego "+strMatchId+" no encontrado");
             forward(getJSP(SEARCH_MATCH));
             return;
         }
@@ -305,7 +305,7 @@ public class ManagerController extends GenericController {
         matchEventService.update(match);
         
         if (match == null) {
-            request.setAttribute(Information.SEARCH_RESULT, "Match "+strMatchId+" not found");
+            request.setAttribute(Information.SEARCH_RESULT, "Juego "+strMatchId+" no encontrado");
             forward(getJSP(SEARCH_MATCH));
             return;
         }

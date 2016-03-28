@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/analyst/analyst.css">
         
-        <title>BookMaker - Pending Result</title>
+        <title>BookMaker - Pendiente</title>
     </head>
     <body>
         <jsp:include page="/WEB-INF/navbar.jsp"></jsp:include>
@@ -29,7 +29,7 @@
                 </div>
                 <!-- Main Content -->
                 <div id="mainContent" class="col-md-9 side-body">
-                <h2 class="main_content_title"> Pending Result </h2>
+                <h2 class="main_content_title"> Pendiente </h2>
                 <jsp:include page="<%=MatchEventController.getJSP(MatchEventController.SEARCH_RESULT) %>">
                     <jsp:param name="roleRequester" value="${Role.ANALYST}"></jsp:param>
                 </jsp:include>

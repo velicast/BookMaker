@@ -47,21 +47,21 @@
             <c:if test="${parlay.status == Status.IN_QUEUE}">
             <a id="btnAcceptParlay" class="btn btn-default" style="color: green"
                href="<%=ParlayController.URL%>?do=<%=ParlayController.ACCEPT%>&${Param.PARLAY}=${parlay.id}">
-                <span class="glyphicon glyphicon-ok"></span> Accept</a>
+                <span class="glyphicon glyphicon-ok"></span> Aceptar</a>
             <a id="btnCancelParlay" class="btn btn-default" style="color: red"
                href="<%=ParlayController.URL%>?do=<%=ParlayController.CANCEL%>&${Param.PARLAY}=${parlay.id}">
-                <span class="glyphicon glyphicon-remove"></span> Cancel</a>
+                <span class="glyphicon glyphicon-remove"></span> Cancelar</a>
             </c:if>
             <c:if test="${parlay.status == Status.PENDING && parlay.seller.id == userSession.id}">
             <a id="btnPrintTicket" class="btn btn-default" 
                href="<%=ParlayController.URL%>?do=<%=ParlayController.PRINT%>&${Param.PARLAY}=${parlay.id}">
-                <span class="glyphicon glyphicon-print"></span> Print Ticket</a>
+                <span class="glyphicon glyphicon-print"></span> Imprimir Tiquete</a>
             </c:if>
         </div>
     </div>
     </c:if>
     <div class="form-group">
-        <label class="col-md-2 control-label">Ticket ID:</label>
+        <label class="col-md-2 control-label">Tiquete No.:</label>
         <div class="col-md-4">
             <p class="form-control-static">${parlay.id+ParlayService.OFFSET_PARLAY_ID}</p>
         </div>
@@ -69,7 +69,7 @@
     <c:if test="${requestScope[Attr.TRACK_PARLAY] == null}">
     <c:if test="${parlay.status != Status.IN_QUEUE}">
     <div class="form-group">
-        <label class="col-md-2 control-label">Seller:</label>
+        <label class="col-md-2 control-label">Vendedor:</label>
         <div class="col-md-4">
             <c:if test="${param.roleRequester == Role.MANAGER}">
             <p class="form-control-static">
@@ -84,25 +84,25 @@
     </c:if>
     </c:if>
     <div class="form-group">
-        <label class="col-md-2 control-label">Date:</label>
+        <label class="col-md-2 control-label">Fecha:</label>
         <div class="col-md-4">
             <p class="form-control-static"><fmt:formatDate type="time" pattern="dd/MM/yyyy HH:mm" value="${parlay.purchaseDate.getTime()}"/></p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Risk:</label>
+        <label class="col-md-2 control-label">Riesgo:</label>
         <div class="col-md-4">
             <p class="form-control-static">$ <fmt:formatNumber value="${parlay.risk}" maxFractionDigits="0"/></p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Profit:</label>
+        <label class="col-md-2 control-label">Ganancia:</label>
         <div class="col-md-4">
             <p class="form-control-static">$ <fmt:formatNumber value="${parlay.profit}" maxFractionDigits="0"/></p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Status:</label>
+        <label class="col-md-2 control-label">Estado:</label>
         <div class="col-md-4">
             <c:if test="${parlay.status == Status.WIN}">
                 <h4 class="p_status_label"><span class = "label label-success">${Status.str(parlay.status)}</span></h4>
@@ -125,7 +125,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Odds: </label>
+        <label class="col-md-2 control-label">Logros: </label>
     </div>    
     <div class="col-md-12">
         <jsp:include page="<%=ParlayOddController.getJSP(ParlayOddController.TABLE_ODDS)%>"></jsp:include>
@@ -136,15 +136,15 @@
             <c:if test="${parlay.status == Status.IN_QUEUE}">
             <a id="btnAcceptParlay" class="btn btn-default" style="color: green"
                href="<%=ParlayController.URL%>?do=<%=ParlayController.ACCEPT%>&${Param.PARLAY}=${parlay.id}">
-                <span class="glyphicon glyphicon-ok"></span> Accept</a>
+                <span class="glyphicon glyphicon-ok"></span> Aceptar</a>
             <a id="btnCancelParlay" class="btn btn-default" style="color: red"
                href="<%=ParlayController.URL%>?do=<%=ParlayController.CANCEL%>&${Param.PARLAY}=${parlay.id}">
-                <span class="glyphicon glyphicon-remove"></span> Cancel</a>
+                <span class="glyphicon glyphicon-remove"></span> Cancelar</a>
             </c:if>
             <c:if test="${parlay.status == Status.PENDING && parlay.seller.id == userSession.id}">
             <a id="btnPrintTicket" class="btn btn-default" 
                href="<%=ParlayController.URL%>?do=<%=ParlayController.PRINT%>&${Param.PARLAY}=${parlay.id}">
-                <span class="glyphicon glyphicon-print"></span> Print Ticket</a>
+                <span class="glyphicon glyphicon-print"></span> Imprimir Tiquete</a>
             </c:if>
         </div>
     </div>

@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/analyst/analyst.css">
         
-        <title>BookMaker - New Match</title>
+        <title>BookMaker - Buscar Juego</title>
     </head>
     <body>
         <jsp:include page="/WEB-INF/navbar.jsp"></jsp:include>
@@ -43,6 +43,7 @@
             $(document).ready(function() {
                 $('#searchMatch').addClass("active");
                 $('#pManager').addClass("active");
+                $("#selectSport").off("change");
                 $("#selectSport").on("change", function () {
                     var sportId = $("#selectSport").prop("value");
                     $("#selectTournament").prop("disabled", true);

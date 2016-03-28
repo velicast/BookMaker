@@ -66,7 +66,7 @@
 <c:set var="oddService" value="${requestScope[Attr.PARLAYODD_SERVICE]}"></c:set>
 <jsp:useBean id="oddService" class="co.com.bookmaker.business_logic.service.parlay.ParlayOddService"></jsp:useBean>
 
-<h2 class="main_content_title"> ${SportId.str(match.tournament.sport.id)} Match </h2>
+<h2 class="main_content_title"> Juego de ${SportID.str(match.tournament.sport.id)} </h2>
 <form id="newMatchForm" role="form" class="form-horizontal">
     <c:if test="${match.author.id == sUser.id}">
     <div class="form-group">
@@ -74,23 +74,23 @@
         <div class="col-md-6">
             <a id="btnEditMatch" class="btn btn-default" 
                    href="<%=AnalystController.URL%>?to=<%=AnalystController.EDIT_MATCH%>&${Param.MATCH_EVENT}=${match.id}">
-                    <span class="glyphicon glyphicon-edit"></span> Edit</a>
+                    <span class="glyphicon glyphicon-edit"></span> Editar</a>
             <a id="btnCancelMatch" class="btn btn-default" style="color: red"
                    href="<%=MatchEventController.URL%>?do=<%=MatchEventController.CANCEL%>&${Param.MATCH_EVENT}=${match.id}">
-                    <span class="glyphicon glyphicon-remove"></span> Cancel</a>
+                    <span class="glyphicon glyphicon-remove"></span> Cancelar</a>
         </div>
         </c:if>
         <c:if test="${match.status == Status.PENDING_RESULT || match.status == Status.FINISHED}">
         <div class="col-md-6">
             <a id="btnMatchResult" class="btn btn-default"
                    href="<%=AnalystController.URL%>?to=<%=AnalystController.MATCH_RESULT%>&${Param.MATCH_EVENT}=${match.id}">
-                    <span class="glyphicon glyphicon-stats"></span> Result</a>
+                    <span class="glyphicon glyphicon-stats"></span> Resultado</a>
         </div>
         </c:if>
     </div>
     </c:if>
     <div class="form-group">
-        <label class="control-label col-md-2">Author: </label>
+        <label class="control-label col-md-2">Autor: </label>
         <div class="col-md-4">
             <c:set var="else" value="${true}"></c:set>
             <c:if test="${else && param.roleRequester == Role.MANAGER}">
@@ -111,27 +111,26 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Tournament: </label>
+        <label class="control-label col-md-2">Torneo: </label>
         <div class="col-md-4">
             <p class="form-control-static">${match.tournament.name}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Name: </label>
+        <label class="control-label col-md-2">Nombre: </label>
         <div class="col-md-4">
             <p class="form-control-static">${match.name}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Start Date: </label>
+        <label class="control-label col-md-2">Fecha de Inicio: </label>
         <div class="col-md-4">
-            <fmt:formatDate type="date" pattern="dd/MM/yyyy" value="${match.startDate.getTime()}" var="startDate"/>
-            <fmt:formatDate type="time" pattern="HH:mm" value="${match.startDate.getTime()}" var="startTime"/>
-            <p class="form-control-static">${startDate}<br/>${startTime}</p>
+            <fmt:formatDate type="date" pattern="dd/MM/yyyy HH:mm" value="${match.startDate.getTime()}" var="startDate"/>
+            <p class="form-control-static">${startDate}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Status: </label>
+        <label class="col-md-2 control-label">Estado: </label>
         <div class="col-md-4">
             <p class="form-control-static">${Status.str(match.status)}</p>
         </div>
@@ -143,7 +142,7 @@
     <c:set var="team" value="${teams.get(i)}"></c:set>
     <jsp:useBean id="team" class="co.com.bookmaker.data_access.entity.event.Team"></jsp:useBean>
     <div class="form-group">
-        <label class="control-label col-md-2">Team ${i}: </label>
+        <label class="control-label col-md-2">Equipo ${i}: </label>
         <div class="col-md-4">
             <p class="form-control-static">${team.name}</p>
         </div>
@@ -164,14 +163,14 @@
                 <caption>Total Points</caption>
                 <thead>
                     <tr>
-                        <th class="tp_th_1">Side</th>
-                        <th class="tp_th_2">Points</th>
-                        <th class="tp_th_3">Line</th>
+                        <th class="tp_th_1">Lado</th>
+                        <th class="tp_th_2">Puntos</th>
+                        <th class="tp_th_3">Linea</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Over</td>
+                        <td>Alta</td>
                         
                         <jsp:useBean id="over" class="co.com.bookmaker.data_access.entity.parlay.ParlayOdd"></jsp:useBean>
                         <fmt:formatNumber var="oPoints" value="${over.points}" maxFractionDigits="${1}" ></fmt:formatNumber>
@@ -180,7 +179,7 @@
                         <td>${oLine > 0.0 ? "+" : ""}${oLine}</td>
                     </tr>
                     <tr>
-                        <td>Under</td>
+                        <td>Baja</td>
                         
                         <jsp:useBean id="under" class="co.com.bookmaker.data_access.entity.parlay.ParlayOdd"></jsp:useBean>
                         <fmt:formatNumber var="uLine" value="${under.line}" maxFractionDigits="${1}" ></fmt:formatNumber>
@@ -195,12 +194,12 @@
         <c:set var="sp1" value="${oddService.getOdd(teams.get(1), period, Type.SPREAD_TEAM1, Status.SELLING)}"></c:set>
         <div class="col-md-5">
             <table class="table table-hover table-bordered table-condensed">
-                <caption>Spread</caption>
+                <caption>Handicap</caption>
                 <thead>
                     <tr>
-                        <th class="tp_th_1">Team</th>
-                        <th class="tp_th_2">Points</th>
-                        <th class="tp_th_3">Line</th>
+                        <th class="tp_th_1">Equipo</th>
+                        <th class="tp_th_2">Puntos</th>
+                        <th class="tp_th_3">Linea</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -232,11 +231,11 @@
         <div class="col-md-2"></div>
         <div class="col-md-5">
             <table class="table table-hover table-bordered table-condensed">
-                <caption>Money Line</caption>
+                <caption>Linea de Dinero</caption>
                 <thead>
                     <tr>
-                        <th class="tp_th_4">Team</th>
-                        <th class="tp_th_5">Line</th>
+                        <th class="tp_th_4">Equipo</th>
+                        <th class="tp_th_5">Linea</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -260,13 +259,13 @@
                 <caption>Draw Line</caption>
                 <thead>
                     <tr>
-                        <th class="tp_th_1">Team</th>
-                        <th class="tp_th_2">Line</th>
+                        <th class="tp_th_1">Equipo</th>
+                        <th class="tp_th_2">Linea</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Draw Line</td>
+                        <td>Linea de Empate</td>
                         <jsp:useBean id="draw" class="co.com.bookmaker.data_access.entity.parlay.ParlayOdd"></jsp:useBean>
                         <fmt:formatNumber var="line" value="${draw.line}" maxFractionDigits="${1}" ></fmt:formatNumber>
                         <td>${line > 0.0 ? "+" : ""}${line}</td>
@@ -285,17 +284,17 @@
         <div class="col-md-6">
             <a id="btnEditMatch" class="btn btn-default" 
                    href="<%=AnalystController.URL%>?to=<%=AnalystController.EDIT_MATCH%>&${Param.MATCH_EVENT}=${match.id}">
-                    <span class="glyphicon glyphicon-edit"></span> Edit</a>
+                    <span class="glyphicon glyphicon-edit"></span> Editar</a>
             <a id="btnCancelMatch" class="btn btn-default" style="color: red"
                    href="<%=MatchEventController.URL%>?do=<%=MatchEventController.CANCEL%>&${Param.MATCH_EVENT}=${match.id}">
-                    <span class="glyphicon glyphicon-remove"></span> Cancel</a>
+                    <span class="glyphicon glyphicon-remove"></span> Cancelar</a>
         </div>
         </c:if>
         <c:if test="${match.status == Status.PENDING_RESULT || match.status == Status.FINISHED}">
         <div class="col-md-6">
             <a id="btnMatchResult" class="btn btn-default"
                    href="<%=AnalystController.URL%>?to=<%=AnalystController.MATCH_RESULT%>&${Param.MATCH_EVENT}=${match.id}">
-                    <span class="glyphicon glyphicon-stats"></span> Result</a>
+                    <span class="glyphicon glyphicon-stats"></span> Resultado</a>
         </div>
         </c:if>
     </div>

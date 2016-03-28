@@ -40,16 +40,16 @@
 
 <c:set var="tournaments" value="${requestScope[Attr.TOURNAMENTS]}"></c:set>
 
-<h2 class="main_content_title"> Search Tournament </h2>
+<h2 class="main_content_title"> Buscar Torneo </h2>
 
 <table class="table table-hover table-bordered table-condensed">
     <thead>
-    <capition>${tournaments.size()} result(s) found</caption> 
+    <capition>${tournaments.size()} resultados encontrados</caption> 
     <tr>
-        <th class="tour_th1">Sport</th>
-        <th class="tour_th2">Tournament</th>
-        <th class="tour_th3">Active matches</th>
-        <th class="tour_th4">Status</th>
+        <th class="tour_th1">Deporte</th>
+        <th class="tour_th2">Torneo</th>
+        <th class="tour_th3">Juegos Activos</th>
+        <th class="tour_th4">Estado</th>
     </tr>
     </thead>
     <tbody>

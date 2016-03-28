@@ -29,7 +29,7 @@
 <c:set var="user" value="${requestScope[Attr.FINAL_USER]}"></c:set>
 <jsp:useBean id="user" class="co.com.bookmaker.data_access.entity.FinalUser"></jsp:useBean>
 
-<h2 class="main_content_title"> User Balance </h2>
+<h2 class="main_content_title"> Balance de Usuario </h2>
 
 <div class="row">
     <form id="balanceForm" role="form" class="form-inline" action="<%=FinalUserController.URL%>" method="GET">
@@ -37,11 +37,11 @@
         <input type="hidden" name="${Param.ROLE}" value="${param.roleRequester}">
         <input type="hidden" name="${Param.USERNAME}" value="${user.username}">
         <div class="form-group col-md-8">
-            <label class="control-label">From: </label>
+            <label class="control-label">Desde: </label>
             <input type="text" class="form-control input-sm" name="${Param.TIME_FROM}" value="${requestScope[Attr.TIME_FROM]}" placeholder="dd/MM/yyyy">
-            <label class="control-label">To: </label>
+            <label class="control-label">Hasta: </label>
             <input type="text" class="form-control input-sm" name="${Param.TIME_TO}" value="${requestScope[Attr.TIME_TO]}" placeholder="dd/MM/yyyy">
-            <button id="btnBalance" type="submit" class="btn btn-submit"><span class="glyphicon glyphicon-stats"></span> Calculate</button>
+            <button id="btnBalance" type="submit" class="btn btn-submit"><span class="glyphicon glyphicon-stats"></span> Calcular</button>
             <output style="color: red">${requestScope[Info.STATUS]}</output>
         </div>
     </form>
@@ -51,7 +51,7 @@
     <div class="col-md-12">
         <form role="form" class="form-horizontal">
             <div class="form-group">
-                <label class="col-md-2 control-label">User: </label>
+                <label class="col-md-2 control-label">Usuario: </label>
                 <div class="col-md-4">
                     <c:if test="${param.roleRequester == Role.MANAGER}">
                     <p class="form-control-static">
@@ -82,49 +82,49 @@
                 <h4 class="col-md-12">Parlay</h4>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">In Queue: </label>
+                <label class="col-md-3 control-label">En Cola: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.IN_QUEUE]}</p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Win: </label>
+                <label class="col-md-3 control-label">Gana: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.WIN]}</p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Lose: </label>
+                <label class="col-md-3 control-label">Pierde: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.LOSE]}</p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Cancelled: </label>
+                <label class="col-md-3 control-label">Cancelado: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.CANCELLED]}</p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Sold: </label>
+                <label class="col-md-3 control-label">Vendido: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.PARLAYS]}</p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Total Sold: </label>
+                <label class="col-md-3 control-label">Total: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">$ <fmt:formatNumber value="${requestScope[Attr.REVENUE]}" maxFractionDigits="0"/></p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Total Cost: </label>
+                <label class="col-md-3 control-label">Costo: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">$ <fmt:formatNumber value="${requestScope[Attr.COST]}" maxFractionDigits="0"/></p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Total Profit: </label>
+                <label class="col-md-3 control-label">Ganancia: </label>
                 <div class="col-md-9">
                 <c:if test="${requestScope[Attr.PROFIT] < 0}">
                     <p class="form-control-static" style="color: red">$ <fmt:formatNumber value="${requestScope[Attr.PROFIT]}" maxFractionDigits="0"/></p>
@@ -141,7 +141,7 @@
     <div class="col-md-6">
         <form role="form" class="form-horizontal">
             <div class="form-group" style="text-align: center">
-                <h4 class="col-md-12">Match</h4>
+                <h4 class="col-md-12">Juego</h4>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">Total: </label>
@@ -150,31 +150,31 @@
                 </div>
             </div>
                 <div class="form-group">
-                <label class="col-md-3 control-label">Active: </label>
+                <label class="col-md-3 control-label">Activo: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.ACTIVE_MATCHES]}</p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Inactive: </label>
+                <label class="col-md-3 control-label">Inactivo: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.INACTIVE_MATCHES]}</p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Cancelled: </label>
+                <label class="col-md-3 control-label">Cancelado: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.CANCELLED_MATCHES]}</p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Pending: </label>
+                <label class="col-md-3 control-label">Pendiente: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.PENDING_MATCHES]}</p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Finished: </label>
+                <label class="col-md-3 control-label">Finalizado: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.FINISHED_MATCHES]}</p>
                 </div>

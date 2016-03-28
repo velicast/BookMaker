@@ -111,7 +111,7 @@ public class AuthenticationController extends GenericController {
                 validator.checkUsername(username);
                 validator.checkPassword(password);
             } catch (Exception ex) {
-                request.setAttribute(Information.ERROR, "Login failed. Invalid username or password");
+                request.setAttribute(Information.ERROR, "Falló. Usuario y/o contraseña inválidos");
                 forward(HomeController.getJSP(HomeController.INDEX));
                 return;
             }
@@ -120,7 +120,7 @@ public class AuthenticationController extends GenericController {
             
             if(user != null) {
                 if (user.getStatus() == Status.INACTIVE) {
-                    request.setAttribute(Information.INFO, "The user account is <b>inactive</b>. Please contact the administration.");
+                    request.setAttribute(Information.INFO, "La cuenta de usuario está <b>desactivada</b>. Por favor contacte a la administración.");
                     forward(HomeController.getJSP(HomeController.INDEX));
                     return;
                 }
@@ -130,7 +130,7 @@ public class AuthenticationController extends GenericController {
                 forward(getJSP(ROLE_SELECTION));
                 return;
             } else {
-                request.setAttribute(Information.ERROR, "Login failed. Invalid username or password");
+                request.setAttribute(Information.ERROR, "Falló. Usuario y/o contraseña inválidos");
                 forward(HomeController.getJSP(HomeController.INDEX));
                 return;
             }

@@ -46,12 +46,12 @@
 <c:set var="data" value="${requestScope[Attr.MATCH_EVENT]}"></c:set>
 <jsp:useBean id="data" class="co.com.bookmaker.util.form.bean.MatchEventBean"></jsp:useBean>
 
-<h2 class="main_content_title"> New ${SportID.str(sportId)} Match </h2>
+<h2 class="main_content_title"> Nuevo Juego de ${SportID.str(data.sportId)} </h2>
 <form id="newMatchForm" role="form" class="form-horizontal" action="<%=MatchEventController.URL%>" method="POST">
     <input type="hidden" name="do" value="<%=MatchEventController.NEW %>">
     <input type="hidden" name="${Param.SPORT}" value="${data.sportId}">
     <div class="form-group">
-        <label class="control-label col-md-2">Tournament: </label>
+        <label class="control-label col-md-2">Torneo: </label>
         <div class="col-md-4">
             <select name="${Param.TOURNAMENT}" class="form-control">
                 <c:forEach var="tournament" items="${tournamentService.getTournaments(sUser.agency.id, data.sportId, Status.ACTIVE)}">
@@ -63,21 +63,21 @@
         <output style="color: red">${requestScope[Info.TOURNAMENT]}</output>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Name: </label>
+        <label class="control-label col-md-2">Nombre: </label>
         <div class="col-md-4">
-            <input type="text" class="form-control input-sm" name="${Param.NAME}" value="${data.name}" placeholder="Name">
+            <input type="text" class="form-control input-sm" name="${Param.NAME}" value="${data.name}" placeholder="Nombre">
         </div>
         <output style="color: red">${requestScope[Info.NAME]}</output>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Start Date: </label>
+        <label class="control-label col-md-2">Fecha de Inicio: </label>
         <div class="col-md-4">
             <input type="text" class="form-control input-sm" name="${Param.START_DATE}" value="${data.startDate}" placeholder="dd/MM/yyyy HH:mm">
         </div>
         <output style="color: red">${requestScope[Info.START_DATE]}</output>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Status: </label>
+        <label class="col-md-2 control-label">Estado: </label>
         <div class="col-md-4">
             <select class="form-control input-sm" name="${Param.STATUS}">
                 <option value="${Status.ACTIVE}" ${data.status == Status.ACTIVE ? 'selected' : ''}> ${Status.str(Status.ACTIVE)} </option>
@@ -89,9 +89,9 @@
     
     <c:forEach var="i" begin="0" end="${data.getnTeams()-1}">
     <div class="form-group">
-        <label class="control-label col-md-2">Team ${i}: </label>
+        <label class="control-label col-md-2">Equipo ${i}: </label>
         <div class="col-md-4">
-            <input id="nt${i}" type="text" class="team_name form-control input-sm" name="${Param.NAME} ${i}" value="${data.getTeam(i)}" placeholder="Name">
+            <input id="nt${i}" type="text" class="team_name form-control input-sm" name="${Param.NAME} ${i}" value="${data.getTeam(i)}" placeholder="Nombre">
         </div>
         <c:set var="teamIdx" value="${Info.TEAM} ${i}"></c:set>
         <output style="color: red">${requestScope[teamIdx]}</output>
@@ -104,22 +104,22 @@
         <c:if test="${data.getnTeams() == 2}">
         <div class="col-md-5">
             <table class="table table-hover table-bordered table-condensed">
-                <caption>Total Points</caption>
+                <caption>Puntos Totales</caption>
                 <thead>
                     <tr>
-                        <th class="tp_th_1">Side</th>
-                        <th class="tp_th_2">Points</th>
-                        <th class="tp_th_3">Line</th>
+                        <th class="tp_th_1">Lado</th>
+                        <th class="tp_th_2">Puntos</th>
+                        <th class="tp_th_3">Linea</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Over</td>
+                        <td>Alta</td>
                         <td rowspan="2"><input type="text" class="form-control input-sm" name="${Param.TOTAL_POINTS} ${i}" value="${data.getTotalPoints(i)}"></td>
                         <td><input type="text" class="form-control input-sm" name="${Param.TOTAL_OVER_LINE} ${i}" value="${data.getLineOver(i)}"></td>
                     </tr>
                     <tr>
-                        <td>Under</td>
+                        <td>Baja</td>
                         <td><input type="text" class="form-control input-sm" name="${Param.TOTAL_UNDER_LINE} ${i}" value="${data.getLineUnder(i)}"></td>
                     </tr>
                 </tbody>
@@ -129,12 +129,12 @@
         </div>
         <div class="col-md-5">
             <table class="table table-hover table-bordered table-condensed">
-                <caption>Spread</caption>
+                <caption>Handicap</caption>
                 <thead>
                     <tr>
-                        <th class="tp_th_1">Team</th>
-                        <th class="tp_th_2">Points</th>
-                        <th class="tp_th_3">Line</th>
+                        <th class="tp_th_1">Equipo</th>
+                        <th class="tp_th_2">Puntos</th>
+                        <th class="tp_th_3">Linea</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -159,11 +159,11 @@
         <div class="col-md-2"></div>
         <div class="col-md-5">
             <table class="table table-hover table-bordered table-condensed">
-                <caption>Money Line</caption>
+                <caption>Linea de Dinero</caption>
                 <thead>
                     <tr>
-                        <th class="tp_th_4">Team</th>
-                        <th class="tp_th_5">Line</th>
+                        <th class="tp_th_4">Equipo</th>
+                        <th class="tp_th_5">Linea</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -182,16 +182,16 @@
         </div>
         <div class="col-md-5">
             <table class="table table-hover table-bordered table-condensed">
-                <caption>Draw Line</caption>
+                <caption>Linea de Empate</caption>
                 <thead>
                     <tr>
-                        <th class="tp_th_1">Team</th>
-                        <th class="tp_th_2">Line</th>
+                        <th class="tp_th_1">Equipo</th>
+                        <th class="tp_th_2">Linea</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Draw Line</td>
+                        <td>Empate</td>
                         <td><input type="text" class="form-control input-sm" name="${Param.DRAW_LINE} ${i}" value="${data.getDrawLine(i)}"></td>
                     </tr>
                 </tbody>
@@ -200,6 +200,6 @@
     </div>
     </c:forEach>
     <div class="col-md-6" style="text-align: center">
-        <button class="btn btn-submit" id="btnNewMatch"><span class="glyphicon glyphicon-check"></span> Create</button>
+        <button class="btn btn-submit" id="btnNewMatch"><span class="glyphicon glyphicon-check"></span> Crear</button>
     </div>
 </form>

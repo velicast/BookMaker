@@ -18,18 +18,18 @@
 <c:set var="agency" value="${requestScope[Attr.AGENCY]}"></c:set>
 <jsp:useBean id="agency" class="co.com.bookmaker.util.form.bean.AgencyBean"></jsp:useBean>
 
-<h2 class="main_content_title"> Edit Agency </h2>
+<h2 class="main_content_title"> Editar Agencia </h2>
 
 <form id="editAgencyForm" role="form" class="form-horizontal" action="<%=AgencyController.URL%>" method="POST">
     <input type="hidden" name="do" value="<%=AgencyController.EDIT%>">
     <input type="hidden" name="${Param.AGENCY}" value="${agency.id}">
     <div class="form-group">
-        <output class="col-md-7" style="text-align: center">Fields marked with * are obligatory</output>
+        <output class="col-md-7" style="text-align: center">Campos marcados con * son obligatorios</output>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">* Name:</label>
+        <label class="col-md-2 control-label">* Nombre:</label>
         <div class="col-md-4">
-            <input type="text" class="form-control input-sm" name="${Param.NAME}" value="${agency.name}" placeholder="Name">
+            <input type="text" class="form-control input-sm" name="${Param.NAME}" value="${agency.name}" placeholder="Nombre">
         </div>
         <output style="color: red">${requestScope[Info.NAME]}</output>
     </div>
@@ -37,21 +37,21 @@
         <label class="col-md-2 control-label"> E-mail: </label>
         <div class="col-md-4">
             <input type="email" class="form-control input-sm" name="${Param.EMAIL}" value="${agency.email}" placeholder="E-mail">
-            <span class = "help-block">Ex: someone@example.com</span>
+            <span class = "help-block">Ej: someone@example.com</span>
         </div>
         <output style="color: red">${requestScope[Info.EMAIL]}</output>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Telephone: </label>
+        <label class="col-md-2 control-label">Telefono: </label>
         <div class="col-md-4">
-            <input type="text" class="form-control input-sm" name="${Param.TELEPHONE}" value="${agency.telephone}" placeholder="Telephone">
+            <input type="text" class="form-control input-sm" name="${Param.TELEPHONE}" value="${agency.telephone}" placeholder="Telefono">
         </div>
         <output style="color: red">${requestScope[Info.TELEPHONE]}</output>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">City:</label>
+        <label class="col-md-2 control-label">Ciudad:</label>
         <div class="col-md-4">
-            <input list="cities" class="form-control input-sm" name="${Param.CITY}" value="${agency.city}" placeholder="City">
+            <input list="cities" class="form-control input-sm" name="${Param.CITY}" value="${agency.city}" placeholder="Ciudad">
             <datalist id="cities">
                 <option value=""></option>
             </datalist>
@@ -59,29 +59,29 @@
         <output style="color: red">${requestScope[Info.CITY]}</output>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Address: </label>
+        <label class="col-md-2 control-label">Dirección: </label>
         <div class="col-md-4">
-            <input type="text" class="form-control input-sm" name="${Param.ADDRESS}" value="${agency.address}" placeholder="Address">
+            <input type="text" class="form-control input-sm" name="${Param.ADDRESS}" value="${agency.address}" placeholder="Dirección">
         </div>
         <output style="color: red">${requestScope[Info.ADDRESS]}</output>
     </div>
     <hr class="featurette-divider">
     <div class="form-group">
-        <label class="col-md-2 control-label">Min. number of odds per Parlay: </label>
+        <label class="col-md-2 control-label">* Min. logros por Parlay: </label>
         <div class="col-md-4">
             <input type="text" class="form-control input-sm" name="${Param.MIN_ODDS}" value="${agency.minOdds}" placeholder="0">
         </div>
         <output style="color: red">${requestScope[Info.MIN_ODDS]}</output>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Max. number of odds per Parlay: </label>
+        <label class="col-md-2 control-label">* Max. logros por Parlay: </label>
         <div class="col-md-4">
             <input type="text" class="form-control input-sm" name="${Param.MAX_ODDS}" value="${agency.maxOdds}" placeholder="0">
         </div>
         <output style="color: red">${requestScope[Info.MAX_ODDS]}</output>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Max. profit per Parlay: </label>
+        <label class="col-md-2 control-label">* Max. ganancia por Parlay: </label>
         <div class="col-md-4">
             <input type="text" class="form-control input-sm" name="${Param.MAX_PROFIT}" value="${agency.maxProfit}" placeholder="0.0">
         </div>
@@ -90,11 +90,11 @@
     <div class="form-group">
         <label for="roles" class="col-md-2 control-label"> </label>
         <div class="col-md-4">
-            <input type="checkbox" name="${Param.ACCEPT_GLOBAL_ODDS}" ${agency.acceptGlobalOdds ? 'checked' : ''}/> Accept Global Odds
+            <input type="checkbox" name="${Param.ACCEPT_GLOBAL_ODDS}" ${agency.acceptGlobalOdds ? 'checked' : ''}/> Acepta logros globales
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Status: </label>
+        <label class="col-md-2 control-label">Estado: </label>
         <div class="col-md-4">
             <select class="form-control input-sm" name="${Param.STATUS}">
                 <option value="${Status.ACTIVE}" ${agency.status == Status.ACTIVE ? 'selected' : ''}> ${Status.str(Status.ACTIVE)} </option>
@@ -104,6 +104,6 @@
         <output style="color: red">${requestScope[Info.STATUS]}</output>
     </div>
     <div class="col-md-6" style="text-align: center">
-        <button type="submit" id="btnEditAgency" class="btn btn-submit"><span class="glyphicon glyphicon-save"></span> Save</button>
+        <button type="submit" id="btnEditAgency" class="btn btn-submit"><span class="glyphicon glyphicon-save"></span> Guardar</button>
     </div>
 </form>

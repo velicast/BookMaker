@@ -24,14 +24,14 @@
    
 <table class="table table-hover table-bordered table-condensed">
    <thead>
-      <capition>${parlays.size()} result(s) found</caption> 
+      <capition>${parlays.size()} resultados encontrados</caption> 
       <tr>
          <th class="parlay_th1">Parlay</th>
-         <th class="parlay_th2">Date</th>
-         <th class="parlay_th3">Client's Name</th>
-         <th class="parlay_th4">Risk</th>
-         <th class="parlay_th5">Profit</th>
-         <th class="parlay_th6">Status</th>
+         <th class="parlay_th2">Fecha</th>
+         <th class="parlay_th3">Nombre del Cliente</th>
+         <th class="parlay_th4">Riesgo</th>
+         <th class="parlay_th5">Ganancia</th>
+         <th class="parlay_th6">Estado</th>
       </tr>
    </thead>
    <tbody>

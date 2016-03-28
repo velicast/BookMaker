@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/seller/seller.css">
         
-        <title>BookMaker - Parlay Summary</title>
+        <title>BookMaker - Resumen de Parlay</title>
 
         <style></style>
     </head>

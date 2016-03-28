@@ -108,7 +108,7 @@ public class TournamentController extends GenericController {
             status = Integer.parseInt(strStatus);
         } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.STATUS, "Invalid status");
+            request.setAttribute(Information.STATUS, "Estado inválido");
         }
         
         Integer sportId = null;
@@ -116,14 +116,14 @@ public class TournamentController extends GenericController {
             sportId = Integer.parseInt(strSportId);
         } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.SPORT, "Invalid sport Id");
+            request.setAttribute(Information.SPORT, "ID de deporte inválido");
         }
         // FIN VALIDACION
         
         Sport sport = sportService.getSport(sportId, Status.ACTIVE);
         if (sport == null) {
             validated = false;
-            request.setAttribute(Information.SPORT, "Sport "+sportId+" not found");
+            request.setAttribute(Information.SPORT, "Deporte "+sportId+" no encontrado");
         }
         
         Tournament tournament = new Tournament();
@@ -143,7 +143,7 @@ public class TournamentController extends GenericController {
         try {
             tournamentService.create(tournament);
         } catch(Exception ex) {
-            request.setAttribute(Information.ERROR, "Opss! something went wrong. Please try again.");
+            request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo.");
             return;
         }
         forward(AnalystController.getJSP(AnalystController.TOURNAMENT_SUMMARY));
@@ -171,7 +171,7 @@ public class TournamentController extends GenericController {
             status = Integer.parseInt(strStatus);
         } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.STATUS, "Invalid status");
+            request.setAttribute(Information.STATUS, "Estado inválido");
         }
         
         Integer sportId = null;
@@ -179,7 +179,7 @@ public class TournamentController extends GenericController {
             sportId = Integer.parseInt(strSportId);
         } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.SPORT, "Invalid sport Id");
+            request.setAttribute(Information.SPORT, "ID de deporte inválido");
         }
         
         Long tournamentId = null;
@@ -187,12 +187,12 @@ public class TournamentController extends GenericController {
             tournamentId = Long.parseLong(strTournamentId);
         } catch (Exception ex) {
             validated = false;
-            request.setAttribute(Information.NAME, "Invalid tournament Id");
+            request.setAttribute(Information.NAME, "ID de torneo inválido");
         }
         
         Sport sport = sportService.getSport(sportId, Status.ACTIVE);
         if (sport == null) {
-            request.setAttribute(Information.SPORT, "Sport "+sportId+" not found");
+            request.setAttribute(Information.SPORT, "Deporte "+sportId+" no encontrado");
             forward(AnalystController.getJSP(AnalystController.SEARCH_TOURNAMENT));
             return;
         }
@@ -200,7 +200,7 @@ public class TournamentController extends GenericController {
         Tournament tournament = tournamentService.getTournament(tournamentId);
         
         if (tournament == null) {
-            request.setAttribute(Information.NAME, "Tournament "+sportId+" not found");
+            request.setAttribute(Information.NAME, "Torneo "+sportId+" no encontrado");
             forward(AnalystController.getJSP(AnalystController.SEARCH_TOURNAMENT));
             return;
         }
@@ -221,7 +221,7 @@ public class TournamentController extends GenericController {
         try {
             tournamentService.edit(tournament);
         } catch(Exception ex) {
-            request.setAttribute(Information.ERROR, "Opss! something went wrong. Please try again.");
+            request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo.");
             forward(AnalystController.getJSP(AnalystController.EDIT_TOURNAMENT));
             return;
         }
@@ -241,18 +241,18 @@ public class TournamentController extends GenericController {
         if (strStatus != null && strStatus.length() > 0) {
             try {
                 status = Integer.parseInt(strStatus);
-            } catch (NumberFormatException ex) {
+            } catch (Exception ex) {
                 validated = false;
-                request.setAttribute(Information.STATUS, "Invalid status value "+strStatus);
+                request.setAttribute(Information.STATUS, "Estado inválido: "+strStatus);
             }
         }
         Integer sportId = null;
         if (strSportId != null && strSportId.length() > 0) {
             try {
                 sportId = Integer.parseInt(strSportId);
-            } catch (NumberFormatException ex) {
+            } catch (Exception ex) {
                 validated = false;
-                request.setAttribute(Information.SPORT, "Invalid sport id "+strSportId);
+                request.setAttribute(Information.SPORT, "ID de deporte inválido: "+strSportId);
             }
         }
         if (!validated) {

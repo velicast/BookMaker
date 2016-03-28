@@ -81,7 +81,7 @@ $(document).ready(function () {
         var maxOdds = parseInt($("#maxOddsLimit").text());
         if (nOdds < minOdds || nOdds > maxOdds) {
             ok = false;
-            output += "* Please select between "+minOdds+" and "+maxOdds+" odds per parlay.<br/>";
+            output += "* Seleccione entre "+minOdds+" y "+maxOdds+" logros.<br/>";
         }
         var vBet = $("#risk").prop("value");
         var risk = parseInt(vBet);
@@ -89,15 +89,15 @@ $(document).ready(function () {
         
         if (risk <= 0) {
             ok = false;
-            output += "* The risk must be positive: "+risk+"<br/>";
+            output += "* El riesgo debe ser positivo: "+risk+"<br/>";
         }
         if (isNaN(risk)) {
             ok = false;
-            output += "* Invalid risk value: "+"NaN"+"<br/>";
+            output += "* Riesgo inválido: "+"NaN"+"<br/>";
         }
         if (name === null || name.length === 0) {
             ok = false;
-            output += "* Please give your name. <br/>";
+            output += "* Por favor ingrese su nombre. <br/>";
         }
         if (!ok) {
             $("#infoModalContent").html(output);

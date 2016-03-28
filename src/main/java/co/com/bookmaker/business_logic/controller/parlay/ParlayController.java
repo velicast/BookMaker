@@ -270,12 +270,12 @@ public class ParlayController extends GenericController {
         
         String name = request.getParameter(Parameter.NAME);
         String oddselection = request.getParameter(Parameter.ODDS);
-        String strBet = request.getParameter(Parameter.RISK);
-        Double bet = null;
+        String strRisk = request.getParameter(Parameter.RISK);
+        Double risk = null;
         try {
-            bet = Double.parseDouble(strBet);
+            risk = Double.parseDouble(strRisk);
         } catch (Exception ex) {
-            info += "* Invalid bet value: "+strBet+"<br/>";
+            info += "* Riesgo inválido: "+strRisk+"<br/>";
             validated = false;
         }
         
@@ -288,7 +288,7 @@ public class ParlayController extends GenericController {
             } catch (Exception ex) {}
             ParlayOdd odd = parlayOddService.getOdd(oddId);
             if (odd == null || oddId == null) {
-                info += "* You have requested for an invalid odd "+oddId+"<br/>";
+                info += "* Ha solicitado un logro inválido: "+oddId+"<br/>";
                 break;
             }
             MatchEvent m = odd.getPeriod().getMatch();
@@ -296,22 +296,22 @@ public class ParlayController extends GenericController {
             
             Agency a = m.getAuthor().getAgency();
             if (m.getStatus() != Status.ACTIVE || (a == null && !agency.getAcceptGlobalOdds()) || (a != null && !agency.equals(a))) {
-                info += "* You have requested for an invalid odd "+oddId+"<br/>";
+                info += "* ha solicitado un logro inválido: "+oddId+"<br/>";
                 break;
             }
             odds.add(odd);
         }
         
         if (odds.size() < minOdds || odds.size() > maxOdds) {
-            info += " * Please select between "+minOdds+" and "+maxOdds+" per parlay. <br/>";
+            info += " * Seleccione entre "+minOdds+" y "+maxOdds+" logros. <br/>";
             validated = false;
         }
-        if (bet <= 0) {
-            info += "* The bet must be positive: "+bet+" <br/>";
+        if (risk <= 0) {
+            info += "* El riesgo debe ser un monto positivo: "+risk+" <br/>";
             validated = false;
         }
         if (name == null || name.length() == 0) {
-            info += "* Please give your name. <br/>";
+            info += "* Por favor ingrese se nombre. <br/>";
             validated = false;
         }
         
@@ -332,7 +332,7 @@ public class ParlayController extends GenericController {
         Parlay parlay = new Parlay();
         parlay.setStatus(Status.IN_QUEUE);
         parlay.setOdds(odds);
-        parlay.setRisk(bet);
+        parlay.setRisk(risk);
         parlayService.updateProfit(parlay);
         parlay.setProfit(Math.min(maxProfit, parlay.getProfit()));
         parlay.setPurchaseDate(Calendar.getInstance());
@@ -342,12 +342,12 @@ public class ParlayController extends GenericController {
         try {
             parlayService.create(parlay);
         } catch(Exception ex) {
-            request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
+            request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo.");
             forward(ClientController.getJSP(ClientController.INDEX));
             return;
         }
-        request.setAttribute(Information.INFO, "<b>Ticket ID: "+(parlay.getId()+ParlayService.OFFSET_PARLAY_ID)+"</b>"
-                +"<br/><b style=\"font-size: 20px \">Thanks for purchasing!</b>");
+        request.setAttribute(Information.INFO, "<b>Tiquete No.: "+(parlay.getId()+ParlayService.OFFSET_PARLAY_ID)+"</b>"
+                +"<br/><b style=\"font-size: 20px \">¡Gracias por comprar!</b>");
         forward(ClientController.getJSP(ClientController.INDEX));
     }
 
@@ -363,15 +363,13 @@ public class ParlayController extends GenericController {
         try {
             parlayId = Long.parseLong(strParlayId);
         } catch (Exception ex) {
-            request.setAttribute(Information.ERROR, "Parlay not found");
-            forward(SellerController.getJSP(SellerController.SELLING_QUEUE));
+            redirect(HomeController.URL);
             return;
         }
         
         Parlay parlay = parlayService.getParlay(parlayId);
         if (parlay == null) {
-            request.setAttribute(Information.ERROR, "Parlay "+parlayId+" not found");
-            forward(SellerController.getJSP(SellerController.SELLING_QUEUE));
+            redirect(HomeController.URL);
             return;
         }
         
@@ -379,14 +377,14 @@ public class ParlayController extends GenericController {
             // EL VENDEDOR DEL PARLAY
         FinalUser seller = parlay.getSeller();
         if (!agency.equals(seller.getAgency())) {
-            request.setAttribute(Information.ERROR, "You are not allowed to execute this operation");
-            forward(SellerController.getJSP(SellerController.SELLING_QUEUE));
+            request.setAttribute(Information.ERROR, "Restricted operation");
+            forward(HomeController.getJSP(HomeController.INDEX));
             return;
         }
         
         if (!parlay.getStatus().equals(Status.IN_QUEUE)) {
-            request.setAttribute(Information.ERROR, "Parlay not in queue");
-            forward(SellerController.getJSP(SellerController.SELLING_QUEUE));
+            request.setAttribute(Information.ERROR, "Restricted operation");
+            forward(HomeController.getJSP(HomeController.INDEX));
             return;
         }
         try {
@@ -396,10 +394,10 @@ public class ParlayController extends GenericController {
             for (ParlayOdd odd : parlay.getOdds()) {
                 Integer matchStatus = odd.getPeriod().getMatch().getStatus();
                 if (matchStatus.equals(Status.PENDING_RESULT) || matchStatus.equals(Status.FINISHED)) {
-                    request.setAttribute(Information.ERROR, "The Parlay was cancelled due to time expired.");
+                    request.setAttribute(Information.ERROR, "La apuesta fue cancelada debido a que ha caducado.");
                     parlay.setStatus(Status.CANCELLED);
                     parlayService.edit(parlay);
-                    forward(SellerController.getJSP(SellerController.SELLING_QUEUE));
+                    forward(HomeController.getJSP(HomeController.INDEX));
                     return;
                 }
             }
@@ -408,11 +406,11 @@ public class ParlayController extends GenericController {
             parlayService.edit(parlay);
         } catch (Exception ex) {
             parlay.setStatus(Status.IN_QUEUE);
-            request.setAttribute(Information.ERROR, "Opss! something went wrong. Please try again.");
+            request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo.");
             forward(SellerController.getJSP(SellerController.PARLAY_SUMMARY));
             return;
         }
-        request.setAttribute(Information.INFO, "<b>Parlay ID "+(parlayId+ParlayService.OFFSET_PARLAY_ID)+" Accepted! Now you can print the ticket.</b>");
+        request.setAttribute(Information.INFO, "<b>Parlay ID "+(parlayId+ParlayService.OFFSET_PARLAY_ID)+" Aceptado! Ahora puede imprimir el tiquete.</b>");
         forward(SellerController.getJSP(SellerController.PARLAY_SUMMARY));
     }
 
@@ -428,20 +426,18 @@ public class ParlayController extends GenericController {
         try {
             parlayId = Long.parseLong(strParlayId);
         } catch (Exception ex) {
-            request.setAttribute(Information.ERROR, "Parlay not found");
-            forward(SellerController.getJSP(SellerController.SELLING_QUEUE));
+            redirect(HomeController.URL);
             return;
         }
         
         Parlay parlay = parlayService.getParlay(parlayId);
         if (parlay == null) {
-            request.setAttribute(Information.ERROR, "Parlay "+parlayId+" not found");
-            forward(SellerController.getJSP(SellerController.SELLING_QUEUE));
+            redirect(HomeController.URL);
             return;
         }
         if (!parlay.getStatus().equals(Status.IN_QUEUE)) {
-            request.setAttribute(Information.ERROR, "Parlay not in queue");
-            forward(SellerController.getJSP(SellerController.SELLING_QUEUE));
+            request.setAttribute(Information.ERROR, "Restricted operation");
+            forward(HomeController.getJSP(HomeController.INDEX));
             return;
         }
         // VERIFICAR QUE EL VENDEDOR QUE CANCELA PERTENECE A LA MISMA AGENCIA QUE
@@ -449,7 +445,7 @@ public class ParlayController extends GenericController {
         FinalUser seller = parlay.getSeller();
         if (!agency.equals(seller.getAgency())) {
             request.setAttribute(Information.ERROR, "Restricted operation");
-            forward(SellerController.getJSP(SellerController.SELLING_QUEUE));
+            forward(HomeController.getJSP(HomeController.INDEX));
             return;
         }
             // FIN VALIDACION
@@ -459,13 +455,13 @@ public class ParlayController extends GenericController {
             parlayService.update(parlay);
         } catch (Exception ex) {
             parlay.setStatus(Status.IN_QUEUE);
-            request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
+            request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo.");
             request.setAttribute(Attribute.PARLAY, parlay);
             request.setAttribute(Attribute.PARLAY_ODDS, parlay.getOdds());
             forward(SellerController.getJSP(SellerController.PARLAY_SUMMARY));
             return;
         }
-        request.setAttribute(Information.INFO, "<b>Parlay ID "+(parlayId+ParlayService.OFFSET_PARLAY_ID)+" Canceled!</b>");
+        request.setAttribute(Information.INFO, "<b>Parlay ID "+(parlayId+ParlayService.OFFSET_PARLAY_ID)+" Cancelado!</b>");
         forward(SellerController.getJSP(SellerController.SELLING_QUEUE));
     }
 
@@ -511,7 +507,7 @@ public class ParlayController extends GenericController {
             try {
                 parlayId = Long.parseLong(strParlayId);
             } catch(Exception ex) {
-                request.setAttribute(Information.PARLAY, "Invalid parlay id "+strParlayId);
+                request.setAttribute(Information.PARLAY, "No. de tiquete inválido: "+strParlayId);
                 validated = false;
             }
         }
@@ -529,7 +525,7 @@ public class ParlayController extends GenericController {
                 from.set(Calendar.MINUTE, 0);
                 from.set(Calendar.SECOND, 0);
             } catch (ParseException ex) {
-                request.setAttribute(Information.TIME_FROM, "Invalid value for date "+strFrom);
+                request.setAttribute(Information.TIME_FROM, "Fecha invália: "+strFrom);
                 validated = false;
             }
         }
@@ -542,7 +538,7 @@ public class ParlayController extends GenericController {
                 to.set(Calendar.MINUTE, 59);
                 to.set(Calendar.SECOND, 59);
             } catch (ParseException ex) {
-                request.setAttribute(Information.TIME_TO, "Invalid value for date "+strTo);
+                request.setAttribute(Information.TIME_TO, "Fecha inválida: "+strTo);
                 validated = false;
             }
         }
@@ -559,7 +555,7 @@ public class ParlayController extends GenericController {
             try {
                 status = Integer.parseInt(strStatus);
             } catch (Exception ex) {
-                request.setAttribute(Information.TIME_FROM, "Invalid status value "+strStatus);
+                request.setAttribute(Information.TIME_FROM, "Estado inválido: "+strStatus);
                 validated = false;
             }
         }
@@ -613,7 +609,7 @@ public class ParlayController extends GenericController {
             return;
         }
         Parlay parlay = parlayService.getParlay(parlayId);
-        /*if (parlay == null || !parlay.getStatus().equals(Status.PENDING)) {
+        if (parlay == null || !parlay.getStatus().equals(Status.PENDING)) {
             redirect(HomeController.URL);
             return;
         }
@@ -621,7 +617,7 @@ public class ParlayController extends GenericController {
             for (ParlayOdd odd : parlay.getOdds()) {
                 Integer matchStatus = odd.getPeriod().getMatch().getStatus();
                 if (matchStatus.equals(Status.PENDING_RESULT) || matchStatus.equals(Status.FINISHED)) {
-                    request.setAttribute(Information.ERROR, "The Parlay was cancelled due to time expired.");
+                    request.setAttribute(Information.ERROR, "La apuesta fue cancelada debido a que ha caducado");
                     parlay.setStatus(Status.CANCELLED);
                     parlayService.edit(parlay);
                     forward(SellerController.getJSP(SellerController.PARLAY_SUMMARY));
@@ -630,11 +626,11 @@ public class ParlayController extends GenericController {
             }
         } catch (Exception ex) {
             parlay.setStatus(Status.PENDING);
-            request.setAttribute(Information.ERROR, "Opss! something went wrong. Please try again.");
+            request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo.");
             request.setAttribute(Attribute.PARLAY, parlay);
             forward(SellerController.getJSP(SellerController.PARLAY_SUMMARY));
             return;
-        }*/
+        }
         
         NumberFormat moneyFormatter = NumberFormat.getNumberInstance();
         moneyFormatter.setMaximumFractionDigits(0);
@@ -677,6 +673,7 @@ public class ParlayController extends GenericController {
         parameters.put("ticketID", (parlay.getId()+ParlayService.OFFSET_PARLAY_ID)+"");
         parameters.put("risk", "$ "+moneyFormatter.format(parlay.getRisk()));
         parameters.put("profit", "$ "+moneyFormatter.format(parlay.getProfit()));
+        parameters.put("QRCode", (parlay.getId()+ParlayService.OFFSET_PARLAY_ID)+" | "+parlay.getSeller().getUsername());
         
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(odds);
         

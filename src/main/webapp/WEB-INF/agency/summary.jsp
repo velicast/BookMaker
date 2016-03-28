@@ -55,7 +55,7 @@
     
 <c:set var="auth" value="${requestScope[Attr.AUTHENTICATION_SERVICE]}"></c:set>
 
-<h2 class="main_content_title"> Agency </h2>
+<h2 class="main_content_title"> Agencia </h2>
 
 <form role="form" class="form-horizontal">
     <div class="form-group">
@@ -63,13 +63,13 @@
         <c:if test="${param.roleRequester == Role.ADMIN}">
             <a id="btnEditAgency" class="btn btn-default" 
                href="<%=AdminController.URL%>?to=<%=AdminController.EDIT_AGENCY%>&${Param.AGENCY}=${agency.id}">
-                <span class="glyphicon glyphicon-edit"></span> Edit</a>
+                <span class="glyphicon glyphicon-edit"></span> Editar</a>
             <a id="btnAddAgency" class="btn btn-default" 
                href="<%=AdminController.URL%>?to=<%=AdminController.SEARCH_AGENCY_EMPLOYEE%>&${Param.AGENCY}=${agency.id}&${Param.ADD_EMPLOYEE}=}">
-                <span class="glyphicon glyphicon-plus"></span> Add Employee</a>
+                <span class="glyphicon glyphicon-plus"></span> Agregar Empleado</a>
             <a id="btnRemAgency" class="btn btn-default" 
                href="<%=AdminController.URL%>?to=<%=AdminController.SEARCH_AGENCY_EMPLOYEE%>&${Param.AGENCY}=${agency.id}&${Param.REM_EMPLOYEE}=">
-                <span class="glyphicon glyphicon-minus"></span> Remove Employee</a>
+                <span class="glyphicon glyphicon-minus"></span> Remover Empleado</a>
             <a id="btnAgencyBalance" class="btn btn-default" 
                href="<%=AdminController.URL%>?to=<%=AdminController.AGENCY_BALANCE%>&${Param.AGENCY}=${agency.id}">
             <span class="glyphicon glyphicon-stats"></span> Balance</a>
@@ -77,7 +77,7 @@
         <c:if test="${param.roleRequester == Role.MANAGER}">
             <a id="btnEditAgency" class="btn btn-default" 
                href="<%=ManagerController.URL%>?to=<%=ManagerController.EDIT_AGENCY%>&${Param.AGENCY}=${agency.id}">
-                <span class="glyphicon glyphicon-edit"></span> Edit</a>
+                <span class="glyphicon glyphicon-edit"></span> Editar</a>
             <a id="btnAgencyBalance" class="btn btn-default" 
                 href="<%=ManagerController.URL%>?to=<%=ManagerController.AGENCY_BALANCE%>">
                 <span class="glyphicon glyphicon-stats"></span> Balance</a>
@@ -86,7 +86,7 @@
     </div>
     <c:if test="${sUser.author == null}">
     <div class="form-group">
-        <label class="col-md-2 control-label">Author: </label>
+        <label class="col-md-2 control-label">Autor: </label>
         <div class="col-md-4">
             <p class="form-control-static"><a href="<%=AdminController.URL%>?to=<%=AdminController.USER_SUMMARY%>&${Param.USERNAME}=${agency.author.username}">
                     ${agency.author.username}</a> - ${agency.author.firstName} ${agency.author.lastName}</p>
@@ -94,7 +94,7 @@
     </div>
     </c:if>
     <div class="form-group">
-        <label class="col-md-2 control-label">Name: </label>
+        <label class="col-md-2 control-label">Nombre: </label>
         <div class="col-md-4">
             <p class="form-control-static">${agency.name}</p>
         </div>
@@ -106,63 +106,63 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Telephone: </label>
+        <label class="col-md-2 control-label">Telefono: </label>
         <div class="col-md-4">
             <p class="form-control-static">${agency.telephone}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">City: </label>
+        <label class="col-md-2 control-label">Ciudad: </label>
         <div class="col-md-4">
             <p class="form-control-static">${agency.city}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Address: </label>
+        <label class="col-md-2 control-label">Dirección: </label>
         <div class="col-md-4">
             <p class="form-control-static">${agency.address}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Min. number of odds per Parlay: </label>
+        <label class="col-md-2 control-label">Min. logros por Parlay: </label>
         <div class="col-md-4">
             <p class="form-control-static">${agency.minOddsParlay}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Max. number of odds per Parlay: </label>
+        <label class="col-md-2 control-label">Max. logros por Parlay: </label>
         <div class="col-md-4">
             <p class="form-control-static">${agency.maxOddsParlay}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Max. profit per Parlay: </label>
+        <label class="col-md-2 control-label">Max. ganancia por Parlay: </label>
         <div class="col-md-4">
             <p class="form-control-static">$ <fmt:formatNumber value="${agency.maxProfit}"/></p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Accept Global Odds: </label>
+        <label class="col-md-2 control-label">Acepta logros globales: </label>
         <div class="col-md-4">
-            <p class="form-control-static">${agency.acceptGlobalOdds ? "Yes" : "No"}</p>
+            <p class="form-control-static">${agency.acceptGlobalOdds ? "Sí" : "No"}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Status: </label>
+        <label class="col-md-2 control-label">Estado: </label>
         <div class="col-md-4">
             <p class="form-control-static">${Status.str(agency.status)}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Employees: </label>
+        <label class="col-md-2 control-label">Empleados: </label>
         <div class="col-md-10">
             <table class="table table-hover table-bordered table-condensed">
                 <thead>
                    <tr>
-                      <th class="table_employee_th1">Username</th>
-                      <th class="table_employee_th2">Full Name</th>
+                      <th class="table_employee_th1">Usuario</th>
+                      <th class="table_employee_th2">Nombre</th>
                       <th class="table_employee_th3">Roles</th>
-                      <th class="table_employee_th4">Status</th>
+                      <th class="table_employee_th4">Estado</th>
                       <th class="table_employee_th5">Online</th>
                    </tr>
                 </thead>
@@ -178,14 +178,14 @@
                         </c:if>
                         <td>${employee.firstName} ${employee.lastName}</td>
                         <td>
-                             <c:if test="${employee.inRole(Role.ADMIN)}">Administrator<br/></c:if>
-                             <c:if test="${employee.inRole(Role.MANAGER)}">Manager<br/></c:if>
-                             <c:if test="${employee.inRole(Role.ANALYST)}">Analyst<br/></c:if>
-                             <c:if test="${employee.inRole(Role.SELLER)}">Seller<br/></c:if>
-                             <c:if test="${employee.inRole(Role.CLIENT)}">Client<br/></c:if>
+                             <c:if test="${employee.inRole(Role.ADMIN)}">Administrador<br/></c:if>
+                             <c:if test="${employee.inRole(Role.MANAGER)}">Gerente<br/></c:if>
+                             <c:if test="${employee.inRole(Role.ANALYST)}">Analista<br/></c:if>
+                             <c:if test="${employee.inRole(Role.SELLER)}">Vendedor<br/></c:if>
+                             <c:if test="${employee.inRole(Role.CLIENT)}">Cliente<br/></c:if>
                         </td>
                         <td>${Status.str(employee.status)}</td>
-                        <td>${auth.isOnline(employee, pageContext.request) ? "Yes" : "No"}</td>
+                        <td>${auth.isOnline(employee, pageContext.request) ? "Sí" : "No"}</td>
                      </tr>
                     </c:forEach>
                 </tbody>
@@ -197,13 +197,13 @@
         <c:if test="${param.roleRequester == Role.ADMIN}">
             <a id="btnEditAgency" class="btn btn-default" 
                href="<%=AdminController.URL%>?to=<%=AdminController.EDIT_AGENCY%>&${Param.AGENCY}=${agency.id}">
-                <span class="glyphicon glyphicon-edit"></span> Edit</a>
+                <span class="glyphicon glyphicon-edit"></span> Editar</a>
             <a id="btnAddAgency" class="btn btn-default" 
                href="<%=AdminController.URL%>?to=<%=AdminController.SEARCH_AGENCY_EMPLOYEE%>&${Param.AGENCY}=${agency.id}&${Param.ADD_EMPLOYEE}=}">
-                <span class="glyphicon glyphicon-plus"></span> Add Employee</a>
+                <span class="glyphicon glyphicon-plus"></span> Agregar Empleado</a>
             <a id="btnRemAgency" class="btn btn-default" 
                href="<%=AdminController.URL%>?to=<%=AdminController.SEARCH_AGENCY_EMPLOYEE%>&${Param.AGENCY}=${agency.id}&${Param.REM_EMPLOYEE}=">
-                <span class="glyphicon glyphicon-minus"></span> Remove Employee</a>
+                <span class="glyphicon glyphicon-minus"></span> Remover Empleado</a>
             <a id="btnAgencyBalance" class="btn btn-default" 
                href="<%=AdminController.URL%>?to=<%=AdminController.AGENCY_BALANCE%>&${Param.AGENCY}=${agency.id}">
             <span class="glyphicon glyphicon-stats"></span> Balance</a>
@@ -211,7 +211,7 @@
         <c:if test="${param.roleRequester == Role.MANAGER}">
             <a id="btnEditAgency" class="btn btn-default" 
                href="<%=ManagerController.URL%>?to=<%=ManagerController.EDIT_AGENCY%>&${Param.AGENCY}=${agency.id}">
-                <span class="glyphicon glyphicon-edit"></span> Edit</a>
+                <span class="glyphicon glyphicon-edit"></span> Editar</a>
             <a id="btnAgencyBalance" class="btn btn-default" 
                 href="<%=ManagerController.URL%>?to=<%=ManagerController.AGENCY_BALANCE%>">
                 <span class="glyphicon glyphicon-stats"></span> Balance</a>

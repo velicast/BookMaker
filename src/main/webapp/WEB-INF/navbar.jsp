@@ -39,13 +39,13 @@
                 <input type="hidden" name="do" value="<%=AuthenticationController.LOGIN%>">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input id="username" type="text" class="form-control" name="${Param.USERNAME}" value="" placeholder="User Name">                                        
+                    <input id="username" type="text" class="form-control" name="${Param.USERNAME}" value="" placeholder="Usuario">                                        
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                    <input id="password" type="password" class="form-control" name="${Param.PASSWORD}" value="" placeholder="Password">                                        
+                    <input id="password" type="password" class="form-control" name="${Param.PASSWORD}" value="" placeholder="Contraseña">                                        
                 </div>
-                <button type="submit" class="btn btn-submit"><i class="glyphicon glyphicon-log-in"></i> <b>Login</b></button>
+                <button type="submit" class="btn btn-submit"><i class="glyphicon glyphicon-log-in"></i> <b>Iniciar Sesión</b></button>
             </form>
         </div>
     </nav>
@@ -63,24 +63,24 @@
             </div>
             <ul class="nav navbar-nav">
                 <c:if test="${Role.inRole(sessionRoles, Role.ADMIN)}">
-                    <li id="pAdmin"><a href="<%=AdminController.URL%>">Administrator</a></li>
+                    <li id="pAdmin"><a href="<%=AdminController.URL%>">Administrador</a></li>
                 </c:if>
                 <c:if test="${Role.inRole(sessionRoles, Role.MANAGER) && sUser.agency != null}">
-                    <li id="pManager"><a href="<%=ManagerController.URL%>">Manager</a></li>
+                    <li id="pManager"><a href="<%=ManagerController.URL%>">Gerente</a></li>
                 </c:if>
                 <c:if test="${Role.inRole(sessionRoles, Role.ANALYST)}">
-                    <li id="pAnalyst"><a href="<%=AnalystController.URL%>">Analyst</a></li>
+                    <li id="pAnalyst"><a href="<%=AnalystController.URL%>">Analista</a></li>
                 </c:if>
                 <c:if test="${Role.inRole(sessionRoles, Role.SELLER) && sUser.agency != null}">
-                    <li id="pSeller"><a href="<%=SellerController.URL%>">Seller</a></li>
+                    <li id="pSeller"><a href="<%=SellerController.URL%>">Vendedor</a></li>
                 </c:if>
                 <c:if test="${Role.inRole(sessionRoles, Role.CLIENT) && sUser.agency != null}">
-                    <li id="pClient"><a href="<%=ClientController.URL%>">Client</a></li>
+                    <li id="pClient"><a href="<%=ClientController.URL%>">Cliente</a></li>
                 </c:if>
             </ul>
             <form id="loginOut" class="navbar-form navbar-right" role="form" action="<%=AuthenticationController.URL%>">
                 <input type="hidden" name="do" value="<%=AuthenticationController.LOGOUT%>">
-                <button type="submit" class="btn btn-submit"><i class="glyphicon glyphicon-log-out btn-submit"></i> <b>Logout</b></button>
+                <button type="submit" class="btn btn-submit"><i class="glyphicon glyphicon-log-out btn-submit"></i> <b>Cerrar Sesión</b></button>
             </form>
             <c:if test="${sessionRoles != Role.CLIENT}">
             <ul class="nav navbar-nav navbar-right">
@@ -101,7 +101,7 @@
             </div>
             <form id="loginOut" class="navbar-form navbar-right" role="form" action="<%=AuthenticationController.URL%>">
                 <input type="hidden" name="do" value="<%=AuthenticationController.LOGOUT%>">
-                <button type="submit" class="btn btn-submit"><i class="glyphicon glyphicon-log-out btn-submit"></i> <b>Logout</b></button>
+                <button type="submit" class="btn btn-submit"><i class="glyphicon glyphicon-log-out btn-submit"></i> <b>Cerrar Sesión</b></button>
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li id="pAccount"><a href="#"><span class="glyphicon glyphicon-user"></span> <b>${user.firstName} ${user.lastName}</b></a></li>

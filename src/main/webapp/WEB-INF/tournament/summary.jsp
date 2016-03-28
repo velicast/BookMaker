@@ -28,7 +28,7 @@
     }
 </style>
 
-<h2 class="main_content_title"> Tournament </h2>
+<h2 class="main_content_title"> Torneo </h2>
 
 <form role="form" class="form-horizontal">
     <c:if test="${tournament.author.id == sUser.id}">
@@ -36,13 +36,13 @@
         <div class="col-md-8">
         <a class="btn btn-default" 
            href="<%=AnalystController.URL %>?to=<%=AnalystController.EDIT_TOURNAMENT%>&${Param.TOURNAMENT}=${tournament.id}">
-            <span class="glyphicon glyphicon-edit"></span> Edit</a>
+            <span class="glyphicon glyphicon-edit"></span> Editar</a>
         </div>
     </div>
     </c:if>
     <c:if test="${sUser.agency == tournament.author.agency}">
         <div class="form-group">
-            <label class="col-md-2 control-label">Author: </label>
+            <label class="col-md-2 control-label">Autor: </label>
             <div class="col-md-4">
                 <c:set var="else" value="${true}"></c:set>
                 <c:if test="${else && param.roleRequester == Role.MANAGER}">
@@ -64,19 +64,19 @@
         </div>
     </c:if>
     <div class="form-group">
-        <label class="col-md-2 control-label">Sport: </label>
+        <label class="col-md-2 control-label">Deporte: </label>
         <div class="col-md-4">
             <p class="form-control-static">${tournament.sport.name}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Name: </label>
+        <label class="col-md-2 control-label">Nombre: </label>
         <div class="col-md-4">
             <p class="form-control-static">${tournament.name}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Status: </label>
+        <label class="col-md-2 control-label">Estado: </label>
         <div class="col-md-4">
             <p class="form-control-static">${Status.str(tournament.status)}</p>
         </div>
@@ -86,7 +86,7 @@
         <div class="col-md-8">
         <a class="btn btn-default" 
            href="<%=AnalystController.URL %>?to=<%=AnalystController.EDIT_TOURNAMENT%>&${Param.TOURNAMENT}=${tournament.id}">
-            <span class="glyphicon glyphicon-edit"></span> Edit</a>
+            <span class="glyphicon glyphicon-edit"></span> Editar</a>
         </div>
     </div>
     </c:if>

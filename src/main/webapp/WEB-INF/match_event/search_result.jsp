@@ -46,13 +46,13 @@
 
 <table class="table table-hover table-bordered table-condensed">
     <thead>
-    <capition>${matches.size()} result(s) found</caption> 
+    <capition>${matches.size()} resultados encontrados</caption> 
     <tr>
-        <th class="match_th1">Match</th>
-        <th class="match_th2">Tournament</th>
-        <th class="match_th3">Sport</th>
-        <th class="match_th4">Starts</th>
-        <th class="match_th5">Status</th>
+        <th class="match_th1">Juego</th>
+        <th class="match_th2">Torneo</th>
+        <th class="match_th3">Deporte</th>
+        <th class="match_th4">Inicio</th>
+        <th class="match_th5">Estado</th>
     </tr>
     </thead>
     <tbody>

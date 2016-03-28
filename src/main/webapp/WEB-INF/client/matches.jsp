@@ -29,10 +29,10 @@
 
 <table class="table mit">
 <tr>
-    <th class="th1">Date</th>
-    <th class="th2">Match</th>
-    <th class="th3">Money Line</th>
-    <th class="th4">Spread</th>
+    <th class="th1">Fecha</th>
+    <th class="th2">Juego</th>
+    <th class="th3">Linea de Dinero</th>
+    <th class="th4">Handicap</th>
     <th class="th5">Total</th>
 </tr>
 </table>
@@ -102,7 +102,7 @@
     </c:forEach>
     <c:if test="${draw != null}">
     <tr>
-        <td class="td_t th2">Draw</td>
+        <td class="td_t th2">Empate</td>
         <jsp:useBean id="draw" class="co.com.bookmaker.data_access.entity.parlay.ParlayOdd"></jsp:useBean>
         <fmt:formatNumber var="line" value="${draw.line}" maxFractionDigits="${1}" ></fmt:formatNumber>
         <td class="td_t th3"><input type="checkbox" id="chk${draw.id}" value="${draw.id}"> ${line > 0.0 ? '+' : ''}${line}</td>

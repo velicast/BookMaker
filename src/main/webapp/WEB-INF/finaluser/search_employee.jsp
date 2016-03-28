@@ -18,7 +18,7 @@
 <h2 class="main_content_title"> Search New Employee </h2>
 </c:if>
 <c:if test="${requestScope[Attr.REM_EMPLOYEE] != null}">
-<h2 class="main_content_title"> Search Employee to Remove </h2>
+<h2 class="main_content_title"> Buscar Empleado a Remover </h2>
 </c:if>
 
 <form id="searchEmployee" role="form" class="form-horizontal" action="<%=FinalUserController.URL%>" method="GET">
@@ -31,16 +31,16 @@
     <input type="hidden" name="${Param.REM_EMPLOYEE}" value="">
     </c:if>
     <div class="form-group">
-        <label class="control-label col-md-2">Agency: </label>
+        <label class="control-label col-md-2">Agencia: </label>
         <div class="col-md-4">
             <p class="form-control-static">${agency.name}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Employee: </label>
+        <label class="control-label col-md-2">Empleado: </label>
         <div class="col-md-4">
             <div class="input-group">
-                <input type="text" class="form-control input-sm" id="employeeToSearch" name="${Param.USERNAME}" placeholder="User Name">
+                <input type="text" class="form-control input-sm" id="employeeToSearch" name="${Param.USERNAME}" placeholder="Usuario">
                 <span class="input-group-btn">
                     <button class="btn btn-sm btn-submit" id="btnSearchEmployee"><span class="glyphicon glyphicon-search"></span></button>
                 </span>

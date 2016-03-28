@@ -12,6 +12,7 @@
 <jsp:useBean id="Param" class="co.com.bookmaker.util.type.Parameter"></jsp:useBean>
 <jsp:useBean id="Attr" class="co.com.bookmaker.util.type.Attribute"></jsp:useBean>
 <jsp:useBean id="Status" class="co.com.bookmaker.util.type.Status"></jsp:useBean>
+<jsp:useBean id="SportID" class="co.com.bookmaker.util.type.SportID"></jsp:useBean>
 
 <c:set var="sUser" value="${sessionScope[Attr.SESSION_USER]}"></c:set>
 <jsp:useBean id="sUser" class="co.com.bookmaker.data_access.entity.FinalUser"></jsp:useBean>
@@ -30,7 +31,7 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/client/client.css">
         
-        <title>BookMaker - Client</title>
+        <title>BookMaker - Cliente</title>
     </head>
     <body>
         <jsp:include page="/WEB-INF/navbar.jsp"></jsp:include>
@@ -38,14 +39,14 @@
             <div class="row">
                 <div class="col-md-8 panel_padding">
                     <div class="panel panel-default">
-                        <div class="panel-heading panel_heading"><h4>PARLAY CARDS</h4></div>
+                        <div class="panel-heading panel_heading"><h4>TARJETA DE PARLAY</h4></div>
                         <div class="panel-body pcard">
                             <c:if test="${sports.size() > 0}">
                             <c:forEach var="s" begin="0" end="${sports.size()-1}">
                             <c:set var="sport" value="${sports.get(s)}"></c:set>
                             <jsp:useBean id="sport" class="co.com.bookmaker.data_access.entity.event.Sport"></jsp:useBean>
                             
-                            <button class="btn btn-block sport_btn" data-toggle="collapse" data-target="#sp${sport.id}">${sport.name} <span class = "badge s_badge">${countSports.get(s)}</span></button>
+                                <button class="btn btn-block sport_btn" data-toggle="collapse" data-target="#sp${sport.id}">${SportID.str(sport.id)} <span class = "badge s_badge">${countSports.get(s)}</span></button>
                             <div id="sp${sport.id}" class="collapse league_div">
                                 <c:set var="sCountTournaments" value="${countTournaments.get(s)}"></c:set>
                                 <c:set var="sTournaments" value="${tournaments.get(s)}"></c:set>
@@ -68,8 +69,8 @@
                 <div class="col-md-4 panel_padding">
                     <div class="panel panel-default">
                         <div class="panel-heading panel_heading">
-                            <h4>BET TICKET</h4>
-                            <label>Select between ${sUser.agency.minOddsParlay} and ${sUser.agency.maxOddsParlay} odds</label>
+                            <h4>TIQUETE DE APUESTA</h4>
+                            <label>Seleccione entre ${sUser.agency.minOddsParlay} y ${sUser.agency.maxOddsParlay} logros</label>
                         </div>
                         <div id="ticket" class="panel-body ticket_body">
                             
@@ -79,30 +80,30 @@
                                 <input type="hidden" name="do" value="<%=ParlayController.BUY%>">
                                 <input type="hidden" id="oddselection" name="${Param.ODDS}" value="">
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">Risk $</label>
-                                    <div class="input-group col-md-5">
+                                    <label class="col-md-4 control-label">Riesgo $</label>
+                                    <div class="input-group col-md-6">
                                         <input type="text" class="form-control input-sm" id="risk" name="${Param.RISK}" placeholder="0.0">
                                         <span class="input-group-btn">
-                                            <button class="btn btn-sm btn-white" id="btn_risk" type="button">Get Profit</button>
+                                            <button class="btn btn-sm btn-white" id="btn_risk" type="button">Calcular Ganancia</button>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">Profit $</label>
-                                    <div class="input-group col-md-5">
+                                    <label class="col-md-4 control-label">Ganancia $</label>
+                                    <div class="input-group col-md-6">
                                         <input type="text" class="form-control input-sm" id="profit" name="${Param.PROFIT}" placeholder="0.0">
                                         <span class="input-group-btn">
-                                            <button class="btn btn-sm btn-white" id="btn_profit" type="button">Get Risk</button>
+                                            <button class="btn btn-sm btn-white" id="btn_profit" type="button">Calcular Riesgo</button>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">Name </label>
-                                    <div class="input-group col-md-5">
-                                        <input type="text" class="form-control input-sm" id="name" name="${Param.NAME}" placeholder="Your name">
+                                    <label class="col-md-4 control-label">Nombre </label>
+                                    <div class="input-group col-md-6">
+                                        <input type="text" class="form-control input-sm" id="name" name="${Param.NAME}" placeholder="Su nombre">
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-submit btn-block"><i class="glyphicon glyphicon-shopping-cart"></i> <b>Buy</b></button>
+                                <button type="submit" class="btn btn-submit btn-block"><i class="glyphicon glyphicon-shopping-cart"></i> <b>Comprar</b></button>
                             </form>
                             <var id="nOdds" hidden>0</var>
                             <var id="minOddsLimit" hidden>${sUser.agency.minOddsParlay}</var>
@@ -118,7 +119,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 id="infoModalTitle" class="modal-title" style="color: dodgerblue">Information</h4>
+                        <h4 id="infoModalTitle" class="modal-title" style="color: dodgerblue">Información</h4>
                     </div>
                     <div class="modal-body container-fluid">
                         <span class="col-md-2 glyphicon glyphicon-info-sign" style="color: dodgerblue; font-size:50px;"></span>

@@ -52,12 +52,12 @@
 <table class="table table-hover table-bordered table-condensed">
     <thead>
         <tr>
-            <th class="table_odds_th1">Line</th>
-            <th class="table_odds_th2">Team</th>
-            <th class="table_odds_th3">Match</th>
-            <th class="table_odds_th4">Period</th>
-            <th class="table_odds_th5">Date</th>
-            <th class="table_odds_th6">Status</th>
+            <th class="table_odds_th1">Linea</th>
+            <th class="table_odds_th2">Equipo</th>
+            <th class="table_odds_th3">Juego</th>
+            <th class="table_odds_th4">Periodo</th>
+            <th class="table_odds_th5">Fecha</th>
+            <th class="table_odds_th6">Estado</th>
         </tr>
     </thead>
     <tbody>

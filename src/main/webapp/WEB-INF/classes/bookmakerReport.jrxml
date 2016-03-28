@@ -9,6 +9,7 @@
 	<parameter name="risk" class="java.lang.String"/>
 	<parameter name="profit" class="java.lang.String"/>
 	<parameter name="agency" class="java.lang.String"/>
+        <parameter name="QRCode" class="java.lang.String"/>
 
 	<field name="team" class="java.lang.String"/>
 	<field name="match" class="java.lang.String"/>
@@ -38,56 +39,56 @@
 	<pageHeader>
 		<band height="46" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="40" height="11" />
+				<reportElement x="0" y="0" width="50" height="11" />
 				<textElement textAlignment="Right">
 					<font  size="7"/>
 				</textElement>
-				<text><![CDATA[Date:]]></text>
+				<text><![CDATA[Fecha:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="11" width="40" height="11" />
+				<reportElement x="0" y="11" width="50" height="11" />
 				<textElement textAlignment="Right">
 					<font  size="7"/>
 				</textElement>
-				<text><![CDATA[Ticket ID:]]></text>
+				<text><![CDATA[Tiquete No.:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="22" width="40" height="11" />
+				<reportElement x="0" y="22" width="50" height="11" />
 				<textElement textAlignment="Right">
 					<font  size="7"/>
 				</textElement>
-				<text><![CDATA[Risk:]]></text>
+				<text><![CDATA[Riesgo:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="33" width="40" height="11" />
+				<reportElement x="0" y="33" width="50" height="11" />
 				<textElement textAlignment="Right">
 					<font  size="7"/>
 				</textElement>
-				<text><![CDATA[Profit:]]></text>
+				<text><![CDATA[Ganancia:]]></text>
 			</staticText>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement x="44" y="0" width="140" height="11" />
+				<reportElement x="54" y="0" width="130" height="11" />
 				<textElement>
 					<font  size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{date}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="44" y="11" width="140" height="11" />
+				<reportElement x="54" y="11" width="130" height="11" />
 				<textElement>
 					<font  size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ticketID}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="44" y="22" width="140" height="11" />
+				<reportElement x="54" y="22" width="130" height="11" />
 				<textElement>
 					<font  size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{risk}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="44" y="33" width="140" height="11" />
+				<reportElement x="54" y="33" width="130" height="11" />
 				<textElement>
 					<font  size="7"/>
 				</textElement>
@@ -141,7 +142,7 @@
 			<componentElement>
 				<reportElement x="53" y="2" width="77" height="60" uuid="48697f81-5a83-469b-afb1-53f7dd202a9f"/>
 				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<jr:codeExpression><![CDATA[$P{ticketID}]]></jr:codeExpression>
+					<jr:codeExpression><![CDATA[$P{QRCode}]]></jr:codeExpression>
 				</jr:QRCode>
 			</componentElement>
                         <staticText>

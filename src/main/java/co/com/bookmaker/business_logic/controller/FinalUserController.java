@@ -179,7 +179,7 @@ public class FinalUserController extends GenericController {
         try {
             status = Integer.parseInt(strStatus);
         } catch (Exception ex) {
-            request.setAttribute(Information.STATUS, "Invalid status value");
+            request.setAttribute(Information.STATUS, "Estado inválido");
             validated = false;
         }
 
@@ -188,7 +188,7 @@ public class FinalUserController extends GenericController {
         try {
             bDate = dateFormat.parse(strBirthDate);
         } catch (Exception ex) {
-            request.setAttribute(Information.BIRTH_DATE, "Invalid birth date");
+            request.setAttribute(Information.BIRTH_DATE, "Fecha de Nacimiento inválida");
             validated = false;
         }
         Calendar birthDate = Calendar.getInstance();
@@ -240,7 +240,7 @@ public class FinalUserController extends GenericController {
             if (ex instanceof IllegalArgumentException) {
                 request.setAttribute(Information.USERNAME, ex.getMessage());
             } else {
-                request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
+                request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo.");
             }
             request.setAttribute(Attribute.FINAL_USER, user);
             forward(AdminController.getJSP(AdminController.NEW_USER));
@@ -275,7 +275,7 @@ public class FinalUserController extends GenericController {
         // INICIO Validacion 
         FinalUser oldUser = finalUserService.getUser(targetUsername);
         if (oldUser == null) {
-            request.setAttribute(Information.USERNAME, "User " + username + " not found");
+            request.setAttribute(Information.USERNAME, "Usuario " + username + " no encontrado");
             request.setAttribute(Attribute.USERNAME, username);
             forward(AdminController.getJSP(AdminController.SEARCH_USER));
             return;
@@ -338,7 +338,7 @@ public class FinalUserController extends GenericController {
         try {
             status = Integer.parseInt(strStatus);
         } catch (Exception ex) {
-            request.setAttribute(Information.STATUS, "Invalid status value");
+            request.setAttribute(Information.STATUS, "Estado inválido");
             validated = false;
         }
 
@@ -347,7 +347,7 @@ public class FinalUserController extends GenericController {
         try {
             bDate = dateFormat.parse(strBirthDate);
         } catch (ParseException ex) {
-            request.setAttribute(Information.BIRTH_DATE, "Invalid birth date");
+            request.setAttribute(Information.BIRTH_DATE, "Fecha de Nacimiento inválida");
             validated = false;
         }
         Calendar birthDate = Calendar.getInstance();
@@ -401,7 +401,7 @@ public class FinalUserController extends GenericController {
                 oldUser.setUsername(targetUsername);
                 request.setAttribute(Information.ERROR, ex.getMessage());
             } else {
-                request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
+                request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo.");
             }
             request.setAttribute(Attribute.FINAL_USER, user);
             forward(AdminController.getJSP(AdminController.EDIT_USER));
@@ -438,7 +438,7 @@ public class FinalUserController extends GenericController {
             try {
                 status = Integer.parseInt(strStatus);
             } catch (Exception ex) {
-                request.setAttribute(Information.SEARCH_RESULT, "Invalid status "+strStatus);
+                request.setAttribute(Information.SEARCH_RESULT, "Estado inválido "+strStatus);
                 forward(AdminController.getJSP(AdminController.SEARCH_USER));
                 return;
             }
@@ -507,7 +507,7 @@ public class FinalUserController extends GenericController {
         
         FinalUser user = finalUserService.getUser(username);
         if(user == null) {
-            request.setAttribute(Information.USERNAME, "User "+username+" not found");
+            request.setAttribute(Information.USERNAME, "Usuario "+username+" no encontrado");
             forward(AdminController.getJSP(AdminController.SEARCH_AGENCY_EMPLOYEE));
             return;
         }
@@ -546,12 +546,12 @@ public class FinalUserController extends GenericController {
         
         if (oldPassword != null && !oldPassword.equals(sessionUser.getPassword())) {
             validated = false;
-            request.setAttribute(Information.PASSWORD, "Incorrect current password");
+            request.setAttribute(Information.PASSWORD, "Contraseña actual incorrecta");
         }
         
         if (newPassword != null && !newPassword.equals(confirmedPassword)) {
             validated = false;
-            request.setAttribute(Information.CONFIRMED_PASSWORD, "The new and confirmed passwords mismatch");
+            request.setAttribute(Information.CONFIRMED_PASSWORD, "La contraseña nueva y la confirmación no coinciden");
         }
         
         if (!validated) {
@@ -564,11 +564,11 @@ public class FinalUserController extends GenericController {
             finalUserService.edit(sessionUser);
         } catch (Exception ex) {
             sessionUser.setPassword(oldPassword);
-            request.setAttribute(Information.ERROR, "Opss! something went wrong. Please try again.");
+            request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo");
             forward(AccountController.getJSP(AccountController.CHANGE_PASSWORD));
             return;
         }
-        request.setAttribute(Information.INFO, "The password was changed. Don't forget the new one.");
+        request.setAttribute(Information.INFO, "La contraseña ha sido cambiada. No la olvide.");
         request.setAttribute(Attribute.FINAL_USER, sessionUser);
         forward(AccountController.getJSP(AccountController.SUMMARY));
     }
@@ -613,7 +613,7 @@ public class FinalUserController extends GenericController {
                 from.set(Calendar.MINUTE, 0);
                 from.set(Calendar.SECOND, 0);
             } catch (ParseException ex) {
-                request.setAttribute(Information.STATUS, "Invalid value "+strFrom);
+                request.setAttribute(Information.STATUS, "Fecha Inválida "+strFrom);
                 validated = false;
             }
         }
@@ -625,7 +625,7 @@ public class FinalUserController extends GenericController {
                 to.set(Calendar.MINUTE, 59);
                 to.set(Calendar.SECOND, 59);
             } catch (ParseException ex) {
-                request.setAttribute(Information.STATUS, "Invalid value "+strTo);
+                request.setAttribute(Information.STATUS, "Fecha Inválida "+strTo);
                 validated = false;
             }
         }

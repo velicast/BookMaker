@@ -13,7 +13,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 id="warningModalTitle" class="modal-title" style="color: orange">Warning</h4>
+                    <h4 id="warningModalTitle" class="modal-title" style="color: orange">Advertencia</h4>
                 </div>
                 <div class="modal-body container-fluid">
                     <span class="col-md-2 glyphicon glyphicon-warning-sign" style="color: orange; font-size:50px;"></span>

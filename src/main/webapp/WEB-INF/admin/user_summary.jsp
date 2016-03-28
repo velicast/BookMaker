@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/admin/admin.css">
         
-        <title>BookMaker - User Summary</title>        
+        <title>BookMaker - Resumen de Usuario</title>        
     </head>
     <body>
         <jsp:include page="/WEB-INF/navbar.jsp"></jsp:include>

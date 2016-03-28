@@ -39,13 +39,13 @@
 <c:set var="auth" value="${requestScope[Attr.AUTHENTICATION_SERVICE]}"></c:set>
 
 <table class="table table-hover table-bordered table-condensed">
-    <caption>${users.size()} result(s) found</caption>
+    <caption>${users.size()} resultados encontrados</caption>
     <thead>
         <tr>
-            <th class="table_employee_th1">Username</th>
-            <th class="table_employee_th2">Full Name</th>
+            <th class="table_employee_th1">Usuario</th>
+            <th class="table_employee_th2">Nombre</th>
             <th class="table_employee_th3">Roles</th>
-            <th class="table_employee_th4">Status</th>
+            <th class="table_employee_th4">Estado</th>
             <th class="table_employee_th5">Online</th>
         </tr>
     </thead>
@@ -56,14 +56,14 @@
             <td><a href="<%=AdminController.URL%>?to=<%=AdminController.USER_SUMMARY%>&${Param.USERNAME}=${user.username}">${user.username}</a></td>
             <td>${user.firstName} ${user.lastName}</td>
             <td>
-            <c:if test="${user.inRole(Role.ADMIN)}">Administrator<br/></c:if>
-            <c:if test="${user.inRole(Role.MANAGER)}">Manager<br/></c:if>
-            <c:if test="${user.inRole(Role.ANALYST)}">Analyst<br/></c:if>
-            <c:if test="${user.inRole(Role.SELLER)}">Seller<br/></c:if>
-            <c:if test="${user.inRole(Role.CLIENT)}">Client<br/></c:if>
+            <c:if test="${user.inRole(Role.ADMIN)}">Administrador<br/></c:if>
+            <c:if test="${user.inRole(Role.MANAGER)}">Gerente<br/></c:if>
+            <c:if test="${user.inRole(Role.ANALYST)}">Analista<br/></c:if>
+            <c:if test="${user.inRole(Role.SELLER)}">Vendedor<br/></c:if>
+            <c:if test="${user.inRole(Role.CLIENT)}">Cliente<br/></c:if>
             </td>
             <td>${Status.str(user.status)}</td>
-            <td>${auth.isOnline(user, pageContext.request) ? "Yes" : "No"}</td>
+            <td>${auth.isOnline(user, pageContext.request) ? "Sí" : "No"}</td>
         </tr>
     </c:forEach>
     </tbody>

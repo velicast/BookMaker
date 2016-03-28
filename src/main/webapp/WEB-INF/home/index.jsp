@@ -38,7 +38,7 @@
         <div class="container-fluid main_div">
             <div class="jumbotron_padding"><h1 style="text-align: center; font-size: 60px; color: #275c7c"><span class="glyphicon glyphicon-tower"></span> BookMaker <span class="glyphicon glyphicon-tower"></span></h1></div>
             <div class="row" style="text-align: center">
-                <h4 style="color: #275c7c">Track your Parlay</h4>
+                <h4 style="color: #275c7c">Sigue tu Apuesta</h4>
             </div>
             <div class="row">
                 <div class="col-md-4"></div>
@@ -46,7 +46,7 @@
                     <form id="trackParlayForm" role="form" class="form-default" action="<%=HomeController.URL%>">
                         <input type="hidden" name="to" value="<%=HomeController.TRACK_PARLAY%>">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="parlayToSearch" name="${Param.PARLAY}" placeholder="Ticket ID">
+                            <input type="text" class="form-control" id="parlayToSearch" name="${Param.PARLAY}" placeholder="Tiquete No.">
                             <span class="input-group-btn">
                                 <button class="btn btn-submit" id="btnSearchAgency"><span class="glyphicon glyphicon-search"></span></button>
                             </span>

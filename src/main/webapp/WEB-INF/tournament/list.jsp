@@ -8,7 +8,7 @@
 <jsp:useBean id="Attr" class="co.com.bookmaker.util.type.Attribute"></jsp:useBean>
 <c:set var="list" value="${requestScope[Attr.TOURNAMENTS]}"></c:set>
     
-    <option id="anyTournament" value="">Any</option>
+    <option id="anyTournament" value="">Cualquiera</option>
 <c:forEach var="tournament" items="${list}">
     <option value="${tournament.id}">${tournament.name}</option>
 </c:forEach>

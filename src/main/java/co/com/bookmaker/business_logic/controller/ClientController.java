@@ -68,7 +68,7 @@ public class ClientController extends GenericController {
         
         FinalUser user = auth.sessionUser(request);
         if (user.getAgency() == null) {
-            request.setAttribute(Information.INFO, "The user "+user.getUsername()+" is not employeed by an agency");
+            request.setAttribute(Information.INFO, "El usuario "+user.getUsername()+" no está empleado en una agencia");
             forward(HomeController.getJSP(HomeController.INDEX));
             return;
         }

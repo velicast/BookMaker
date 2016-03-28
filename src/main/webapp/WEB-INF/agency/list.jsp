@@ -23,13 +23,13 @@
 </style>
 <c:set var="agencies" value="${requestScope[Attr.LIST_AGENCIES]}"></c:set>
 
-<h2 class="main_content_title"> Registered Agencies </h2>
+<h2 class="main_content_title"> Agencias Registradas </h2>
 
 <table class="table table-hover table-condensed table-bordered">
    <thead>
       <tr>
-         <th>Name</th>
-         <th>Status</th>
+         <th>Nombre</th>
+         <th>Estado</th>
       </tr>
    </thead>
    <tbody>

@@ -19,37 +19,37 @@
 <c:set var="agency" value="${requestScope[Attr.AGENCY]}"></c:set>
 <jsp:useBean id="agency" class="co.com.bookmaker.util.form.bean.AgencyBean"></jsp:useBean>
 
-<h2 class="main_content_title"> Edit Agency </h2>
+<h2 class="main_content_title"> Editar Agencia </h2>
 
 <form id="editAgencyForm" role="form" class="form-horizontal" action="<%=AgencyController.URL%>" method="POST">
     <input type="hidden" name="do" value="<%=AgencyController.MEDIT%>">
     <input type="hidden" name="${Param.AGENCY}" value="${agency.id}">
     <div class="form-group">
-        <output class="col-md-7" style="text-align: center">Fields marked with * are obligatory</output>
+        <output class="col-md-7" style="text-align: center">Campos marcados con * son obligatorios</output>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">* Min. number of odds per Parlay: </label>
+        <label class="col-md-2 control-label">* Min. logros por Parlay: </label>
         <div class="col-md-4">
             <input type="text" class="form-control input-sm" name="${Param.MIN_ODDS}" value="${agency.minOdds}" placeholder="0">
         </div>
         <output style="color: red">${requestScope[Info.MIN_ODDS]}</output>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">* Max. number of odds per Parlay: </label>
+        <label class="col-md-2 control-label">* Max. logros por Parlay: </label>
         <div class="col-md-4">
             <input type="text" class="form-control input-sm" name="${Param.MAX_ODDS}" value="${agency.maxOdds}" placeholder="0">
         </div>
         <output style="color: red">${requestScope[Info.MAX_ODDS]}</output>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">* Max. profit per Parlay: </label>
+        <label class="col-md-2 control-label">* Max. ganancia por Parlay: </label>
         <div class="col-md-4">
             <input type="text" class="form-control input-sm" name="${Param.MAX_PROFIT}" value="${agency.maxProfit}" placeholder="0.0">
         </div>
         <output style="color: red">${requestScope[Info.MAX_PROFIT]}</output>
     </div>
     <div class="col-md-6" style="text-align: center">
-        <button type="submit" id="btnEditAgency" class="btn btn-submit"><span class="glyphicon glyphicon-save"></span> Save</button>
+        <button type="submit" id="btnEditAgency" class="btn btn-submit"><span class="glyphicon glyphicon-save"></span> Guardar</button>
     </div>
 </form>
 

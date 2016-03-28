@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/admin/admin.css">
         
-        <title>BookMaker - New Agency</title>
+        <title>BookMaker - Editar Agencia</title>
     </head>
     <body>
         <jsp:include page="/WEB-INF/navbar.jsp"></jsp:include>

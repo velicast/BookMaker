@@ -15,7 +15,7 @@
 <c:set var="data" value="${requestScope[Attr.PARLAY]}"></c:set>
 <jsp:useBean id="data" class="co.com.bookmaker.util.form.bean.SearchParlayBean"></jsp:useBean>
 
-<h2 class="main_content_title"> Search Parlay </h2>
+<h2 class="main_content_title"> Buscar Parlay </h2>
 
 <form id="searchAgencyForm" role="form" class="form-horizontal" action="<%=ParlayController.URL%>" method="GET">
     <input type="hidden" name="do" value="<%=ParlayController.SEARCH%>">
@@ -23,36 +23,36 @@
     <div class="form-group">
         <label class="control-label col-md-2">Parlay: </label>
         <div class="col-md-4">
-            <input type="text" class="form-control input-sm" id="parlayToSearch" name="${Param.PARLAY}" value="${data.id}" placeholder="Ticket ID">
+            <input type="text" class="form-control input-sm" id="parlayToSearch" name="${Param.PARLAY}" value="${data.id}" placeholder="Tiquete No.">
         </div>
         <output style="color: red">${requestScope[Info.PARLAY]}</output>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Seller:</label>
+        <label class="control-label col-md-2">Vendedor:</label>
         <div class="col-md-4">
-            <input type="text" class="form-control input-sm" id="sellerToSearch" name="${Param.USERNAME}" value="${data.username}" placeholder="User Name">
+            <input type="text" class="form-control input-sm" id="sellerToSearch" name="${Param.USERNAME}" value="${data.username}" placeholder="Usuario">
         </div>
         <output style="color: red">${requestScope[Info.USERNAME]}</output>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">From: </label>
+        <label class="control-label col-md-2">Desde: </label>
         <div class="col-md-4">
             <input type="text" class="form-control input-sm" id="timeFrom" name="${Param.TIME_FROM}" value="${data.from}" placeholder="dd/MM/yyyy">
         </div>
         <output style="color: red">${requestScope[Info.TIME_FROM]}</output>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">To: </label>
+        <label class="control-label col-md-2">Hasta: </label>
         <div class="col-md-4">
             <input type="text" class="form-control input-sm" id="timeTo" name="${Param.TIME_TO}" value="${data.to}" placeholder="dd/MM/yyyy">
         </div>
         <output style="color: red">${requestScope[Info.TIME_TO]}</output>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Status: </label>
+        <label class="col-md-2 control-label">Estado: </label>
         <div class="col-md-4">
             <select name="${Param.STATUS}" class="form-control">
-                <option value="">Any</option>
+                <option value="">Cualquiera</option>
                 <option value="${Status.IN_QUEUE}">${Status.str(Status.IN_QUEUE)}</option>
                 <option value="${Status.PENDING}">${Status.str(Status.PENDING)}</option>
                 <option value="${Status.WIN}">${Status.str(Status.WIN)}</option>
@@ -62,7 +62,7 @@
         </div>
     </div>
     <div class="col-md-6" style="text-align: center">
-        <button class="btn btn-submit" id="btnSearchUser"><span class="glyphicon glyphicon-search"></span> Search</button>
+        <button class="btn btn-submit" id="btnSearchUser"><span class="glyphicon glyphicon-search"></span> Buscar</button>
     </div>
     <output style="color: red">${requestScope[Info.SEARCH_RESULT]}</output>
 </form>

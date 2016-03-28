@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/analyst/analyst.css">
         
-        <title>BookMaker - Match Search Result</title>
+        <title>BookMaker - Resultado de Búsqueda</title>
     </head>
     <body>
         <jsp:include page="/WEB-INF/navbar.jsp"></jsp:include>
@@ -30,7 +30,7 @@
                 </div>
                 <!-- Main Content -->
                 <div id="mainContent" class="col-md-9 side-body">
-                <h2 class="main_content_title"> Search Match </h2>
+                <h2 class="main_content_title"> Buscar Juego </h2>
                 <jsp:include page="<%=MatchEventController.getJSP(MatchEventController.SEARCH_RESULT)%>">
                     <jsp:param name="roleRequester" value="${Role.ANALYST}"></jsp:param>
                 </jsp:include>

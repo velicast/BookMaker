@@ -38,11 +38,11 @@ public class ParameterValidator {
     public void checkUsername(String username) {
         
         if (username == null || username.length() == 0) {
-            throw new IllegalArgumentException("No username provided");
+            throw new IllegalArgumentException("Usuario no proporcionado");
         }
         Matcher matcher = usernamePattern.matcher(username);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid username");
+            throw new IllegalArgumentException("Usuario inválido");
         }
     }
     
@@ -50,7 +50,7 @@ public class ParameterValidator {
         
         if (from != null && to != null) {
             if (from.after(to)) {
-                throw new IllegalArgumentException("Invalid date range. From after To");
+                throw new IllegalArgumentException("Rango de fechas inválido. Desde está después del Hasta");
             }
         }
     }
@@ -58,66 +58,66 @@ public class ParameterValidator {
     public void checkPassword(String password) {
         
         if (password == null || password.length() == 0) {
-            throw new IllegalArgumentException("No password provided");
+            throw new IllegalArgumentException("Contraseña no proporcionada");
         }
         Matcher matcher = passwordPattern.matcher(password);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid password");
+            throw new IllegalArgumentException("Contraseña inválida");
         }
     }
     
     public void checkFirstName(String firstName) {
         
         if (firstName == null || firstName.trim().length() == 0) {
-            throw new IllegalArgumentException("No first name provided");
+            throw new IllegalArgumentException("Nombre no proporcionado");
         }
         Matcher matcher = firstNamePattern.matcher(firstName);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid first name");
+            throw new IllegalArgumentException("Nombre inválido");
         }
     }
     
     public void checkLastName(String lastName) {
         
         if (lastName == null || lastName.trim().length() == 0) {
-            throw new IllegalArgumentException("No last name provided");
+            throw new IllegalArgumentException("Apellido no proporcionado");
         }
         Matcher matcher = lastNamePattern.matcher(lastName);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid last name");
+            throw new IllegalArgumentException("Apellido inválido");
         }
     }
     
     public void checkAgencyName(String agencyName) {
         
         if (agencyName == null || agencyName.trim().length() == 0) {
-            throw new IllegalArgumentException("No agency name provided");
+            throw new IllegalArgumentException("Nombre de agencia no proporcionado");
         }
         Matcher matcher = agencyNamePattern.matcher(agencyName);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid agency name");
+            throw new IllegalArgumentException("Nombre de agencia inválido");
         }
     }
     
     public void checkTournamentName(String tournamentName) {
         
         if (tournamentName == null || tournamentName.trim().length() == 0) {
-            throw new IllegalArgumentException("No tournament name provided");
+            throw new IllegalArgumentException("Nombre de torneo no proporcionado");
         }
         Matcher matcher = tournamentNamePattern.matcher(tournamentName);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid tournament name");
+            throw new IllegalArgumentException("Nombre de torneo inválido");
         }
     }
     
     public void checkMatchName(String matchName) {
         
         if (matchName == null || matchName.trim().length() == 0) {
-            throw new IllegalArgumentException("No match name provided");
+            throw new IllegalArgumentException("Nombre de juego no proporcionado");
         }
         Matcher matcher = matchNamePattern.matcher(matchName);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid match name");
+            throw new IllegalArgumentException("Nombre de juego inválido");
         }
     }
     
@@ -134,7 +134,7 @@ public class ParameterValidator {
     public void checkBirthDate(Calendar birthDate) {
         
         if (birthDate == null) {
-            throw new IllegalArgumentException("No birth date is provided");
+            throw new IllegalArgumentException("Fecha de nacimiento no proporcionada");
         }
         Calendar now = Calendar.getInstance();
         long years = now.get(Calendar.YEAR)-1-birthDate.get(Calendar.YEAR);
@@ -147,53 +147,53 @@ public class ParameterValidator {
             years++;
         }
         if (years < 18 || years > 110) {
-            throw new IllegalArgumentException("Only Between 18 and 110 years old");
+            throw new IllegalArgumentException("Sólo edades entre los 18 y 100 años");
         }
     }
     
     public void checkMatchStartDate(Calendar startDate) {
         
         if (startDate == null) {
-            throw new IllegalArgumentException("No start date is provided");
+            throw new IllegalArgumentException("Fecha de inicio no proporcionada");
         }
         Calendar now = Calendar.getInstance();
         if (now.after(startDate)) {
-            throw new IllegalArgumentException("The start date must be future");
+            throw new IllegalArgumentException("La fecha de inicio debe ser futura");
         }
     }
     
     public void checkMinOdds(Integer minOdds) {
         
         if (minOdds != null && minOdds < 0) {
-            throw new IllegalArgumentException("Must be greater than or equals zero");
+            throw new IllegalArgumentException("Debe ser mayor o igual a cero");
         }
     }
     
     public void checkMaxOdds(Integer maxOdds) {
         
         if (maxOdds != null && maxOdds < 0) {
-            throw new IllegalArgumentException("Must be greater than or equals zero");
+            throw new IllegalArgumentException("Debe ser mayor o igual a cero");
         }
     }
     
     public void checkOddsRange(Integer minOdds, Integer maxOdds) {
         
         if (maxOdds != null && minOdds != null && maxOdds < minOdds) {
-            throw new IllegalArgumentException("Must be less or equals to max. number of odds");
+            throw new IllegalArgumentException("Debe ser menor o igual al número max. de logros");
         }
     }
     
     public void checkMaxProfit(Double maxProfit) {
         
         if (maxProfit != null && maxProfit <= 0.0) {
-            throw new IllegalArgumentException("Must be greater than zero");
+            throw new IllegalArgumentException("Debe der mayor que cero");
         }
     }
 
     public void checkTeamName(String strTeamName) {
         
         if (strTeamName == null || strTeamName.trim().length() == 0) {
-            throw new IllegalArgumentException("No name provided");
+            throw new IllegalArgumentException("Nombre de equipo no proporcionado");
         }
     }
 }

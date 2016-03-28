@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/seller/seller.css">
         
-        <title>BookMaker - Selling Queue</title>
+        <title>BookMaker - Cola de Ventas</title>
 
         <style></style>
     </head>
@@ -31,7 +31,7 @@
                 </div>
                 <!-- Main Content -->
                 <div id="mainContent" class="col-md-9 side-body">
-                    <h2 class="main_content_title"> My Selling Queue </h2>
+                    <h2 class="main_content_title"> Cola de Ventas </h2>
                     <jsp:include page="<%=ParlayController.getJSP(ParlayController.TABLE_SUMMARY)%>">
                         <jsp:param name="roleRequester" value="${Role.SELLER}"></jsp:param>
                     </jsp:include>

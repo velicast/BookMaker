@@ -133,11 +133,11 @@ public class MatchEventController extends GenericController {
         try {
             sportId = Integer.parseInt(strSportId);
         } catch(Exception ex) {
-            request.setAttribute(Information.SPORT, "Invalid Sport ID ");
+            request.setAttribute(Information.SPORT, "ID de deporte inválido");
             validated = false;
         }
         if (sportId == null || sportId < 0 || sportId >= SportID.N_SPORTS) {
-            request.setAttribute(Information.SPORT, "Invalid Sport ID");
+            request.setAttribute(Information.SPORT, "ID de deporte inválido");
             return;
         }
         
@@ -145,14 +145,14 @@ public class MatchEventController extends GenericController {
         try {
             tournamentId = Long.parseLong(strTournamentId);
         } catch(Exception ex) {
-            request.setAttribute(Information.TOURNAMENT, "Invalid tournament ID");
+            request.setAttribute(Information.TOURNAMENT, "ID de torneo inválido");
             validated = false;
         }
         Integer status = null;
         try {
             status = Integer.parseInt(strStatus);
         } catch(Exception ex) {
-            request.setAttribute(Information.STATUS, "Invalid status");
+            request.setAttribute(Information.STATUS, "Estado inválido");
             validated = false;
         }
         
@@ -161,7 +161,7 @@ public class MatchEventController extends GenericController {
         try {
             dStartDate = dateFormat.parse(strStartDate);
         } catch (ParseException ex) {
-            request.setAttribute(Information.START_DATE, "Invalid start date");
+            request.setAttribute(Information.START_DATE, "Fecha de inicio inválida");
             validated = false;
         }
         
@@ -170,7 +170,7 @@ public class MatchEventController extends GenericController {
             tournament = tournamentService.getTournament(tournamentId);
         }
         if (tournament == null) {
-            request.setAttribute(Information.TOURNAMENT, "Tournament not found");
+            request.setAttribute(Information.TOURNAMENT, "Torneo no encontrado");
             validated = false;
         }
         Calendar startDate = Calendar.getInstance();
@@ -270,19 +270,19 @@ public class MatchEventController extends GenericController {
                     try {
                         totalPoints = Double.parseDouble(strTotalPoints);
                     } catch (Exception ex) {
-                        request.setAttribute(Information.TOTAL+" "+p, "Invalid total points");
+                        request.setAttribute(Information.TOTAL+" "+p, "Puntos totales inválidos");
                         validated = false;
                     }
                     try {
                         overValue = Double.parseDouble(strOverLine);
                     } catch (Exception ex) {
-                        request.setAttribute(Information.TOTAL+" "+p, "Invalid total line");
+                        request.setAttribute(Information.TOTAL+" "+p, "Linea inválida");
                         validated = false;
                     }
                     try {
                         underValue = Double.parseDouble(strUnderLine);
                     } catch (Exception ex) {
-                        request.setAttribute(Information.TOTAL+" "+p, "Invalid total line");
+                        request.setAttribute(Information.TOTAL+" "+p, "Linea inválida");
                         validated = false;
                     }
                     if (validated) {
@@ -329,19 +329,19 @@ public class MatchEventController extends GenericController {
                     try {
                         spreadPoints = Double.parseDouble(strSpreadPoints);
                     } catch(Exception ex) {
-                        request.setAttribute(Information.SPREAD+" "+p, "Invalid spread points");
+                        request.setAttribute(Information.SPREAD+" "+p, "Puntos de Handicap inválidos");
                         validated = false;
                     }
                     try {
                         spreadTeam0Line = Double.parseDouble(strSpreadTeam0Line);
                     } catch(Exception ex) {
-                        request.setAttribute(Attribute.SPREAD+" "+p, "Invalid spread line");
+                        request.setAttribute(Attribute.SPREAD+" "+p, "Linea inválida");
                         validated = false;
                     }
                     try {
                         spreadTeam1Line = Double.parseDouble(strSpreadTeam1Line);
                     } catch(Exception ex) {
-                        request.setAttribute(Attribute.SPREAD+" "+p, "Invalid spread line");
+                        request.setAttribute(Attribute.SPREAD+" "+p, "Linea inválida");
                         validated = false;
                     }
 
@@ -377,7 +377,7 @@ public class MatchEventController extends GenericController {
                 try {
                     drawLine = Double.parseDouble(strDrawLine);
                 } catch(Exception ex) {
-                    request.setAttribute(Information.DRAW_LINE+" "+p, "Invalid draw line");
+                    request.setAttribute(Information.DRAW_LINE+" "+p, "Linea inválida");
                     validated = false;
                 }
 
@@ -402,7 +402,7 @@ public class MatchEventController extends GenericController {
                 if (strMoneyLine.length() == 0) strMoneyLine = null;
                 
                 if (strMoneyLine == null && cntMoneyLine > 0) {
-                    request.setAttribute(Information.MONEY_LINE+" "+p+" "+t, "Incomplete moneylines");
+                    request.setAttribute(Information.MONEY_LINE+" "+p+" "+t, "Lineas de dinero incompletas");
                     validated = false;
                 }
                 if (strMoneyLine != null) {
@@ -410,7 +410,7 @@ public class MatchEventController extends GenericController {
                     try {
                         line = Double.parseDouble(strMoneyLine);
                     } catch(Exception ex) {
-                        request.setAttribute(Information.MONEY_LINE+" "+p+" "+t, "Invalid moneyline");
+                        request.setAttribute(Information.MONEY_LINE+" "+p+" "+t, "Linea inválida");
                         validated = false;
                     }
                     ParlayOdd moneyLine = new ParlayOdd();
@@ -516,7 +516,7 @@ public class MatchEventController extends GenericController {
                     }
                 }
             } // END ROLLBACK
-            request.setAttribute(Information.ERROR, "Opss! Something went wrong. Please try again.");
+            request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo.");
             request.setAttribute(Attribute.MATCH_EVENT, formData);
             request.setAttribute(Attribute.TOURNAMENT_SERVICE, tournamentService);
             
@@ -553,32 +553,32 @@ public class MatchEventController extends GenericController {
         try {
             sportId = Integer.parseInt(strSportId);
         } catch(Exception ex) {
-            request.setAttribute(Information.SPORT, "Invalid Sport ID ");
+            request.setAttribute(Information.SPORT, "ID de deporte inválido");
             validated = false;
         }
         if (sportId == null || sportId < 0 || sportId >= SportID.N_SPORTS) {
-            request.setAttribute(Information.SPORT, "Invalid Sport ID");
+            request.setAttribute(Information.SPORT, "ID de deporte inválido");
             return;
         }
         Long tournamentId = null;
         try {
             tournamentId = Long.parseLong(strTournamentId);
         } catch(Exception ex) {
-            request.setAttribute(Information.TOURNAMENT, "Invalid Tournament ID ");
+            request.setAttribute(Information.TOURNAMENT, "ID de torneo inválido");
             validated = false;
         }
         Long matchId = null;
         try {
             matchId = Long.parseLong(strMatchId);
         } catch(Exception ex) {
-            request.setAttribute(Information.MATCH_EVENT, "Invalid match ID ");
+            request.setAttribute(Information.MATCH_EVENT, "ID de juego inválido");
             validated = false;
         }
         Integer status = null;
         try {
             status = Integer.parseInt(strStatus);
         } catch(Exception ex) {
-            request.setAttribute(Information.STATUS, "Invalid status");
+            request.setAttribute(Information.STATUS, "Estado inválido");
             validated = false;
         }
         
@@ -587,13 +587,13 @@ public class MatchEventController extends GenericController {
         try {
             dStartDate = dateFormat.parse(strStartDate);
         } catch (ParseException ex) {
-            request.setAttribute(Information.START_DATE, "Invalid start date");
+            request.setAttribute(Information.START_DATE, "Fecha de inicio inválida");
             validated = false;
         }
         
         Tournament tournament = tournamentService.getTournament(tournamentId);
         if (tournament == null) {
-            request.setAttribute(Information.TOURNAMENT, "Tournament not found");
+            request.setAttribute(Information.TOURNAMENT, "Torneo no encontrado");
             validated = false;
         }
         Calendar startDate = Calendar.getInstance();
@@ -615,7 +615,7 @@ public class MatchEventController extends GenericController {
         matchEventService.update(match);
         
         if (match == null) {
-            request.setAttribute(Information.SEARCH_RESULT, "Match "+strMatchId+" not found");
+            request.setAttribute(Information.SEARCH_RESULT, "Juego "+strMatchId+" no encontrado");
             forward(AnalystController.getJSP(AnalystController.SEARCH_MATCH));
             return;
         }
@@ -720,20 +720,20 @@ public class MatchEventController extends GenericController {
                     try {
                         totalPoints = Double.parseDouble(strTotalPoints);
                     } catch (Exception ex) {
-                        request.setAttribute(Information.TOTAL+" "+p, "Invalid total points");
+                        request.setAttribute(Information.TOTAL+" "+p, "Puntos totales inválidos");
                         validated = false;
                     }
                     try {
                         overValue = Double.parseDouble(strOverLine);
                     } catch (Exception ex) {
-                        request.setAttribute(Information.TOTAL+" "+p, "Invalid total line");
+                        request.setAttribute(Information.TOTAL+" "+p, "Linea inválida");
                         System.out.println("Invalid overValue "+strOverLine+" period "+p);
                         validated = false;
                     }
                     try {
                         underValue = Double.parseDouble(strUnderLine);
                     } catch (Exception ex) {
-                        request.setAttribute(Information.TOTAL+" "+p, "Invalid total line");
+                        request.setAttribute(Information.TOTAL+" "+p, "Linea inválida");
                         validated = false;
                     }
                     if (validated) {
@@ -778,19 +778,19 @@ public class MatchEventController extends GenericController {
                     try {
                         spreadPoints = Double.parseDouble(strSpreadPoints);
                     } catch(Exception ex) {
-                        request.setAttribute(Information.SPREAD+" "+p, "Invalid spread points");
+                        request.setAttribute(Information.SPREAD+" "+p, "Puntos de Handicap inválidos");
                         validated = false;
                     }
                     try {
                         spreadTeam0Line = Double.parseDouble(strSpreadTeam0Line);
                     } catch(Exception ex) {
-                        request.setAttribute(Information.SPREAD+" "+p, "Invalid spread line");
+                        request.setAttribute(Information.SPREAD+" "+p, "Linea inválida");
                         validated = false;
                     }
                     try {
                         spreadTeam1Line = Double.parseDouble(strSpreadTeam1Line);
                     } catch(Exception ex) {
-                        request.setAttribute(Information.SPREAD+" "+p, "Invalid spread line");
+                        request.setAttribute(Information.SPREAD+" "+p, "Linea inválida");
                         validated = false;
                     }
 
@@ -824,7 +824,7 @@ public class MatchEventController extends GenericController {
                 try {
                     drawLine = Double.parseDouble(strDrawLine);
                 } catch(Exception ex) {
-                    request.setAttribute(Information.DRAW_LINE, "Invalid draw line");
+                    request.setAttribute(Information.DRAW_LINE, "Linea inválida");
                     validated = false;
                 }
 
@@ -850,7 +850,7 @@ public class MatchEventController extends GenericController {
                 if (strMoneyLine.length() == 0) strMoneyLine = null;
                 
                 if (strMoneyLine == null && cntMoneyLine > 0) {
-                    request.setAttribute(Information.MONEY_LINE+" "+p+" "+t, "Incomplete moneylines");
+                    request.setAttribute(Information.MONEY_LINE+" "+p+" "+t, "Lineas de dinero incompletas");
                     validated = false;
                 }
                 if (strMoneyLine != null) {
@@ -858,7 +858,7 @@ public class MatchEventController extends GenericController {
                     try {
                         line = Double.parseDouble(strMoneyLine);
                     } catch(Exception ex) {
-                        request.setAttribute(Information.MONEY_LINE+" "+p+" "+t, "Invalid moneyline");
+                        request.setAttribute(Information.MONEY_LINE+" "+p+" "+t, "Linea inválida");
                         validated = false;
                     }
                     ParlayOdd moneyLine = new ParlayOdd();
@@ -952,8 +952,8 @@ public class MatchEventController extends GenericController {
             matchPeriodService.edit(periods[p]);
         }
         } catch(Exception ex) {
-            request.setAttribute(Information.WARNING, "Opss! Something went wrong. Maybe all changes were not applied."
-                    + "<br/>Please check.");
+            request.setAttribute(Information.WARNING, "Opss! Algo estuvo mal. Tal vez todos los cambios no fueron aplicados."
+                    + "<br/>Por favor verifique.");
         }
         request.setAttribute(Attribute.MATCH_EVENT, match);
         request.setAttribute(Attribute.TEAM_SERVICE, teamService);
@@ -1002,7 +1002,7 @@ public class MatchEventController extends GenericController {
             try {
                 sportId = Integer.parseInt(strSportId);
             } catch(Exception ex) {
-                request.setAttribute(Information.SPORT, "Invalid Sport ID "+strSportId);
+                request.setAttribute(Information.SPORT, "ID de deporte inválido: "+strSportId);
                 validated = false;
             }
         }
@@ -1011,7 +1011,7 @@ public class MatchEventController extends GenericController {
             try {
                 tournamentId = Long.parseLong(strTournamentId);
             } catch(Exception ex) {
-                request.setAttribute(Information.TOURNAMENT, "Invalid tournament id "+strTournamentId);
+                request.setAttribute(Information.TOURNAMENT, "ID de torneo inválido: "+strTournamentId);
                 validated = false;
             }
         }
@@ -1025,7 +1025,7 @@ public class MatchEventController extends GenericController {
                 from.set(Calendar.MINUTE, 0);
                 from.set(Calendar.SECOND, 0);
             } catch (ParseException ex) {
-                request.setAttribute(Information.TIME_FROM, "Invalid value for date "+strFrom);
+                request.setAttribute(Information.TIME_FROM, "Fecha inválida: "+strFrom);
                 validated = false;
             }
         }
@@ -1038,7 +1038,7 @@ public class MatchEventController extends GenericController {
                 to.set(Calendar.MINUTE, 59);
                 to.set(Calendar.SECOND, 59);
             } catch (ParseException ex) {
-                request.setAttribute(Information.TIME_TO, "Invalid value for date "+strTo);
+                request.setAttribute(Information.TIME_TO, "Fecha inválida: "+strTo);
                 validated = false;
             }
         }
@@ -1055,7 +1055,7 @@ public class MatchEventController extends GenericController {
             try {
                 status = Integer.parseInt(strStatus);
             } catch (Exception ex) {
-                request.setAttribute(Information.TIME_FROM, "Invalid status value "+strStatus);
+                request.setAttribute(Information.TIME_FROM, "Estado inválido: "+strStatus);
                 validated = false;
             }
         }
@@ -1095,7 +1095,7 @@ public class MatchEventController extends GenericController {
         try {
             matchId = Long.parseLong(strMatchId);
         } catch(Exception ex) {
-            request.setAttribute(Information.SEARCH_RESULT, "Match "+strMatchId+" not found");
+            request.setAttribute(Information.SEARCH_RESULT, "Juego "+strMatchId+" no encontrado");
             forward(AnalystController.getJSP(AnalystController.SEARCH_MATCH));
             return;
         }
@@ -1104,7 +1104,7 @@ public class MatchEventController extends GenericController {
         matchEventService.update(match);
         
         if (match == null) {
-            request.setAttribute(Information.SEARCH_RESULT, "Match "+strMatchId+" not found");
+            request.setAttribute(Information.SEARCH_RESULT, "Juego "+strMatchId+" no encontrado");
             forward(AnalystController.getJSP(AnalystController.SEARCH_MATCH));
             return;
         }
@@ -1129,7 +1129,7 @@ public class MatchEventController extends GenericController {
             match.setStatus(Status.CANCELLED);
             matchEventService.edit(match);
         } catch(Exception ex) {
-            request.setAttribute(Information.ERROR, "Opss! something went wrong. Please try again.");
+            request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo.");
             forward(AnalystController.getJSP(AnalystController.MATCH_SUMMARY));
             return;
         }
@@ -1144,7 +1144,7 @@ public class MatchEventController extends GenericController {
         try {
             matchId = Long.parseLong(strMatchId);
         } catch(Exception ex) {
-            request.setAttribute(Information.SEARCH_RESULT, "Match "+strMatchId+" not found");
+            request.setAttribute(Information.SEARCH_RESULT, "Juego "+strMatchId+" no encontrado");
             forward(AnalystController.getJSP(AnalystController.SEARCH_MATCH));
             return;
         }
@@ -1153,7 +1153,7 @@ public class MatchEventController extends GenericController {
         matchEventService.update(match);
         
         if (match == null) {
-            request.setAttribute(Information.SEARCH_RESULT, "Match "+strMatchId+" not found");
+            request.setAttribute(Information.SEARCH_RESULT, "Juego "+strMatchId+" no encontrado");
             forward(AnalystController.getJSP(AnalystController.SEARCH_MATCH));
             return;
         }
@@ -1201,7 +1201,7 @@ public class MatchEventController extends GenericController {
                 matchResult.setScore(i, j, strScore);
                 
                 if (strScore.length() == 0) {
-                    request.setAttribute(Information.SCORE, "Some scores are missing");
+                    request.setAttribute(Information.SCORE, "Faltan algunos puntajes");
                     validated = false;
                     strScore = null;
                 }
@@ -1210,11 +1210,11 @@ public class MatchEventController extends GenericController {
                     try {
                         s = Double.parseDouble(strScore);
                     } catch(Exception ex) {
-                        request.setAttribute(Information.SCORE, "Invalid score "+strScore);
+                        request.setAttribute(Information.SCORE, "Puntaje inválido: "+strScore);
                         validated = false;
                     }
                     if (s != null && s < 0) {
-                        request.setAttribute(Information.SCORE, "Score cannot be negative "+s);
+                        request.setAttribute(Information.SCORE, "Los puntajes no pueden ser negativos "+s);
                         validated = false;
                     }
                     if (validated) {

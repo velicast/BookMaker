@@ -36,7 +36,7 @@
 <c:set var="add" value="${requestScope[Attr.ADD_EMPLOYEE]}"></c:set>
 <c:set var="rem" value="${requestScope[Attr.REM_EMPLOYEE]}"></c:set>
 
-<h2 class="main_content_title"> User </h2>
+<h2 class="main_content_title"> Usuario </h2>
 
 <form role="form" class="form-horizontal">      
     <div class="form-group">
@@ -45,17 +45,17 @@
         <c:if test="${add != null}">
             <a id="btnAddEmployee" class="btn btn-default" 
                href="<%=AgencyController.URL%>?do=<%=AgencyController.ADD_EMPLOYEE%>&${Param.EMPLOYEE}=${user.username}&${Param.AGENCY}=${requestScope[Attr.AGENCY].id}">
-                <span class="glyphicon glyphicon-plus"></span> Add</a>
+                <span class="glyphicon glyphicon-plus"></span> Agregar</a>
         </c:if>
         <c:if test="${rem != null}">
             <a id="btnRemEmployee" class="btn btn-default" 
                href="<%=AgencyController.URL%>?do=<%=AgencyController.REM_EMPLOYEE%>&${Param.EMPLOYEE}=${user.username}&${Param.AGENCY}=${requestScope[Attr.AGENCY].id}">
-                <span class="glyphicon glyphicon-minus"></span> Remove</a>
+                <span class="glyphicon glyphicon-minus"></span> Remover</a>
         </c:if>
         <c:if test="${rem == null && add == null}">
             <a id="btnEditEmployee" class="btn btn-default" 
                href="<%=AdminController.URL%>?to=<%=AdminController.EDIT_USER%>&${Param.USERNAME}=${user.username}">
-                <span class="glyphicon glyphicon-edit"></span> Edit</a>
+                <span class="glyphicon glyphicon-edit"></span> Editar</a>
         </c:if>
         <a id="btnEmployeeBalance" class="btn btn-default" 
                href="<%=AdminController.URL%>?to=<%=AdminController.EMPLOYEE_BALANCE%>&${Param.USERNAME}=${user.username}">
@@ -75,7 +75,7 @@
     </div>
     <c:if test="${sUser.author == null}">
     <div class="form-group">
-        <label class="col-md-2 control-label">Author: </label>
+        <label class="col-md-2 control-label">Autor: </label>
         <div class="col-md-4">
             <p class="form-control-static"><a href="<%=AdminController.URL%>?to=<%=AdminController.USER_SUMMARY%>&${Param.USERNAME}=${user.author.username}">
                     ${user.author.username}</a> - ${user.author.firstName} ${user.author.lastName}</p>
@@ -92,7 +92,7 @@
     </c:if>
     <c:if test="${user.agency != null}">
     <div class="form-group">
-        <label class="col-md-2 control-label">Agency:</label>
+        <label class="col-md-2 control-label">Agencia:</label>
         <div class="col-md-4">
             <c:if test="${param.roleRequester == Role.ADMIN}">
             <p class="form-control-static"><a href="<%=AdminController.URL%>?to=<%=AdminController.AGENCY_SUMMARY%>&${Param.AGENCY}=${user.agency.id}">${user.agency.name}</a></p>
@@ -107,7 +107,7 @@
     </div>
     </c:if>
     <div class="form-group">
-        <label class="col-md-2 control-label">User Name:</label>
+        <label class="col-md-2 control-label">Usuario:</label>
         <div class="col-md-4">
             <p class="form-control-static">${user.username}</p>
         </div>
@@ -119,57 +119,57 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Birth Date: </label>
+        <label class="col-md-2 control-label">Fecha de Nacimiento: </label>
         <div class="col-md-4">
             <p class="form-control-static"><fmt:formatDate type="time" pattern="dd/MM/yyyy" value="${user.birthDate.getTime()}"/></p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">First Name:</label>
+        <label class="col-md-2 control-label">Nombre:</label>
         <div class="col-md-4">
             <p class="form-control-static">${user.firstName}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Last Name:</label>
+        <label class="col-md-2 control-label">Apellido:</label>
         <div class="col-md-4">
             <p class="form-control-static">${user.lastName}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">City:</label>
+        <label class="col-md-2 control-label">Ciudad:</label>
         <div class="col-md-4">
             <p class="form-control-static">${user.city}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Address: </label>
+        <label class="col-md-2 control-label">Dirección: </label>
         <div class="col-md-4">
             <p class="form-control-static">${user.address}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Telephone: </label>
+        <label class="col-md-2 control-label">Telefono: </label>
         <div class="col-md-4">
             <p class="form-control-static">${user.telephone}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Status: </label>
+        <label class="col-md-2 control-label">Estado: </label>
         <div class="col-md-4">
-            <p class="form-control-static">${user.status == Status.ACTIVE ? 'Active' : 'Inactive'}</p>
+            <p class="form-control-static">${Status.str(user.status)}</p>
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Roles: </label>
         <div class="col-md-2">
-            <p class="form-control-static">${user.inRole(Role.ADMIN) ? 'Administrator' : ''}</p>
-            <p class="form-control-static">${user.inRole(Role.MANAGER) ? 'Manager' : ''}</p>
-            <p class="form-control-static">${user.inRole(Role.ANALYST) ? 'Analyst' : ''}</p>
+            <p class="form-control-static">${user.inRole(Role.ADMIN) ? 'Administrador' : ''}</p>
+            <p class="form-control-static">${user.inRole(Role.MANAGER) ? 'Gerente' : ''}</p>
+            <p class="form-control-static">${user.inRole(Role.ANALYST) ? 'Analista' : ''}</p>
         </div>
         <div class="col-md-2">
-            <p class="form-control-static">${user.inRole(Role.SELLER) ? 'Seller' : ''}</p>
-            <p class="form-control-static">${user.inRole(Role.CLIENT) ? 'Client' : ''}</p>
+            <p class="form-control-static">${user.inRole(Role.SELLER) ? 'Vendedor' : ''}</p>
+            <p class="form-control-static">${user.inRole(Role.CLIENT) ? 'Cliente' : ''}</p>
         </div>
     </div>
     <div class="form-group">
@@ -178,17 +178,17 @@
         <c:if test="${add != null}">
             <a id="btnAddEmployee" class="btn btn-default" 
                href="<%=AgencyController.URL%>?do=<%=AgencyController.ADD_EMPLOYEE%>&${Param.EMPLOYEE}=${user.username}&${Param.AGENCY}=${requestScope[Attr.AGENCY].id}">
-                <span class="glyphicon glyphicon-plus"></span> Add</a>
+                <span class="glyphicon glyphicon-plus"></span> Agregar</a>
         </c:if>
         <c:if test="${rem != null}">
             <a id="btnRemEmployee" class="btn btn-default" 
                href="<%=AgencyController.URL%>?do=<%=AgencyController.REM_EMPLOYEE%>&${Param.EMPLOYEE}=${user.username}&${Param.AGENCY}=${requestScope[Attr.AGENCY].id}">
-                <span class="glyphicon glyphicon-minus"></span> Remove</a>
+                <span class="glyphicon glyphicon-minus"></span> Remover</a>
         </c:if>
         <c:if test="${rem == null && add == null}">
             <a id="btnEditEmployee" class="btn btn-default" 
                href="<%=AdminController.URL%>?to=<%=AdminController.EDIT_USER%>&${Param.USERNAME}=${user.username}">
-                <span class="glyphicon glyphicon-edit"></span> Edit</a>
+                <span class="glyphicon glyphicon-edit"></span> Editar</a>
         </c:if>
         <a id="btnEmployeeBalance" class="btn btn-default" 
                href="<%=AdminController.URL%>?to=<%=AdminController.EMPLOYEE_BALANCE%>&${Param.USERNAME}=${user.username}">

@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/seller/seller.css">
         
-        <title>BookMaker - Search Parlay</title>
+        <title>BookMaker - Buscar Parlay</title>
 
         <style></style>
     </head>

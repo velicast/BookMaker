@@ -34,21 +34,21 @@ public final class Status {
     
     static {
         statusName = new String[15];
-        statusName[Status.ACTIVE] = "Active";
-        statusName[Status.CANCELLED] = "Cancelled";
-        statusName[Status.PUSH] = "Push";
-        statusName[Status.INACTIVE] = "Inactive";
-        statusName[Status.INVALID] = "Invalid";
-        statusName[Status.IN_QUEUE] = "In Queue";
+        statusName[Status.ACTIVE] = "Activo";
+        statusName[Status.CANCELLED] = "Cancelado";
+        statusName[Status.PUSH] = "Empata";
+        statusName[Status.INACTIVE] = "Inactivo";
+        statusName[Status.INVALID] = "Invalido";
+        statusName[Status.IN_QUEUE] = "En Cola";
         statusName[Status.LOGED_IN] = "Loged In";
         statusName[Status.LOGED_OUT] = "Loged Out";
-        statusName[Status.LOSE] = "Lose";
-        statusName[Status.PENDING] = "Pending";
-        statusName[Status.WIN] = "Win";
-        statusName[Status.DRAW] = "Draw";
-        statusName[Status.FINISHED] = "Finished";
-        statusName[Status.SELLING] = "Pending";
-        statusName[Status.PENDING_RESULT] = "Pending Result";
+        statusName[Status.LOSE] = "Pierde";
+        statusName[Status.PENDING] = "Pendiente";
+        statusName[Status.WIN] = "Gana";
+        statusName[Status.DRAW] = "Empata";
+        statusName[Status.FINISHED] = "Finalizado";
+        statusName[Status.SELLING] = "Pendiente";
+        statusName[Status.PENDING_RESULT] = "Pendiente";
     }
     
     public String str(Integer status) {

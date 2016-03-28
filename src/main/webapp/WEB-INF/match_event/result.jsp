@@ -31,31 +31,31 @@
 <c:set var="result" value="${requestScope[Attr.MATCH_RESULT]}"></c:set>
 <jsp:useBean id="result" class="co.com.bookmaker.util.form.bean.MatchResultBean"></jsp:useBean>
 
-<h2 class="main_content_title">Match Result</h2>
+<h2 class="main_content_title">Resultado de Juego</h2>
 
 <form id="matchResultForm" role="form" class="form-horizontal" action="<%=MatchEventController.URL%>" method="POST">
     <input type="hidden" name="do" value="<%=MatchEventController.RESULT%>">
     <input type="hidden" name="${Param.SPORT}" value="${result.sportId}">
     <input type="hidden" name="${Param.MATCH_EVENT}" value="${result.matchId}">
     <div class="form-group">
-        <label class="control-label col-md-2">Sport: </label>
+        <label class="control-label col-md-2">Deporte: </label>
         <p class="form-control-static">${result.sportName}</p>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Tournament: </label>
+        <label class="control-label col-md-2">Torneo: </label>
         <p class="form-control-static">${result.tournamentName}</p>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Match: </label>
+        <label class="control-label col-md-2">Juego: </label>
         <p class="form-control-static">${result.matchName}</p>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Result: </label>
+        <label class="control-label col-md-2">Resultado: </label>
         <div class="col-md-10">
             <table class="table table-bordered table-condensed table-hover">
                 <thead>
                     <tr>
-                        <th class="tp_th_1">Team</>
+                        <th class="tp_th_1">Equipo</>
                         <c:forEach var="p" begin="0" end="${result.getnPeriods()-1}">
                         <th>${result.getPeriodName(p)}</th>
                         </c:forEach>
@@ -76,6 +76,6 @@
         </div>
     </div>
     <div class="col-md-12" style="text-align: center">
-        <button type="submit" id="btnUpdateResult" class="btn btn-submit"><span class="glyphicon glyphicon-save"></span> Save</button>
+        <button type="submit" id="btnUpdateResult" class="btn btn-submit"><span class="glyphicon glyphicon-save"></span> Guardar</button>
     </div>
 </form>

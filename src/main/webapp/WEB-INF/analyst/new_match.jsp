@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/analyst/analyst.css">
         
-        <title>BookMaker - New Match</title>
+        <title>BookMaker - Nuevo Juego</title>
     </head>
     <body>
         <jsp:include page="/WEB-INF/navbar.jsp"></jsp:include>
