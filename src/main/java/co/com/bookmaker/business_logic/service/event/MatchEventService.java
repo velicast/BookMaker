@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Objects;
 import co.com.bookmaker.util.type.Status;
 import co.com.bookmaker.util.type.OddType;
+import java.util.Collections;
 
 /**
  *
@@ -78,7 +79,7 @@ public class MatchEventService {
                 matches.add(m);
             }
         }
-        matches.sort(new Comparator<MatchEvent>() {
+        Collections.sort(matches, new Comparator<MatchEvent>() {
             @Override
             public int compare(MatchEvent o1, MatchEvent o2) {
                 if (o1.getTournament().getSport().getId() > o2.getTournament().getSport().getId()) return 1;
@@ -148,7 +149,7 @@ public class MatchEventService {
                 matches.add(m);
             }
         }
-        matches.sort(new Comparator<MatchEvent>() {
+        Collections.sort(matches, new Comparator<MatchEvent>() {
             @Override
             public int compare(MatchEvent o1, MatchEvent o2) {
                 if (o1.getTournament().getSport().getId() > o2.getTournament().getSport().getId()) return 1;
@@ -184,7 +185,7 @@ public class MatchEventService {
         
         List<MatchEvent> matches = matchEventDAO.findAll(new String[] {"author.id", "status"}, 
                                                          new Object[] {author.getId(), status});
-        matches.sort(new Comparator<MatchEvent>() {
+        Collections.sort(matches, new Comparator<MatchEvent>() {
             @Override
             public int compare(MatchEvent o1, MatchEvent o2) {
                 if (o1.getTournament().getSport().getId() > o2.getTournament().getSport().getId()) return 1;
@@ -202,7 +203,7 @@ public class MatchEventService {
         
         List<MatchEvent> matches = matchEventDAO.findAll(new String[] {"status"}, 
                                                          new Object[] {status});
-        matches.sort(new Comparator<MatchEvent>() {
+        Collections.sort(matches, new Comparator<MatchEvent>() {
             @Override
             public int compare(MatchEvent o1, MatchEvent o2) {
                 if (o1.getTournament().getSport().getId() > o2.getTournament().getSport().getId()) return 1;

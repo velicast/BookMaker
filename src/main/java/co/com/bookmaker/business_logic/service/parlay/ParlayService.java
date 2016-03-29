@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 import co.com.bookmaker.util.type.Status;
+import java.util.Collections;
 
 /**
  *
@@ -133,7 +134,7 @@ public class ParlayService {
     public List<Parlay> getParlaysInQueue(FinalUser seller) {
         
         List<Parlay> list = getParlays(Status.IN_QUEUE, seller);
-        list.sort(new Comparator<Parlay>() {
+        Collections.sort(list, new Comparator<Parlay>() {
             @Override
             public int compare(Parlay o1, Parlay o2) {
                 return o1.getPurchaseDate().compareTo(o2.getPurchaseDate());
@@ -182,7 +183,7 @@ public class ParlayService {
                 result.add(p);
             }
         }
-        result.sort(new Comparator<Parlay>() {
+        Collections.sort(result, new Comparator<Parlay>() {
             @Override
             public int compare(Parlay o1, Parlay o2) {
                 int cmpDate = o1.getPurchaseDate().compareTo(o2.getPurchaseDate());

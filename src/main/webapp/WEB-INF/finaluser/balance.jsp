@@ -88,6 +88,12 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-md-3 control-label">Pendiente: </label>
+                <div class="col-md-9">
+                    <p class="form-control-static">${requestScope[Attr.PENDING]}</p>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-md-3 control-label">Gana: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">${requestScope[Attr.WIN]}</p>

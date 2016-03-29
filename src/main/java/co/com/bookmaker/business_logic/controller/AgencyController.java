@@ -653,6 +653,7 @@ public class AgencyController extends GenericController {
             Integer cancelled = 0;
             Integer win = 0;
             Integer lose = 0;
+            Integer pending = 0;
             Double revenue = 0D;
             Double cost = 0D;
             for (Parlay p : parlays) {
@@ -674,6 +675,11 @@ public class AgencyController extends GenericController {
                         soldParlays++;
                         lose++;
                         break;
+                    case Status.PENDING:
+                        soldParlays++;
+                        pending++;
+                        revenue += p.getRisk();
+                        break;
                 }
             }
             Double profit = revenue-cost;
@@ -681,6 +687,7 @@ public class AgencyController extends GenericController {
             request.setAttribute(Attribute.LOSE, lose);
             request.setAttribute(Attribute.CANCELLED, cancelled);
             request.setAttribute(Attribute.IN_QUEUE, inQueue);
+            request.setAttribute(Attribute.PENDING, pending);
             request.setAttribute(Attribute.PARLAYS, soldParlays);
             request.setAttribute(Attribute.REVENUE, revenue);
             request.setAttribute(Attribute.COST, cost);

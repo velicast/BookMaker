@@ -5,25 +5,21 @@
  */
 package co.com.bookmaker.business_logic.controller;
 
+import co.com.bookmaker.business_logic.service.FinalUserService;
 import co.com.bookmaker.business_logic.service.event.MatchEventService;
 import co.com.bookmaker.business_logic.service.event.MatchEventPeriodService;
-import co.com.bookmaker.business_logic.service.event.SportService;
 import co.com.bookmaker.business_logic.service.event.TeamService;
 import co.com.bookmaker.business_logic.service.event.TournamentService;
 import co.com.bookmaker.business_logic.service.parlay.ParlayOddService;
 import co.com.bookmaker.business_logic.service.security.AuthenticationService;
 import co.com.bookmaker.data_access.entity.FinalUser;
-import co.com.bookmaker.data_access.entity.event.Sport;
 import co.com.bookmaker.data_access.entity.event.Tournament;
-import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import co.com.bookmaker.util.type.Attribute;
 import co.com.bookmaker.util.type.Information;
 import co.com.bookmaker.util.type.Parameter;
 import co.com.bookmaker.util.type.Role;
-import co.com.bookmaker.util.type.Status;
-import java.util.ArrayList;
 
 /**
  *
@@ -36,24 +32,24 @@ public class ClientController extends GenericController {
     
     public static final String MATCHES = "matches";
     
-    private SportService sportService;
     private TeamService teamService;
     private TournamentService tournamentService;
     private MatchEventService matchEventService;
     private MatchEventPeriodService matchPeriodService;
     private AuthenticationService auth;
     private ParlayOddService parlayOddService;
+    private FinalUserService finalUserService;
     
     @Override
     public void init() {
         
         auth = new AuthenticationService();
         matchEventService = new MatchEventService();
-        sportService = new SportService();
         teamService = new TeamService();
         parlayOddService = new ParlayOddService();
         matchPeriodService = new MatchEventPeriodService();
         tournamentService = new TournamentService();
+        finalUserService = new FinalUserService();
         
         allowTO(INDEX, Role.CLIENT);
         allowTO(MATCHES, Role.CLIENT);
@@ -88,47 +84,7 @@ public class ClientController extends GenericController {
     
     protected void toIndex() {
         
-        List<Sport> sports = sportService.getSports(Status.ACTIVE);
-        List<Integer> countMatchesSport = new ArrayList();
-        
-        List<List<Tournament>> tournaments = new ArrayList();
-        List<List<Integer>> countMatchesTournament = new ArrayList();
-        
-        for (int i = 0; i < sports.size(); i++) {
-            Sport s = sports.get(i);
-            
-            List<Tournament> sTournaments = tournamentService.getTournaments(s.getId(), Status.ACTIVE);
-            /*if (sTournaments.isEmpty()) {
-                sports.remove(i);
-                i--;
-                continue;
-            }*/
-            List<Integer> countTournament = new ArrayList();
-            
-            int nSportMatches = 0;
-            for (int j = 0; j < sTournaments.size(); j++) {
-                Tournament t = sTournaments.get(j);
-                
-                int nTournamentMatches = matchEventService.countMatches(t, Status.ACTIVE);
-                if (nTournamentMatches == 0) {
-                    sTournaments.remove(j);
-                    j--;
-                    continue;
-                }
-                countTournament.add(nTournamentMatches);
-                
-                nSportMatches += nTournamentMatches;
-            }
-            tournaments.add(sTournaments);
-            countMatchesSport.add(nSportMatches);
-            countMatchesTournament.add(countTournament);
-        }
-        
-        request.setAttribute(Attribute.SPORTS, sports);
-        request.setAttribute(Attribute.TOURNAMENTS, tournaments);
-        request.setAttribute(Attribute.COUNT_MATCHES_SPORT, countMatchesSport);
-        request.setAttribute(Attribute.COUNT_MATCHES_TOURNAMENT, countMatchesTournament);
-        
+        finalUserService.addClientData(request);
         forward(getJSP(INDEX));
     }
 

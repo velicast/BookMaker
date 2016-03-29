@@ -138,7 +138,7 @@
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="180" splitType="Stretch">
+		<band height="150" splitType="Stretch">
 			<componentElement>
 				<reportElement x="53" y="2" width="77" height="60" uuid="48697f81-5a83-469b-afb1-53f7dd202a9f"/>
 				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
@@ -146,18 +146,15 @@
 				</jr:QRCode>
 			</componentElement>
                         <staticText>
-				<reportElement x="0" y="70" width="184" height="108" uuid="b964b53c-a5f5-4331-97f9-b570adefff12"/>
+				<reportElement x="0" y="70" width="184" height="80" uuid="b964b53c-a5f5-4331-97f9-b570adefff12"/>
 				<textElement textAlignment="Justified">
 					<font size="7"/>
 				</textElement>
 				<text><![CDATA[NOTAS:
 
 - Páguese únicamente al portador.
-
 - Consérvelo bien. Se invalida en caso de pérdida, tachón o enmendadura.
-
 - Tenga en cuenta que algunos juegos pueden ser cancelados y no tenidos en cuenta.
-
 - Averigue el estado de su apuesta ingresando a www.bookmaker.com.co. ]]></text>
 			</staticText>
 		</band>

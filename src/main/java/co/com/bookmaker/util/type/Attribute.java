@@ -127,9 +127,10 @@ public class Attribute {
     public static final String WIN = "a86";
     public static final String LOSE = "a87";
     public static final String CANCELLED = "a88";
+    public static final String PENDING = "a89";
     
-    public static final String COUNT_MATCHES_SPORT = "a89";
-    public static final String COUNT_MATCHES_TOURNAMENT = "a90";
+    public static final String COUNT_MATCHES_SPORT = "a90";
+    public static final String COUNT_MATCHES_TOURNAMENT = "a91";
     
     public String getSESSION_USER() {
         return SESSION_USER;
@@ -501,5 +502,9 @@ public class Attribute {
 
     public String getCOUNT_MATCHES_TOURNAMENT() {
         return COUNT_MATCHES_TOURNAMENT;
+    }
+
+    public String getPENDING() {
+        return PENDING;
     }
 }

@@ -8,6 +8,7 @@ package co.com.bookmaker.business_logic.service.event;
 import co.com.bookmaker.data_access.dao.event.MatchPeriodDAO;
 import co.com.bookmaker.data_access.entity.event.MatchEvent;
 import co.com.bookmaker.data_access.entity.event.MatchEventPeriod;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class MatchEventPeriodService {
         }
         List<MatchEventPeriod> periods = matchPeriodDAO.findAll(new String[] {"match.id", "status"}, 
                                                            new Object[] {match.getId(), status});
-        periods.sort(new Comparator<MatchEventPeriod>() {
+        Collections.sort(periods, new Comparator<MatchEventPeriod>() {
             @Override
             public int compare(MatchEventPeriod o1, MatchEventPeriod o2) {
                 return o1.getNumber().compareTo(o2.getNumber());
@@ -59,7 +60,7 @@ public class MatchEventPeriodService {
         }
         List<MatchEventPeriod> periods = matchPeriodDAO.findAll(new String[] {"match.id"},
                                                                 new Object[] {m.getId()});
-        periods.sort(new Comparator<MatchEventPeriod>() {
+        Collections.sort(periods, new Comparator<MatchEventPeriod>() {
             @Override
             public int compare(MatchEventPeriod o1, MatchEventPeriod o2) {
                 return o1.getNumber().compareTo(o2.getNumber());

@@ -8,6 +8,7 @@ package co.com.bookmaker.business_logic.service.event;
 import co.com.bookmaker.data_access.dao.event.TeamDAO;
 import co.com.bookmaker.data_access.entity.event.MatchEvent;
 import co.com.bookmaker.data_access.entity.event.Team;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class TeamService {
         }
         List<Team> teams = teamDAO.findAll(new String[] {"match.id"}, 
                                            new Object[] {m.getId()});
-        teams.sort(new Comparator<Team>() {
+        Collections.sort(teams, new Comparator<Team>() {
             @Override
             public int compare(Team o1, Team o2) {
                 return o1.getNumber().compareTo(o2.getNumber());

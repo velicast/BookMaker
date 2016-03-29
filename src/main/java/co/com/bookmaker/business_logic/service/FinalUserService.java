@@ -5,14 +5,21 @@
  */
 package co.com.bookmaker.business_logic.service;
 
+import co.com.bookmaker.business_logic.service.event.MatchEventService;
+import co.com.bookmaker.business_logic.service.event.SportService;
+import co.com.bookmaker.business_logic.service.event.TournamentService;
 import co.com.bookmaker.business_logic.service.security.AuthenticationService;
 import co.com.bookmaker.data_access.dao.FinalUserDAO;
 import co.com.bookmaker.data_access.entity.Agency;
 import co.com.bookmaker.data_access.entity.FinalUser;
+import co.com.bookmaker.data_access.entity.event.Sport;
+import co.com.bookmaker.data_access.entity.event.Tournament;
+import co.com.bookmaker.util.type.Attribute;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import co.com.bookmaker.util.type.Role;
+import co.com.bookmaker.util.type.Status;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -23,11 +30,17 @@ public class FinalUserService {
 
     private final FinalUserDAO finalUserDAO;
     private final AuthenticationService auth;
+    private final SportService sportService;
+    private final TournamentService tournamentService;
+    private final MatchEventService matchEventService;
     
     public FinalUserService() {
         
         finalUserDAO = new FinalUserDAO();
         auth = new AuthenticationService();
+        sportService = new SportService();
+        tournamentService = new TournamentService();
+        matchEventService = new MatchEventService();
     }
     
     public List<FinalUser> findAll() {
@@ -148,5 +161,49 @@ public class FinalUserService {
         
         finalUserDAO.edit(user);
         return user;
+    }
+    
+    public void addClientData(HttpServletRequest request) {
+        
+        List<Sport> sports = sportService.getSports(Status.ACTIVE);
+        List<Integer> countMatchesSport = new ArrayList();
+        
+        List<List<Tournament>> tournaments = new ArrayList();
+        List<List<Integer>> countMatchesTournament = new ArrayList();
+        
+        for (int i = 0; i < sports.size(); i++) {
+            Sport s = sports.get(i);
+            
+            List<Tournament> sTournaments = tournamentService.getTournaments(s.getId(), Status.ACTIVE);
+            /*if (sTournaments.isEmpty()) {
+                sports.remove(i);
+                i--;
+                continue;
+            }*/
+            List<Integer> countTournament = new ArrayList();
+            
+            int nSportMatches = 0;
+            for (int j = 0; j < sTournaments.size(); j++) {
+                Tournament t = sTournaments.get(j);
+                
+                int nTournamentMatches = matchEventService.countMatches(t, Status.ACTIVE);
+                if (nTournamentMatches == 0) {
+                    sTournaments.remove(j);
+                    j--;
+                    continue;
+                }
+                countTournament.add(nTournamentMatches);
+                
+                nSportMatches += nTournamentMatches;
+            }
+            tournaments.add(sTournaments);
+            countMatchesSport.add(nSportMatches);
+            countMatchesTournament.add(countTournament);
+        }
+        
+        request.setAttribute(Attribute.SPORTS, sports);
+        request.setAttribute(Attribute.TOURNAMENTS, tournaments);
+        request.setAttribute(Attribute.COUNT_MATCHES_SPORT, countMatchesSport);
+        request.setAttribute(Attribute.COUNT_MATCHES_TOURNAMENT, countMatchesTournament);
     }
 }

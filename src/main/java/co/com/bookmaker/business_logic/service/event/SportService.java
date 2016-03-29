@@ -10,6 +10,7 @@ import co.com.bookmaker.data_access.entity.event.Sport;
 import java.util.Comparator;
 import java.util.List;
 import co.com.bookmaker.util.type.Status;
+import java.util.Collections;
 
 /**
  *
@@ -33,7 +34,7 @@ public class SportService {
         
         List<Sport> sports = sportDAO.findAll(new String[] {"status"},
                                 new Object[] {Status.ACTIVE});
-        sports.sort(new Comparator<Sport>() {
+        Collections.sort(sports, new Comparator<Sport>() {
             @Override
             public int compare(Sport o1, Sport o2) {
                 return o1.getId().compareTo(o2.getId());

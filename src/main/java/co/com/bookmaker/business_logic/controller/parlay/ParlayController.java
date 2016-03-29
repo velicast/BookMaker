@@ -10,19 +10,15 @@ import co.com.bookmaker.business_logic.controller.GenericController;
 import co.com.bookmaker.business_logic.controller.HomeController;
 import co.com.bookmaker.business_logic.controller.ManagerController;
 import co.com.bookmaker.business_logic.controller.SellerController;
+import co.com.bookmaker.business_logic.service.FinalUserService;
 import co.com.bookmaker.business_logic.service.ParameterValidator;
 import co.com.bookmaker.business_logic.service.event.MatchEventService;
-import co.com.bookmaker.business_logic.service.event.MatchEventPeriodService;
-import co.com.bookmaker.business_logic.service.event.SportService;
-import co.com.bookmaker.business_logic.service.event.TeamService;
-import co.com.bookmaker.business_logic.service.event.TournamentService;
 import co.com.bookmaker.business_logic.service.parlay.ParlayOddService;
 import co.com.bookmaker.business_logic.service.parlay.ParlayService;
 import co.com.bookmaker.business_logic.service.security.AuthenticationService;
 import co.com.bookmaker.data_access.entity.Agency;
 import co.com.bookmaker.data_access.entity.FinalUser;
 import co.com.bookmaker.data_access.entity.event.MatchEvent;
-import co.com.bookmaker.data_access.entity.event.Sport;
 import co.com.bookmaker.data_access.entity.parlay.Parlay;
 import co.com.bookmaker.data_access.entity.parlay.ParlayOdd;
 import co.com.bookmaker.util.form.bean.ParlayOddBean;
@@ -76,12 +72,10 @@ public class ParlayController extends GenericController {
     private AuthenticationService auth;
     private ParlayService parlayService;
     private ParlayOddService parlayOddService;
-    private SportService sportService;
-    private TeamService teamService;
-    private TournamentService tournamentService;
+
     private MatchEventService matchEventService;
-    private MatchEventPeriodService matchPeriodService;
     private ParameterValidator validator;
+    private FinalUserService finalUserService;
     
     @Override
     public void init() {
@@ -90,11 +84,8 @@ public class ParlayController extends GenericController {
         validator = new ParameterValidator();
         parlayService = new ParlayService();
         matchEventService = new MatchEventService();
-        sportService = new SportService();
-        teamService = new TeamService();
         parlayOddService = new ParlayOddService();
-        matchPeriodService = new MatchEventPeriodService();
-        tournamentService = new TournamentService();
+        finalUserService = new FinalUserService();
         
         allowDO(BUY, Role.CLIENT);
         allowDO(GET_PROFIT, Role.CLIENT);
@@ -315,13 +306,7 @@ public class ParlayController extends GenericController {
             validated = false;
         }
         
-        List<Sport> sports = sportService.getSports(Status.ACTIVE);
-        request.setAttribute(Attribute.SPORT, sports);
-        request.setAttribute(Attribute.TEAM_SERVICE, teamService);
-        request.setAttribute(Attribute.PARLAYODD_SERVICE, parlayOddService);
-        request.setAttribute(Attribute.TOURNAMENT_SERVICE, tournamentService);
-        request.setAttribute(Attribute.MATCH_EVENT_SERVICE, matchEventService);
-        request.setAttribute(Attribute.MATCH_PERIOD_SERVICE, matchPeriodService);
+        finalUserService.addClientData(request);
         
         if (!validated) {
             request.setAttribute(Information.INFO, info);
@@ -613,7 +598,7 @@ public class ParlayController extends GenericController {
             redirect(HomeController.URL);
             return;
         }
-        try {
+        /*try {
             for (ParlayOdd odd : parlay.getOdds()) {
                 Integer matchStatus = odd.getPeriod().getMatch().getStatus();
                 if (matchStatus.equals(Status.PENDING_RESULT) || matchStatus.equals(Status.FINISHED)) {
@@ -630,7 +615,7 @@ public class ParlayController extends GenericController {
             request.setAttribute(Attribute.PARLAY, parlay);
             forward(SellerController.getJSP(SellerController.PARLAY_SUMMARY));
             return;
-        }
+        }*/
         
         NumberFormat moneyFormatter = NumberFormat.getNumberInstance();
         moneyFormatter.setMaximumFractionDigits(0);
