@@ -55,7 +55,7 @@
             <table class="table table-bordered table-condensed table-hover">
                 <thead>
                     <tr>
-                        <th class="tp_th_1">Equipo</>
+                        <th class="tp_th_1">Equipo</th>
                         <c:forEach var="p" begin="0" end="${result.getnPeriods()-1}">
                         <th>${result.getPeriodName(p)}</th>
                         </c:forEach>
