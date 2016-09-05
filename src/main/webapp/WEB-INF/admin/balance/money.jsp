@@ -85,13 +85,13 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Total: </label>
+                <label class="col-md-3 control-label">Ingreso: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">$ <fmt:formatNumber value="${requestScope[Attr.REVENUE]}" maxFractionDigits="0"/></p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Costo: </label>
+                <label class="col-md-3 control-label">Egreso: </label>
                 <div class="col-md-9">
                     <p class="form-control-static">$ <fmt:formatNumber value="${requestScope[Attr.COST]}" maxFractionDigits="0"/></p>
                 </div>

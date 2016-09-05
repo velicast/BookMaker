@@ -659,12 +659,14 @@ public class AgencyController extends GenericController {
             for (Parlay p : parlays) {
                 switch (p.getStatus()) {
                     case Status.CANCELLED:
+                    case Status.CANCELLED_PAID:
                         cancelled++;
                         break;
                     case Status.IN_QUEUE:
                         inQueue++;
                         break;
                     case Status.WIN:
+                    case Status.WIN_PAID:
                         soldParlays++;
                         win++;
                         revenue += p.getRisk();

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2016-03-18T09:54:55 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bookmakerReport" pageWidth="226" pageHeight="566" columnWidth="183" leftMargin="21" rightMargin="21" topMargin="14" bottomMargin="14" isIgnorePagination="true" >
+<!-- 2016-04-02T19:04:52 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bookmakerReport" pageWidth="161" pageHeight="566" columnWidth="151" leftMargin="5" rightMargin="5" topMargin="14" bottomMargin="14" isIgnorePagination="true" uuid="ad5f0b2a-0a31-4861-a55a-8b76e9e77841">
 	<property name="com.jaspersoft.studio.unit." value="cm"/>
-
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="date" class="java.lang.String"/>
 	<parameter name="ticketID" class="java.lang.String"/>
 	<parameter name="risk" class="java.lang.String"/>
 	<parameter name="profit" class="java.lang.String"/>
 	<parameter name="agency" class="java.lang.String"/>
-        <parameter name="QRCode" class="java.lang.String"/>
-
+	<parameter name="QRCode" class="java.lang.String"/>
 	<field name="team" class="java.lang.String"/>
 	<field name="match" class="java.lang.String"/>
 	<field name="startDate" class="java.lang.String"/>
@@ -19,18 +18,26 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="31" splitType="Stretch">
+		<band height="24" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="-21" y="0" width="226" height="15" />
+				<reportElement x="0" y="0" width="151" height="11" uuid="ed34d709-70bd-4b51-a390-a7fc54db6e9f">
+					<property name="com.jaspersoft.studio.unit.x" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.width" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
 				<textElement textAlignment="Center">
-					<font  size="12"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{agency}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="-21" y="15" width="226" height="12" />
+				<reportElement x="0" y="11" width="151" height="11" uuid="2e8f6de1-68db-48ef-a562-f77a5f118621">
+					<property name="com.jaspersoft.studio.unit.y" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.width" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="8"/>
+					<font fontName="SansSerif" size="8" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[www.bookmaker.com.co]]></text>
 			</staticText>
@@ -39,58 +46,76 @@
 	<pageHeader>
 		<band height="46" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="50" height="11" />
+				<reportElement x="0" y="0" width="52" height="11" uuid="8ffaa663-c804-45a8-9069-91a95b2bf701">
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
 				<textElement textAlignment="Right">
-					<font  size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<text><![CDATA[Fecha:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="11" width="50" height="11" />
+				<reportElement x="0" y="11" width="52" height="11" uuid="e6caed27-a893-4c2a-a958-ce61a43de150">
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
 				<textElement textAlignment="Right">
-					<font  size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<text><![CDATA[Tiquete No.:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="22" width="50" height="11" />
+				<reportElement x="0" y="22" width="52" height="11" uuid="80c7a609-c878-484b-8493-5cf65894fc18">
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.y" value="cm"/>
+				</reportElement>
 				<textElement textAlignment="Right">
-					<font  size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<text><![CDATA[Riesgo:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="33" width="50" height="11" />
+				<reportElement x="0" y="33" width="52" height="11" uuid="69b23f12-9c7b-421e-a0c9-24f87534a944">
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
 				<textElement textAlignment="Right">
-					<font  size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<text><![CDATA[Ganancia:]]></text>
 			</staticText>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement x="54" y="0" width="130" height="11" />
+				<reportElement x="53" y="0" width="98" height="11" uuid="72f840a5-87f3-44d3-b4b1-e4d82ec5acb2">
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
 				<textElement>
-					<font  size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{date}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="54" y="11" width="130" height="11" />
+				<reportElement x="53" y="11" width="98" height="11" uuid="cc22e332-d897-4aa2-9ac7-15d9a9a9f73e">
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
 				<textElement>
-					<font  size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ticketID}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="54" y="22" width="130" height="11" />
+				<reportElement x="53" y="22" width="98" height="11" uuid="7cd3ecee-1eea-4316-a930-ade771787b9d">
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.y" value="cm"/>
+				</reportElement>
 				<textElement>
-					<font  size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{risk}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="54" y="33" width="130" height="11" />
+				<reportElement x="53" y="33" width="98" height="11" uuid="5796ffbd-a898-4cc4-94c4-9ad9bf9ee879">
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+				</reportElement>
 				<textElement>
-					<font  size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{profit}]]></textFieldExpression>
 			</textField>
@@ -100,35 +125,57 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="32" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="120" height="9" />
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="90" height="9" uuid="bf4d9ff0-cef9-4f2d-ac4d-4e32d92397a3">
+					<property name="com.jaspersoft.studio.unit.width" value="cm"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+				</box>
 				<textElement>
-					<font  size="7"/>
+					<font fontName="SansSerif" size="7" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{team}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="120" y="0" width="64" height="9" />
+				<reportElement stretchType="RelativeToTallestObject" x="90" y="0" width="61" height="9" uuid="a182581f-e74c-4220-afdc-e822efaafd5c">
+					<property name="com.jaspersoft.studio.unit.width" value="cm"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+				</box>
 				<textElement textAlignment="Right">
-					<font  size="7"/>
+					<font fontName="SansSerif" size="7" isBold="false" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{odd}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="9" width="184" height="9" />
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="9" width="151" height="9" uuid="f6113622-b92e-4002-ab90-8e7d2bf461e9">
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.x" value="cm"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
 				<textElement>
-					<font  size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{match}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="18" width="184" height="9" />
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="18" width="151" height="9" uuid="a70ec0e2-f491-44d0-aebd-17bef1fae257">
+					<property name="com.jaspersoft.studio.unit.y" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.width" value="cm"/>
+				</reportElement>
 				<box>
+					<topPen lineStyle="Dashed"/>
+					<leftPen lineStyle="Dashed"/>
 					<bottomPen lineWidth="0.3" lineStyle="Dashed"/>
+					<rightPen lineStyle="Dashed"/>
 				</box>
 				<textElement>
-					<font  size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{startDate}]]></textFieldExpression>
 			</textField>
@@ -138,17 +185,19 @@
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="150" splitType="Stretch">
+		<band height="142" splitType="Stretch">
 			<componentElement>
-				<reportElement x="53" y="2" width="77" height="60" uuid="48697f81-5a83-469b-afb1-53f7dd202a9f"/>
+				<reportElement x="39" y="1" width="72" height="55" uuid="48697f81-5a83-469b-afb1-53f7dd202a9f"/>
 				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<jr:codeExpression><![CDATA[$P{QRCode}]]></jr:codeExpression>
+					<jr:codeExpression><![CDATA[$P{ticketID}]]></jr:codeExpression>
 				</jr:QRCode>
 			</componentElement>
-                        <staticText>
-				<reportElement x="0" y="70" width="184" height="80" uuid="b964b53c-a5f5-4331-97f9-b570adefff12"/>
+			<staticText>
+				<reportElement x="0" y="56" width="151" height="85" uuid="b964b53c-a5f5-4331-97f9-b570adefff12">
+					<property name="com.jaspersoft.studio.unit.width" value="cm"/>
+				</reportElement>
 				<textElement textAlignment="Justified">
-					<font size="7"/>
+					<font fontName="SansSerif" size="7"/>
 				</textElement>
 				<text><![CDATA[NOTAS:
 

@@ -57,6 +57,11 @@
                href="<%=ParlayController.URL%>?do=<%=ParlayController.PRINT%>&${Param.PARLAY}=${parlay.id}">
                 <span class="glyphicon glyphicon-print"></span> Imprimir Tiquete</a>
             </c:if>
+            <c:if test="${(parlay.status == Status.WIN || parlay.status == Status.CANCELLED) && parlay.seller.id == userSession.id}">
+            <a id="btnPrintTicket" class="btn btn-default" 
+               href="<%=ParlayController.URL%>?do=<%=ParlayController.PAY%>&${Param.PARLAY}=${parlay.id}">
+                <span class="glyphicon glyphicon-usd"></span> Pagar</a>
+            </c:if>
         </div>
     </div>
     </c:if>
@@ -107,6 +112,10 @@
             <c:if test="${parlay.status == Status.WIN}">
                 <h4 class="p_status_label"><span class = "label label-success">${Status.str(parlay.status)}</span></h4>
             </c:if>
+            <c:if test="${parlay.status == Status.WIN_PAID}">
+                <h4 class="p_status_label"><span class = "label label-success">${Status.str(parlay.status)}</span></h4>
+                <p>Pagado</p>
+            </c:if>
             <c:if test="${parlay.status == Status.LOSE}">
                 <h4 class="p_status_label"><span class = "label label-danger">${Status.str(parlay.status)}</span></h4>
             </c:if>
@@ -115,6 +124,10 @@
             </c:if>
             <c:if test="${parlay.status == Status.CANCELLED}">
                 <h4 class="p_status_label"><span class = "label label-info">${Status.str(parlay.status)}</span></h4>
+            </c:if>
+            <c:if test="${parlay.status == Status.CANCELLED_PAID}">
+                <h4 class="p_status_label"><span class = "label label-info">${Status.str(parlay.status)}</span></h4>
+                <p>Pagado</p>
             </c:if>
             <c:if test="${parlay.status == Status.INVALID}">
                 <h4 class="p_status_label"><span class = "label label-warning">${Status.str(parlay.status)}</span></h4>
@@ -145,6 +158,11 @@
             <a id="btnPrintTicket" class="btn btn-default" 
                href="<%=ParlayController.URL%>?do=<%=ParlayController.PRINT%>&${Param.PARLAY}=${parlay.id}">
                 <span class="glyphicon glyphicon-print"></span> Imprimir Tiquete</a>
+            </c:if>
+            <c:if test="${(parlay.status == Status.WIN || parlay.status == Status.CANCELLED) && parlay.seller.id == userSession.id}">
+            <a id="btnPrintTicket" class="btn btn-default" 
+               href="<%=ParlayController.URL%>?do=<%=ParlayController.PAY%>&${Param.PARLAY}=${parlay.id}">
+                <span class="glyphicon glyphicon-usd"></span> Pagar</a>
             </c:if>
         </div>
     </div>

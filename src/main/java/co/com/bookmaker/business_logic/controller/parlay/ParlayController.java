@@ -68,6 +68,7 @@ public class ParlayController extends GenericController {
     public static final String SUMMARY = "summary";
     public static final String PRINT = "print";
     public static final String SEARCH = "search";
+    public static final String PAY = "pay";
     
     private AuthenticationService auth;
     private ParlayService parlayService;
@@ -94,6 +95,7 @@ public class ParlayController extends GenericController {
         allowDO(ACCEPT, Role.SELLER);
         allowDO(CANCEL, Role.SELLER);
         allowDO(PRINT, Role.SELLER);
+        allowDO(PAY, Role.SELLER);
     }
 
     public static String getJSP(String resource) {
@@ -127,9 +129,11 @@ public class ParlayController extends GenericController {
             case CANCEL:
                 doCancel(); break;
             case SEARCH:
-                doSearch(); break;       
+                doSearch(); break;
             case PRINT:
                 doPrint(); break;
+            case PAY:
+                doPay(); break;
             default:
                 redirectError(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -675,5 +679,39 @@ public class ParlayController extends GenericController {
         } catch (JRException | IOException ex) {
             Logger.getLogger(ParlayController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void doPay() {
+        
+        String strParlayId = request.getParameter(Parameter.PARLAY);
+        
+        Long parlayId;
+        try {
+            parlayId = Long.parseLong(strParlayId);
+        } catch (Exception ex) {
+            redirect(HomeController.URL);
+            return;
+        }
+        Parlay parlay = parlayService.getParlay(parlayId);
+        if (parlay == null || (!parlay.getStatus().equals(Status.WIN) && !parlay.getStatus().equals(Status.CANCELLED))) {
+            redirect(HomeController.URL);
+            return;
+        }
+        
+        Integer oldStatus = parlay.getStatus();
+        Integer newStatus = Status.WIN_PAID;
+        if (oldStatus.equals(Status.CANCELLED)) {
+            newStatus = Status.CANCELLED_PAID;
+        }
+        parlay.setStatus(newStatus);
+        try {
+            parlayService.edit(parlay);
+            request.setAttribute(Attribute.PARLAY, parlay);
+            request.setAttribute(Attribute.PARLAY_ODDS, parlay.getOdds());
+        } catch (Exception ex) {
+            parlay.setStatus(oldStatus);
+            request.setAttribute(Information.ERROR, "Opss! Algo estuvo mal. Por favor intente de nuevo.");
+        }
+        forward(SellerController.getJSP(SellerController.PARLAY_SUMMARY));
     }
 }

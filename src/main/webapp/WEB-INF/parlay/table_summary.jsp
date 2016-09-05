@@ -52,6 +52,9 @@
             <c:if test="${parlay.status == Status.WIN}">
                 <h4 class="status_label"><span class = "label label-success">${Status.str(parlay.status)}</span></h4>
             </c:if>
+            <c:if test="${parlay.status == Status.WIN_PAID}">
+                <h4 class="status_label"><span class = "label label-success">${Status.str(parlay.status)}</span></h4>
+            </c:if>
             <c:if test="${parlay.status == Status.LOSE}">
                 <h4 class="status_label"><span class = "label label-danger">${Status.str(parlay.status)}</span></h4>
             </c:if>
@@ -59,6 +62,9 @@
                 <h4 class="status_label"><span class = "label label-primary">${Status.str(parlay.status)}</span></h4>
             </c:if>
             <c:if test="${parlay.status == Status.CANCELLED}">
+                <h4 class="status_label"><span class = "label label-info">${Status.str(parlay.status)}</span></h4>
+            </c:if>
+            <c:if test="${parlay.status == Status.CANCELLED_PAID}">
                 <h4 class="status_label"><span class = "label label-info">${Status.str(parlay.status)}</span></h4>
             </c:if>
             <c:if test="${parlay.status == Status.INVALID}">

@@ -122,14 +122,11 @@ public class ParlayService {
         return parlayDAO.findAll(new String[] {"status", "seller.agency.id"},
                                  new Object[] { status, agency.getId()});
     }
+    
     public List<Parlay> getParlays(Integer status, FinalUser seller) {
         return parlayDAO.findAll(new String[] {"status", "seller.id"},
                                  new Object[] { status, seller.getId()});
     }
-    
-    /*public List<Parlay> getParlays(ParlayOdd odd) {
-        
-    }*/
     
     public List<Parlay> getParlaysInQueue(FinalUser seller) {
         

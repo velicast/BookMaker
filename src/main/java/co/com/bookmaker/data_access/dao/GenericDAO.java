@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -91,20 +90,14 @@ public class GenericDAO<T> {
         String queryString = "SELECT t FROM "+entityClass.getSimpleName()+" t WHERE ";
         int n = attributes.length;
         for (int i = 0; i+1 < n; i++) {
-            if (values[i] instanceof String) {
-                queryString += "t."+attributes[i]+" LIKE :"+attributes[i].replaceAll("\\.", "_")+" AND ";
-            } 
-            else if (values[i] == null) {
+            if (values[i] == null) {
                 queryString += "t."+attributes[i]+" is :"+attributes[i].replaceAll("\\.", "_");
             }
             else {
                 queryString += "t."+attributes[i]+" = :"+attributes[i].replaceAll("\\.", "_")+" AND ";
             }
         }
-        if (values[n-1] instanceof String) {
-            queryString += "t."+attributes[n-1]+" LIKE :"+attributes[n-1].replaceAll("\\.", "_");
-        }
-        else if (values[n-1] == null) {
+        if (values[n-1] == null) {
             queryString += "t."+attributes[n-1]+" is :"+attributes[n-1].replaceAll("\\.", "_");
         }
         else {
@@ -112,6 +105,7 @@ public class GenericDAO<T> {
         }
         EntityManager em = getEntityManager();
         Query q = em.createQuery(queryString);
+
         for (int i = 0; i < n; i++) {
             q.setParameter(attributes[i].replaceAll("\\.", "_"), values[i]);
         }
@@ -130,20 +124,14 @@ public class GenericDAO<T> {
         String queryString = "SELECT t FROM "+entityClass.getSimpleName()+" t WHERE ";
         int n = attributes.length;
         for (int i = 0; i+1 < n; i++) {
-            if (values[i] instanceof String) {
-                queryString += "t."+attributes[i]+" LIKE :"+attributes[i].replaceAll("\\.", "_")+" AND ";
-            }
-            else if (values[i] == null) {
+            if (values[i] == null) {
                 queryString += "t."+attributes[i]+" is :"+attributes[i].replaceAll("\\.", "_");
             }
             else {
                 queryString += "t."+attributes[i]+" = :"+attributes[i].replaceAll("\\.", "_")+" AND ";
             }
         }
-        if (values[n-1] instanceof String) {
-            queryString += "t."+attributes[n-1]+" LIKE :"+attributes[n-1].replaceAll("\\.", "_");
-        }     
-        else if (values[n-1] == null) {
+        if (values[n-1] == null) {
                 queryString += "t."+attributes[n-1]+" is :"+attributes[n-1].replaceAll("\\.", "_");
         }
         else {

@@ -42,7 +42,7 @@ public class ParlayOddService {
     }
     
     public void remove(ParlayOdd odd) {
-        parlayOddDAO.edit(odd);
+        parlayOddDAO.remove(odd);
     }
     
     public ParlayOdd getOddByPeriod(MatchEventPeriod p, Integer type, Integer status) {

@@ -23,17 +23,19 @@ public final class Status {
     public static final int DRAW = 8;
     public static final int FINISHED = 9;
     public static final int SELLING = 10;
+    public static final int CANCELLED_PAID = 11;
+    public static final int WIN_PAID = 12;
     
-    public static final int LOGED_IN = 11;
-    public static final int LOGED_OUT = 12;
+    public static final int LOGED_IN = 13;
+    public static final int LOGED_OUT = 14;
 
-    public static final int IN_QUEUE = 13;
-    public static final int PENDING_RESULT = 14;
+    public static final int IN_QUEUE = 15;
+    public static final int PENDING_RESULT = 16;
     
     public static final String[] statusName;
     
     static {
-        statusName = new String[15];
+        statusName = new String[17];
         statusName[Status.ACTIVE] = "Activo";
         statusName[Status.CANCELLED] = "Cancelado";
         statusName[Status.PUSH] = "Empata";
@@ -49,6 +51,8 @@ public final class Status {
         statusName[Status.FINISHED] = "Finalizado";
         statusName[Status.SELLING] = "Pendiente";
         statusName[Status.PENDING_RESULT] = "Pendiente";
+        statusName[Status.WIN_PAID] = "Gana";
+        statusName[Status.CANCELLED_PAID] = "Cancelado";
     }
     
     public String str(Integer status) {
@@ -121,4 +125,12 @@ public final class Status {
     public String[] getStatusName() {
         return statusName;
     }    
+
+    public int getCANCELLED_PAID() {
+        return CANCELLED_PAID;
+    }
+
+    public int getWIN_PAID() {
+        return WIN_PAID;
+    }
 }

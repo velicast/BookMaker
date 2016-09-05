@@ -106,7 +106,7 @@ public class AuthenticationController extends GenericController {
         if (user == null) {
             String username = request.getParameter(Parameter.USERNAME);
             String password = request.getParameter(Parameter.PASSWORD);
-            
+
             try {
                 validator.checkUsername(username);
                 validator.checkPassword(password);
